@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  api:
+    build: ./api
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api:/app  # 👈 Mount your local code inside the container  
+      - /app/node_modules
+  worker-1:
+    build: ./api
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    command: ["npm", "run", "workerdev"]
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+
+  worker-2:
+    build: ./api
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    command: ["npm", "run", "workerdev"]
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - api
