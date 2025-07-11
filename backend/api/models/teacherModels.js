@@ -15,7 +15,18 @@ createTeacher = async (teacherData) => {
   }
 }
 
+getTeacherByEmail = async (email) => {
+  const query = 'SELECT * FROM teachers WHERE email = $1';
+  try {
+    const result = await pool.query(query, [email]);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error fetching teacher by email:', error);
+    throw error;
+  }
+}
 
 module.exports = {
-  createTeacher 
+  createTeacher,
+  getTeacherByEmail
 }

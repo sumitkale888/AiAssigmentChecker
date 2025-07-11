@@ -8,7 +8,7 @@ function authMiddleware(cookieName) {
     }
    try{
      const payload = verifyToken(token);
-     req.user= payload;
+     req.user= {...payload,password: undefined}; // Attach user info to request, excluding password
      if (!payload) {
        return res.status(401).json({ error: 'Invalid token' });
      }

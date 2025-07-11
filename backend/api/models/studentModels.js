@@ -16,6 +16,17 @@ createStudent = async (studentData) => {
    
 }
 
+getStudentByEmail = async (email) => {
+  const query = 'SELECT * FROM students WHERE email = $1';
+
+  try {
+    const result = await pool.query(query, [email]);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error fetching student by email:', error);
+    throw error;
+  }
+}
 
 getClass_idByStudent_id = async (student_id) => {
   const query = `
@@ -37,6 +48,7 @@ getClass_idByStudent_id = async (student_id) => {
 
 module.exports = {
   createStudent,
+  getStudentByEmail,
   getClass_idByStudent_id
 }
 
