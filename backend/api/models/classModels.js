@@ -1,4 +1,6 @@
 const {pool} = require('./database')
+
+///////////////////////// CREATE MODELS //////////////////////
 createClass = async (classData, res) => {
   const {
     class_name,
@@ -111,7 +113,7 @@ createAssigment = async (assignmentData) => {
   const query = `
     INSERT INTO assignments (
       deadline, evaluation_guideline, title, description, points, class_id
-    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    ) VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *
   `;
 
@@ -137,7 +139,7 @@ createAssignments_attachments = async (attachmentData) => {
   const {file_link, file_original_name,assignment_id} = attachmentData;
 
   const query = `
-    INSERT INTO assignment_attachments (
+    INSERT INTO assignments_attachments (
       file_link, file_original_name, assignment_id
     ) VALUES ($1, $2, $3)
     RETURNING *
@@ -190,7 +192,7 @@ getAssignmentsByClass_id = async (class_id) => {
 }
 getAssignments_attachmentsByAssignment_id = async (assignment_id) => {
   const query = `
-    SELECT * FROM assignment_attachments WHERE assignment_id = $1
+    SELECT * FROM assignments_attachments WHERE assignment_id = $1
   `;
 
   try {
@@ -246,11 +248,16 @@ getGradesByAssignment_id = async (assignment_id) => {
 module.exports = {
   createClass,
   studentClass,
+  submissionUpload,
+  createAssigment,
+  createAssignments_attachments,
+
   getClassByTeacher_id,
   getAssignmentsByClass_id,
   getAssignments_attachmentsByAssignment_id,
-  submissionUpload,
-  createAssigment,
-  createAssignments_attachments
+  getSubmissionsByAssignment_id,
+  getGradesByAssignment_id,
+  getGradesByStudent_id,
+
 };
 

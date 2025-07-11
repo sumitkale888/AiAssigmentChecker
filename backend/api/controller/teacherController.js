@@ -1,4 +1,4 @@
-const {createClass} = require('../models/classModels');
+const {createClass,getClassByTeacher_id} = require('../models/classModels');
 
 handleCreateClass= async (req, res) => {
     try {
@@ -16,7 +16,17 @@ handleCreateClass= async (req, res) => {
     }
 }
 
+handleGetClassByTeacher_id = async(req,res)=>{
+  const teacher_id = req.user.teacher_id; // Assuming user info is attached to request by auth middleware
+  if (!teacher_id) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const classes = await getClassByTeacher_id(teacher_id);
+  res.json(classes);
+}
 
 module.exports = {
-    handleCreateClass
+    handleCreateClass,
+    handleGetClassByTeacher_id
 }

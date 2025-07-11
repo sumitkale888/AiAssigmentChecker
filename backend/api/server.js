@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 // Redis connection
 const connection = new Redis({
