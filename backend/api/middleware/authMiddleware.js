@@ -8,6 +8,7 @@ function authMiddleware(cookieName) {
     }
    try{
      const payload = verifyToken(token);
+     req.user= payload;
      if (!payload) {
        return res.status(401).json({ error: 'Invalid token' });
      }
@@ -16,7 +17,6 @@ function authMiddleware(cookieName) {
      return res.status(401).json({ error: 'Invalid token' });
    }
 
-    req.user = payload; // Attach user info to request
     next();
   };
 }

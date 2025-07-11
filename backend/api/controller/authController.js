@@ -8,7 +8,7 @@ handleCreateTeacher = async (req, res) => {
         const teacherData = req.body;
         const newTeacher = await createTeacher(teacherData);
         const token = generateToken(newTeacher); // Generate token for the new teacher
-        res.cookie('admin', token, {
+        res.cookie('teacher', token, {
             httpOnly: true,
             secure: true,
             sameSite: 'None'

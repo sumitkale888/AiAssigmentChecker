@@ -43,9 +43,12 @@ app.use(
   })
 )
 
-const authRoutes = require('./routes/authRoute');
-app.use('/api/auth', authRoutes);
+const {authMiddleware}= require('./middleware/authMiddleware');
 
+const authRoutes = require('./routes/authRoute');
+const teacherRoutes = require('./routes/teacherRoutes');
+app.use('/api/auth', authRoutes);
+app.use('/api/teacher', authMiddleware('teacher'), teacherRoutes);
 
 
 
