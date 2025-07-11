@@ -1,7 +1,9 @@
 const {Router} = require('express')
 const router = Router()
 
-const {handleCreateTeacher} = require('../controller/authController')
+const {handleCreateTeacher,handleCreateStudent} = require('../controller/authController')
 
 router.post('/signupTeacher', handleCreateTeacher)
+router.post('/signupStudent', handleCreateStudent)
+
 module.exports = router
