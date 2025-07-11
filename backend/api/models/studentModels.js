@@ -14,6 +14,11 @@ createStudent = async (studentData) => {
     throw error;
   }
 }
+
+
+  
+
 module.exports = {
   createStudent
 }
+

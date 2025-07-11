@@ -44,8 +44,32 @@ createClass = async (classData, res) => {
   }
 };
 
+studentClass = async (classData, res) => {
+  const { class_id, student_id } = classData;
+
+  if (!class_id || !student_id) {
+    return res.status(400).json({ error: 'Class ID and Student ID are required' });
+  }
+
+  const query = `
+    INSERT INTO class_students (class_id, student_id)
+    VALUES ($1, $2)
+    RETURNING *
+  `;
+
+  const values = [class_id, student_id];
+
+  try {
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error enrolling student in class:', error);
+    throw error;
+  }
+};
 
 module.exports = {
-  createClass
-}
+  createClass,
+  studentClass
+};
 
