@@ -47,10 +47,10 @@ const {authMiddleware}= require('./middleware/authMiddleware');
 
 const authRoutes = require('./routes/authRoute');
 const teacherRoutes = require('./routes/teacherRoutes');
+const classRoutes = require('./routes/classRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/teacher', authMiddleware('teacher'), teacherRoutes);
-
-
+app.use('/api/class', authMiddleware('student'), classRoutes);
 
 // Create BullMQ queue
 const assignmentQueue = new Queue('assignments', { connection });
