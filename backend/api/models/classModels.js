@@ -95,9 +95,162 @@ submissionUpload = async (fileData) => {
   }
 };
 
+createAssigment = async (assignmentData) => {
+  const {
+  deadline,
+  evalution_guideline,
+  title,
+  description,
+  points,
+  class_id,
+  } = assignmentData;
+    if (!class_id && !title) {
+    throw new Error('Class ID and Title are required');
+  }
+
+  const query = `
+    INSERT INTO assignments (
+      deadline, evaluation_guideline, title, description, points, class_id
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+    RETURNING *
+  `;
+
+  const values = [
+    deadline ?? null,
+    evalution_guideline ?? null,
+    title ,
+    description ?? null,
+    points ?? null,
+    class_id
+  ];
+
+  try {
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error creating assignment:', error);
+    throw error;
+  }
+};
+
+createAssignments_attachments = async (attachmentData) => {
+  const {file_link, file_original_name,assignment_id} = attachmentData;
+
+  const query = `
+    INSERT INTO assignment_attachments (
+      file_link, file_original_name, assignment_id
+    ) VALUES ($1, $2, $3)
+    RETURNING *
+  `;
+
+  const values = [
+    file_link,
+    file_original_name,
+    assignment_id
+  ];
+
+  try {
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error creating assignment attachment:', error);
+    throw error;
+  }
+}
+
+
+///////////////////////////GET MODLELS///////////////////////////
+
+getClassByTeacher_id = async (teacher_id)=>{
+  const query = `
+    SELECT * FROM classes WHERE teacher_id = $1
+  `;
+
+  try {
+    const result = await pool.query(query, [teacher_id]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching classes by teacher ID:', error);
+    throw error;
+  }
+}
+
+getAssignmentsByClass_id = async (class_id) => {
+  const query = `
+    SELECT * FROM assignments WHERE class_id = $1
+  `;
+
+  try {
+    const result = await pool.query(query, [class_id]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching assignments by class ID:', error);
+    throw error;
+  }
+}
+getAssignments_attachmentsByAssignment_id = async (assignment_id) => {
+  const query = `
+    SELECT * FROM assignment_attachments WHERE assignment_id = $1
+  `;
+
+  try {
+    const result = await pool.query(query, [assignment_id]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching assignment attachments:', error);
+    throw error;
+  }
+}
+getSubmissionsByAssignment_id = async (assignment_id) => {
+  const query = `
+    SELECT * FROM submissions WHERE assignment_id = $1
+  `;
+
+  try {
+    const result = await pool.query(query, [assignment_id]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching submissions by assignment ID:', error);
+    throw error;
+  }
+}
+
+getGradesByStudent_id = async (student_id) => {
+  const query = `
+    SELECT * FROM grades WHERE student_id = $1
+  `;
+
+  try {
+    const result = await pool.query(query, [student_id]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching grades by student ID:', error);
+    throw error;
+  }
+}
+
+getGradesByAssignment_id = async (assignment_id) => {
+  const query = `
+    SELECT * FROM grades WHERE assignment_id = $1
+  `;
+
+  try {
+    const result = await pool.query(query, [assignment_id]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching grades by assignment ID:', error);
+    throw error;
+  }
+}
+
 module.exports = {
   createClass,
   studentClass,
-  submissionUpload
+  getClassByTeacher_id,
+  getAssignmentsByClass_id,
+  getAssignments_attachmentsByAssignment_id,
+  submissionUpload,
+  createAssigment,
+  createAssignments_attachments
 };
 
