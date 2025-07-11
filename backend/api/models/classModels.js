@@ -50,6 +50,7 @@ studentClass = async (classData, res) => {
   if (!class_id || !student_id) {
     return res.status(400).json({ error: 'Class ID and Student ID are required' });
   }
+  
 
   const query = `
     INSERT INTO class_students (class_id, student_id)
@@ -68,8 +69,35 @@ studentClass = async (classData, res) => {
   }
 };
 
+submissionUpload = async (fileData) => {
+  const {file_link,file_original_name,student_id,assignment_id} = fileData;
+
+  const query = `
+    INSERT INTO submissions (
+      file_link, file_original_name, student_id, assignment_id
+    ) VALUES ($1, $2, $3, $4)
+    RETURNING *
+  `;
+
+  const values = [
+    file_link,
+    file_original_name,
+    student_id,
+    assignment_id
+  ];
+
+  try {
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error uploading assignment files:', error);
+    throw error;
+  }
+};
+
 module.exports = {
   createClass,
-  studentClass
+  studentClass,
+  submissionUpload
 };
 
