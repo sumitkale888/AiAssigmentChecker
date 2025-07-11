@@ -13,5 +13,5 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage });
-
+console.log('Multer upload middleware initialized');
 module.exports = upload; 
