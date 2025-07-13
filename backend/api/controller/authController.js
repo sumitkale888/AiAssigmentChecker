@@ -38,7 +38,7 @@ handleLoginTeacher = async (req, res) => {
             secure: true,
             sameSite: 'None'
         });
-        res.json({ message: 'Login successful' });
+        res.json({ message: 'Login successful',first_name:teacher.first_name,last_name:teacher.last_name });
     } catch (error) {
         console.error('Error logging in teacher:', error);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -79,7 +79,7 @@ handleLoginStudent = async (req, res) => {
             secure: true,
             sameSite: 'None'
         });
-        res.json({ message: 'Login successful'});
+        res.json({ message: 'Login successful',first_name:student.first_name,last_name:student.last_name});
     } catch (error) {
         console.error('Error logging in student:', error);
         res.status(500).json({ error: 'Internal Server Error' });
