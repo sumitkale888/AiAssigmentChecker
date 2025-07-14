@@ -27,6 +27,8 @@ const SignupTeacher: FC = () => {
                 authenticated: true,
                 user: firstName + ' ' + lastName
             }))
+        }else{
+            console.log(error)
         }
     }
 

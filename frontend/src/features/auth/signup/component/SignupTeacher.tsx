@@ -1,5 +1,5 @@
 import type { FC, FormEvent } from 'react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useManualFetch from '../../../../shared/hooks/useManualFetch';
 
 
@@ -28,6 +28,8 @@ const SignupTeacher: FC = () => {
                 authenticated: true,
                 user: firstName +' ' + lastName
             }))
+        }else{
+            console.log(error)
         }
     }
 
@@ -35,7 +37,7 @@ const SignupTeacher: FC = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <form className="flex flex-col gap-4 max-w-md w-full p-8 bg-white shadow-lg rounded-lg">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md w-full p-8 bg-white shadow-lg rounded-lg">
                 <label htmlFor="firstName" className="text-sm font-medium text-gray-700">
                     First Name
                 </label>
@@ -77,7 +79,8 @@ const SignupTeacher: FC = () => {
                 />
 
                 <button
-                    onClick={handleSubmit}
+                    // onClick={handleSubmit}
+                    type='submit'
                     className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
                 >
                     Submit
