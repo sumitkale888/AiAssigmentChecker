@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const useProtectedPage=()=>{
     const navigate = useNavigate();
     useEffect(()=>{
-
+console.log(navigate)
     },[])   
  
 
@@ -13,3 +13,5 @@ const useProtectedPage=()=>{
         <div></div>
     )
 }
+
+export default useProtectedPage

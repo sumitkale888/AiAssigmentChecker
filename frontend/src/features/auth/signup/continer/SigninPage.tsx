@@ -1,8 +1,6 @@
-import type { FC, FormEvent } from 'react'
 import LoginForm from '../../../../shared/components/login/LoginForm'
 import { useState } from 'react'
 
-import { Link } from 'react-router-dom'
 
 const SigninPage = () => {
     const [role, setRole] = useState<'student' | 'teacher'>('student')

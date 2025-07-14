@@ -1,10 +1,8 @@
-import type { FC, FormEvent } from 'react'
 import { useState } from 'react'
 
 import SignupTeacher from "../component/SignupTeacher"
 import SignupStudent from "../component/SignupStudent"
 
-import { Link } from 'react-router-dom'
 
 const SignupPage = () => {
   const [role, setRole] = useState<'student' | 'teacher'>('student')
