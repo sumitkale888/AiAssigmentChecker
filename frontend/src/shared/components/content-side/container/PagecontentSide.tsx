@@ -1,5 +1,5 @@
-import HomeTeacher from "../components/homeTeacher"
-import useFetch from "../../../hooks/UseFetch"
+import HomeTeacher from "../components/HomeTeacher"
+// import useFetch from "../../../hooks/UseFetch"
 
 
 const PagecontentSide=()=>{
