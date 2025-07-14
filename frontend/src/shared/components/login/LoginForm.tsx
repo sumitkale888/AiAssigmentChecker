@@ -5,7 +5,8 @@ import useManualFetch from "../../hooks/useManualFetch";
 import { useDispatch } from "react-redux";
 import { updateAuth } from '../../../features/auth/authSlice';
 
-import { Link } from "react-router-dom";
+import { Link,useNavigate} from "react-router-dom";
+
 interface LoginFormProps {
   role: string;
   url: string;
@@ -13,6 +14,7 @@ interface LoginFormProps {
 
 const LoginForm = ({ role, url }: LoginFormProps) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
@@ -33,6 +35,7 @@ const LoginForm = ({ role, url }: LoginFormProps) => {
           user: `${data.first_name} ${data.last_name}`,
         })
       );
+      navigate("/")
     }
   };
 

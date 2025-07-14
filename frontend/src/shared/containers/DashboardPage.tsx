@@ -2,19 +2,17 @@ import React from 'react';
 import Header from '../components/header/Header';
 import PageList from '../components/sidebar/PageList';
 import PagecontentSide from '../components/content-side/container/PagecontentSide';
+import UseProtectedPage from '../hooks/useProtectedPage';
 const DashboardPage: React.FC = () => {
     return (
         <div>
+            <UseProtectedPage/>
             <Header/>
             <div className='flex'>
             <PageList />
             <PagecontentSide/>
             </div>
 
-
-            
-            
-            {/* Add dashboard content here */}
         </div>
     );
 };
