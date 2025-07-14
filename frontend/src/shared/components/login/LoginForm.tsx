@@ -1,9 +1,11 @@
 import { useState} from "react";
 import type { FormEvent } from 'react'
 import useManualFetch from "../../hooks/useManualFetch";
+
 import { useDispatch } from "react-redux";
 import { updateAuth } from '../../../features/auth/authSlice';
 
+import { Link } from "react-router-dom";
 interface LoginFormProps {
   role: string;
   url: string;
@@ -64,6 +66,7 @@ const LoginForm = ({ role, url }: LoginFormProps) => {
     >
       Submit
     </button>
+     <Link   className="text-blue-600" to={'/auth/signup'}>don't have an account create for free!</Link>
 
     {status === 'loading' && <p className="text-blue-600">Logging in...</p>}
     {status === 'error' && <p className="text-red-600">Error: {error?.message}</p>}

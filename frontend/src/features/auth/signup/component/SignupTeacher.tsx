@@ -5,6 +5,7 @@ import useManualFetch from '../../../../shared/hooks/useManualFetch';
 
 import { updateAuth } from '../../authSlice';
 import { useDispatch } from "react-redux";
+import { Link } from 'react-router-dom';
 
 
 const SignupTeacher: FC = () => {
@@ -81,6 +82,7 @@ const SignupTeacher: FC = () => {
                 >
                     Submit
                 </button>
+                <Link  className="text-blue-600" to={'/auth/signin'}>Arleady have an account?</Link>
             </form>
         </div>
 
