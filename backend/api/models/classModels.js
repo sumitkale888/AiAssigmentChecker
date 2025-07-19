@@ -1,5 +1,5 @@
 const {pool} = require('./database')
-
+const Redis= require('ioredis')
 ///////////////////////// CREATE MODELS //////////////////////
 createClass = async (classData, res) => {
   const {
@@ -161,6 +161,44 @@ createAssignments_attachments = async (attachmentData) => {
 }
 
 
+// | [
+// -- api-1       |   {
+// -- api-1       |     file_link: 'files-1752915371760-879088583.docx',
+// -- api-1       |     student_id: 3,
+// -- api-1       |     submission_id: 107,
+// -- api-1       |     evaluation_guideline: null
+// -- api-1       |   }
+// -- api-1       | ]
+
+createGrade = async (evaluationData) => {
+  console.log('Creating grade with data:');
+  const { obtained_grade, student_id, feedback, submission_id } = evaluationData;
+  console.log('Creating grade:', obtained_grade, student_id, feedback, submission_id);
+  const query = `
+    INSERT INTO grades (
+       obtained_grade, student_id, feedback, submission_id
+    ) VALUES ($1, $2, $3, $4)
+    RETURNING *
+  `;
+
+  const values = [
+    obtained_grade,
+    student_id,
+    feedback,
+    submission_id
+  ];
+
+  try {
+    const result = await pool.query(query, values);
+    console.log('Grade created:', result.rows[0]);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error creating evaluation:', error);
+    throw error;
+  }
+}
+
+
 ///////////////////////////GET MODLELS///////////////////////////
 
 getClassByTeacher_id = async (teacher_id)=>{
@@ -245,12 +283,35 @@ getGradesByAssignment_id = async (assignment_id) => {
   }
 }
 
+
+getSubmissionAndEvaluation = async(submission_id)=>{
+  const query = `
+SELECT file_link,student_id,submission_id,evaluation_guideline
+FROM submissions
+INNER JOIN assignments ON submissions.assignment_id = assignments.assignment_id
+WHERE submissions.submission_id = $1
+  `
+
+  try{
+    const result = await pool.query(query,[submission_id]);
+    console.log(result.rows)
+    return result.rows;
+
+  }catch(error){
+        console.error('Error  getSubmissionAndEvaluation:', error);
+    throw error;
+  }
+  
+}
+
+
 module.exports = {
   createClass,
   studentClass,
   submissionUpload,
   createAssigment,
   createAssignments_attachments,
+  createGrade,
 
   getClassByTeacher_id,
   getAssignmentsByClass_id,
@@ -258,6 +319,7 @@ module.exports = {
   getSubmissionsByAssignment_id,
   getGradesByAssignment_id,
   getGradesByStudent_id,
+  getSubmissionAndEvaluation
 
 };
 

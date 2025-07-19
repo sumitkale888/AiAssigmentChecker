@@ -1,6 +1,8 @@
 ///////////////////PUT Endpoints///////////////////////////////
-const {studentClass,submissionUpload,createAssignments_attachments,createAssigment} = require('../models/classModels')
+const {studentClass,submissionUpload,createAssignments_attachments,createAssigment,getSubmissionAndEvaluation} = require('../models/classModels')
 const upload= require('../services/myMulter')
+const Redis = require('ioredis');
+const { Queue } = require('bullmq');
 handleJoinClasses = async (req, res) => {
   try {
     const classData = req.body;
@@ -17,6 +19,14 @@ handleJoinClasses = async (req, res) => {
   }
 }
 
+// Redis connectioned
+const connection = new Redis({
+  host: process.env.REDIS_HOST,
+  port: process.env.REDIS_PORT,
+  maxRetriesPerRequest: null, 
+});
+// Create BullMQ queue
+const assignmentQueue = new Queue('assignments', { connection });
 
 
 handleSubmissionUpload = async (req, res) => {
@@ -25,12 +35,15 @@ handleSubmissionUpload = async (req, res) => {
     return res.status(400).json({ error: 'No files uploaded' });
   }
   for (const file of files) {
-    await submissionUpload({
+    let respose = await submissionUpload({
       file_link:file.filename, 
       file_original_name:file.originalname, 
       student_id: req.user.student_id, 
       assignment_id: req.params.assignment_id
     });
+    let submisson_evalution= await getSubmissionAndEvaluation(respose.submission_id) 
+
+    await assignmentQueue.add('evaluate',submisson_evalution)
   }
 
   res.json({

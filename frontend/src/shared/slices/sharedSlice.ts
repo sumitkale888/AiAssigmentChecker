@@ -1,32 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit"; 
+import { createSlice } from "@reduxjs/toolkit";
 
 
 const initialState = {
-    sidebarStatus:{
-      activePage:'Home' 
+    sidebarStatus: {
+        activePage: 'Home'
     },
-    classesStatus:{
-        classesData:''
+    classesStatus: {
+        classesData: ''
+    },
+    tabStatus: {
+        activeTab: 'Section'
     }
 }
 
 export const sharedSlice = createSlice({
-    name:'sharedSlice',
+    name: 'sharedSlice',
     initialState,
-    reducers:{
-        updatesidebarStatus:(state,action)=>{
-            state.sidebarStatus={
-                activePage:action.payload.activePage
+    reducers: {
+        updatesidebarStatus: (state, action) => {
+            state.sidebarStatus = {
+                activePage: action.payload.activePage
             }
         },
-          updateClassesStatus:(state,action)=>{
-            state.classesStatus={
-                classesData:action.payload.classesData
+        updateClassesStatus: (state, action) => {
+            state.classesStatus = {
+                classesData: action.payload.classesData
+            }
+        },
+        updateTabStatus: (state, action) => {
+            console.log('Tab status updated:', action.payload.activePage);
+            state.tabStatus = {
+                activeTab: action.payload.activePage
             }
         }
-        
+
     }
 })
 
-export const {updatesidebarStatus,updateClassesStatus} = sharedSlice.actions
+export const { updatesidebarStatus, updateClassesStatus,updateTabStatus } = sharedSlice.actions
 export default sharedSlice.reducer

@@ -28,7 +28,10 @@ const allowedOrigins = [
   'https://school-management-system-black-one.vercel.app',
   'https://school-management-system-git-main-parthakadam2007s-projects.vercel.app',
   'https://school-management-system-black-one.vercel.app',
-  'http://localhost:5173'
+  'http://localhost:5173',
+  'http://localhost:80',
+  'http://localhost',
+
 ];
 
 app.use(cors({
@@ -53,16 +56,19 @@ const classRoutes = require('./routes/classRoutes');
 app.use('/api/auth', authRoutes);
 app.use('/api/teacher', authMiddleware('teacher'), teacherRoutes);
 app.use('/api/class', authMiddleware('student'), classRoutes);
+//TESTING
+// app.use('/api/teacher', teacherRoutes);
+// app.use('/api/class', classRoutes);
 
 // Create BullMQ queue
 const assignmentQueue = new Queue('assignments', { connection });
 
 // Test endpoint: enqueue a job
-app.post('/api/check-assignment', async (req, res) => {
-  const { studentId, assignmentId } = req.body;
-  const job = await assignmentQueue.add('evaluate', { studentId, assignmentId });
-  res.json({ jobId: job.id, status: 'Queued for AI evaluation' });
-});
+// app.post('/api/check-assignment', async (req, res) => {
+//   const { studentId, assignmentId } = req.body;
+//   const job = await assignmentQueue.add('evaluate', { studentId, assignmentId });
+//   res.json({ obId: job.id, status: 'Queued for AI evaluation' });
+// });
 
 // Simple health check
 app.get('/api/health', (req, res) => {
