@@ -1,34 +1,41 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
-// Define props for the ClassCard component
 interface ClassCardProps {
-  classNameText: string; // The text for the class name (e.g., "ngnbnn")
-  backgroundImage?: string; // Optional: URL for a background image
-  // You can add more props here for the bottom icons if they need dynamic data
+  classNameText: string; 
+  class_id: string; 
+  backgroundImage?: string; 
+  
 }
 
-const ClassCard: React.FC<ClassCardProps> = ({ classNameText, backgroundImage }) => {
+const ClassCard: React.FC<ClassCardProps> = ({ classNameText,class_id, backgroundImage }) => {
+  const navigate = useNavigate();
+  const handleCardClick = () => {
+    navigate(`/teacher/class/${class_id}`);
+    console.log(`Class ID: ${class_id}`);
+    
+  }
   return (
-    <div className="w-72 bg-white rounded-lg border border-gray-300 shadow-md overflow-hidden font-inter">
-      {/* Top Section - 35% height with background image/color */}
+    <div className="w-72 bg-white rounded-lg border border-gray-300 shadow-md overflow-hidden font-inter cursor-pointer" onClick={handleCardClick}>
+      
       <div
         className="relative w-full bg-blue-600 bg-cover bg-center flex flex-col justify-between p-4 text-white"
         style={{
-          height: '100px', // Fixed height for 35% of a common card height (e.g., 280px * 0.35 = 98px)
-                           // You can adjust the overall card height and this percentage as needed.
-          // If a background image is provided, use it. Otherwise, rely on bg-blue-600.
+          height: '100px', 
+                          
+          
           backgroundImage: backgroundImage ? `url(${backgroundImage})` : 'none',
         }}
       >
-        {/* Top right icon (three dots / graduation cap) */}
+        
         <div className="absolute top-2 right-2 flex items-center space-x-2">
-          {/* Graduation Cap Icon (Inline SVG for simplicity) */}
+         
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="w-6 h-6 text-blue-200 opacity-80" // Light blue color, slightly transparent
-            style={{ transform: 'rotate(-15deg)' }} // Slight rotation as in the image
+            className="w-6 h-6 text-blue-200 opacity-80" 
+            style={{ transform: 'rotate(-15deg)' }} 
           >
             <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 3.694-9.75 8.25 0 1.06.20 2.071.581 3.003L3 15.75l-1.559 1.559A2.25 2.25 0 0 0 1.5 21.75h19.5a2.25 2.25 0 0 0 1.559-4.441L21 15.75l-.331-.747A8.47 8.47 0 0 0 21.75 10.5c0-4.556-4.365-8.25-9.75-8.25ZM6.75 10.5a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H6.75Zm.008 2.25a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H6.75Zm2.242-2.25a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H9Zm.008 2.25a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H9Zm2.242-2.25a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H11.25Zm.008 2.25a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H11.25Zm2.242-2.25a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H13.5Zm.008 2.25a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H13.5Zm2.242-2.25a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H15.75Zm.008 2.25a.75.75 0 0 0 0 1.5h.008a.75.75 0 0 0 0-1.5H15.75Z" clipRule="evenodd" />
           </svg>

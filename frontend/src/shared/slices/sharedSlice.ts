@@ -8,6 +8,9 @@ const initialState = {
     classesStatus: {
         classesData: ''
     },
+    currentClass:{
+        class_id: '',
+    },
     tabStatus: {
         activeTab: 'Section'
     }
@@ -32,10 +35,14 @@ export const sharedSlice = createSlice({
             state.tabStatus = {
                 activeTab: action.payload.activePage
             }
+        },
+        updateCurrentClass: (state, action) => {
+            state.currentClass = {
+                class_id: action.payload.class_id
+            }
         }
-
     }
 })
 
-export const { updatesidebarStatus, updateClassesStatus,updateTabStatus } = sharedSlice.actions
+export const { updatesidebarStatus, updateClassesStatus,updateTabStatus, updateCurrentClass } = sharedSlice.actions
 export default sharedSlice.reducer

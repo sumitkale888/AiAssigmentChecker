@@ -215,6 +215,21 @@ getClassByTeacher_id = async (teacher_id)=>{
   }
 }
 
+getClassInfoByClass_id = async (class_id) => {
+  const query = `
+    SELECT * FROM classes WHERE class_id = $1
+  `;
+
+  try {
+    const result = await pool.query(query, [class_id]);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error fetching class info by class ID:', error);
+    throw error;
+  }
+}
+
+
 getAssignmentsByClass_id = async (class_id) => {
   const query = `
     SELECT * FROM assignments WHERE class_id = $1
@@ -222,6 +237,7 @@ getAssignmentsByClass_id = async (class_id) => {
 
   try {
     const result = await pool.query(query, [class_id]);
+    console.log(result)
     return result.rows;
   } catch (error) {
     console.error('Error fetching assignments by class ID:', error);
@@ -314,6 +330,7 @@ module.exports = {
   createGrade,
 
   getClassByTeacher_id,
+  getClassInfoByClass_id,
   getAssignmentsByClass_id,
   getAssignments_attachmentsByAssignment_id,
   getSubmissionsByAssignment_id,

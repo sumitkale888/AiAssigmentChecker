@@ -21,7 +21,7 @@ const Tab: React.FC<TabProps> = ({ list }) => {
         <div
           key={item.item_name}
           onClick={()=>handleItemSelection(item.item_name)}
-          className=" gap-3 p-2 rounded-md hover:bg-gray-100 cursor-pointer shadow-sm mb-2"
+          className=" gap-3 p-2 rounded-md hover:bg-gray-100 cursor-pointer shadow-sm mb-2 cursor-pointer"
         >
    
           <span className="text-gray-800 font-medium">{item.item_name}</span>

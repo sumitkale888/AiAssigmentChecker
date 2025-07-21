@@ -1,5 +1,7 @@
 const {pool,bcrypt} = require('./database')
 
+//////////////////PUT MODELS/////////////////
+
 createTeacher = async (teacherData) => {
   const { first_name, last_name, email, password } = teacherData;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -15,6 +17,8 @@ createTeacher = async (teacherData) => {
   }
 }
 
+//////////////////GET MODELS/////////////////
+
 getTeacherByEmail = async (email) => {
   const query = 'SELECT * FROM teachers WHERE email = $1';
   try {
@@ -25,6 +29,7 @@ getTeacherByEmail = async (email) => {
     throw error;
   }
 }
+
 
 module.exports = {
   createTeacher,

@@ -26,7 +26,7 @@ const HomeTeacher = () => {
         <div className="flex flex-wrap gap-4 p-4">
           {data &&
             data.map((item: any) => (
-              <ClassCard key={item.class_id} classNameText={item.class_name} />
+              <ClassCard key={item.class_id} classNameText={item.class_name} class_id={item.class_id} />
             ))}
         </div>
 

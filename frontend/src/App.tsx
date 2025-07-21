@@ -5,6 +5,7 @@ import SigninPage from './features/auth/signup/continer/SigninPage';
 import SingupPage from './features/auth/signup/continer/SignupPage'
 
 import DashboardPage from './shared/containers/DashboardPage';
+import DashboardTeacherClassPage from './features/ClassTeacher/container/DashboardTeacherClassPage'
 function App() {
 
 
@@ -15,6 +16,9 @@ function App() {
         <Route path="/auth/signup" element={<SingupPage/>}></Route>
         <Route path="/auth/signin" element={<SigninPage/>}></Route>
         <Route path="/" element={<DashboardPage/>}></Route>
+
+        <Route path="/teacher/class/:class_id" element={<DashboardTeacherClassPage/>}></Route>
+        {/* <Route path="/student" element={<DashboardPage/>}></Route> */}
      
       </Routes>
     </BrowserRouter>
