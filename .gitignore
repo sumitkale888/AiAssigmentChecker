@@ -20,10 +20,10 @@ node_modules/
 # DB, logs, PDFs, temp files
 *.log
 *.tmp
-*.sqlite3
+
 *.pdf
 *.txt
-db/
+
 *tempCodeRunnerFile.py
 # IDE and system files
 .vscode/
