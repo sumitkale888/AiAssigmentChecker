@@ -1,34 +1,51 @@
-import { useDispatch } from 'react-redux'
-import { updateTabStatus } from '../../../shared/slices/sharedSlice'
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateTabStatus } from '../../../shared/slices/sharedSlice';
+
+interface RootState {
+  shared: {
+    tabStatus: {
+      activeTab: string;
+    };
+  };
+}
 
 interface TabProps {
-  list: Array<{ item_name: string }>
+    list: Array<{ item_name: string }>;
 }
 
 const Tab: React.FC<TabProps> = ({ list }) => {
-  const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const activePage = useSelector((state: RootState) => state.shared.tabStatus.activeTab);
 
-  const handleItemSelection = (itemName: string) => {
-    console.log('state update')
-    dispatch(updateTabStatus({ activePage: itemName }))
-  }
+    const handleItemSelection = (itemName: string) => {
+        console.log('state update'+activePage);
+        dispatch(updateTabStatus({ activePage: itemName }));
 
-  const pageList = list
-  // const pageList = [{ item_name: 'Section' }, { item_name: 'Assignments' }]
-  return (
-    <div className="w-[200px] p-4 flex">
-      {pageList.map((item) => (
-        <div
-          key={item.item_name}
-          onClick={() => handleItemSelection(item.item_name)}
-          className=" gap-3 p-2 rounded-md hover:bg-gray-100 cursor-pointer shadow-sm mb-2 "
-        >
+    };
 
-          <span className="text-gray-800 font-medium">{item.item_name}</span>
+    const pageList = list;
+
+    return (
+        <div className="flex flex-row justify-center items-center p-2 bg-white rounded-lg shadow-md w-full max-w-lg mx-[15px] my-4">
+            {pageList.map((item) => (
+                <div
+                    key={item.item_name}
+                    onClick={() => handleItemSelection(item.item_name)}
+                    className={`
+                        flex-1 text-center py-2 px-4 rounded-md cursor-pointer
+                        transition-colors duration-200 ease-in-out
+                        ${activePage === item.item_name
+                            ? 'bg-blue-600 text-white font-semibold shadow-inner'
+                            : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700'
+                        }
+                    `}
+                >
+                    <span className="text-sm md:text-base">{item.item_name}</span>
+                </div>
+            ))}
         </div>
-      ))}
-    </div>
-  )
-}
+    );
+};
 
 export default Tab;

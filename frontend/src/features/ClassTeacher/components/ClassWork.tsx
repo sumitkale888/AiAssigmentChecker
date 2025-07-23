@@ -1,6 +1,7 @@
 import addImg from "../../../assets/add-svgrepo-com.svg"
 import useFetch from "../../../shared/hooks/UseFetch"
 import { useNavigate } from "react-router-dom"
+import AssignmentList from "./AssignmentList"
 
 const ClassWork: React.FC<{ class_id: string | undefined }> = ({ class_id }) => {
     const navigate = useNavigate();
@@ -14,7 +15,7 @@ const ClassWork: React.FC<{ class_id: string | undefined }> = ({ class_id }) => 
                 Assignment
                 <img src={addImg} alt="add" className="w-[15px]" />
             </button>
-            {JSON.stringify(data)}
+            {data && <AssignmentList assignments={data} />}
         </div>
     )
 
