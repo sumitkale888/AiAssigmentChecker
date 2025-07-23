@@ -13,6 +13,12 @@ const initialState = {
     },
     tabStatus: {
         activeTab: 'Section'
+    },
+    assignmentCreateStatus: {
+        title: '',
+        description: '',
+        evaluation_guideline:'',
+        points: 0
     }
 }
 
@@ -40,9 +46,17 @@ export const sharedSlice = createSlice({
             state.currentClass = {
                 class_id: action.payload.class_id
             }
+        },
+        updateAssignmentCreateStatus: (state, action) => {
+            state.assignmentCreateStatus = {
+                title: action.payload.title,
+                description: action.payload.description,
+                evaluation_guideline: action.payload.evaluation_guideline,
+                points: action.payload.points
+            }
         }
     }
 })
 
-export const { updatesidebarStatus, updateClassesStatus,updateTabStatus, updateCurrentClass } = sharedSlice.actions
+export const { updatesidebarStatus, updateClassesStatus,updateTabStatus, updateCurrentClass, updateAssignmentCreateStatus } = sharedSlice.actions
 export default sharedSlice.reducer
