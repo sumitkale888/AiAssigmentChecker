@@ -10,7 +10,7 @@ const Upload: React.FC = () => {
 
   const handleUpload = async () => {
     if (!files) return;
-
+  console.log('Uploading files:', files);
     const formData = new FormData();
 
     // Append each file
@@ -19,9 +19,10 @@ const Upload: React.FC = () => {
     });
 
     try {
-      const res = await axios.post('http://localhost:3000/api/class/assignmentAttachments/2', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+        const res = await axios.post('http://localhost:3000/api/class/assignmentAttachments/2', formData, {
+            credentials: 'include',
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
       console.log(res.data);
       alert('Files uploaded!');
     } catch (err) {
