@@ -24,7 +24,7 @@ const Header = ()=>{
     const authStatus = useSelector((state: RootState) => state.auth.authStatus);
 
     return(
-        <div  className='flex relative shadow-[0_4px_2px_-2px_rgba(0,0,0,0.3)]'>
+        <div  className='flex relative border-gray-500'>
             <div onClick={handleLogoClick} className='cursor-pointer '>
             <img src={MenuImg} className='w-[20px] m-4 cursor-pointer' alt="" onClick={handleLogoClick} />
             </div>
