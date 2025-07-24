@@ -56,7 +56,7 @@ const classRoutes = require('./routes/classRoutes');
 const studentRoutes = require('./routes/studentRoute')
 app.use('/api/auth', authRoutes);
 app.use('/api/teacher', authMiddleware('teacher'), teacherRoutes);
-app.use('/api/class', classRoutes);
+app.use('/api/class',authMiddleware('teacher'), classRoutes);
 app.use('/api/student',authMiddleware('student'),studentRoutes)
 //TESTING
 // app.use('/api/teacher', teacherRoutes);
