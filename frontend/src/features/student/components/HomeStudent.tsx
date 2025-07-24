@@ -1,13 +1,14 @@
-import addImg from '../../../../assets/add-svgrepo-com.svg';
+import addImg from '../../../assets/add-svgrepo-com.svg';
 import ClassCard from '../../../shared/components/cards/ClassCard';
 import CreateClass from '../../../shared/components/cards/CreateClass';
 import useFetch from '../../../shared/hooks/UseFetch';
+import JoinClass from './JoinClass';
 import { useState } from 'react';
 
 const HomeStudent = () => {
   const { data, error, status, refetch } = useFetch<any>({
     method: "GET",
-    url: "http://localhost:3000/api/teacher/classes"
+    url: "http://localhost:3000/api/student/class",
   });
 
   const [showModal, setShowModal] = useState(false);
@@ -31,7 +32,7 @@ const HomeStudent = () => {
         </div>
 
         {showModal && (
-          <CreateClass
+          <JoinClass
             onClose={() => setShowModal(false)}
             onSuccess={() => {
               setShowModal(false);

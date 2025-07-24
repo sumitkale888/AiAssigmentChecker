@@ -71,6 +71,34 @@ studentClass = async (classData, res) => {
   }
 };
 
+joinClass = async(joining_code, student_id) => {
+  // Find class_id from joining_code
+  const classQuery = `
+    SELECT class_id FROM classes WHERE joining_code = $1
+  `;
+  const classResult = await pool.query(classQuery, [joining_code]);
+  if (classResult.rows.length === 0) {
+    throw new Error('Invalid joining code');
+  }
+  const class_id = classResult.rows[0].class_id;
+
+  const query = `
+    INSERT INTO class_students (class_id, student_id)
+    VALUES ($1, $2)
+    RETURNING *
+  `;
+
+  const values = [class_id, student_id];
+
+  try {
+    const result = await pool.query(query, values);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error enrolling student in class:', error);
+    throw error;
+  }
+};
+
 submissionUpload = async (fileData) => {
   const {file_link,file_original_name,student_id,assignment_id} = fileData;
 
@@ -324,6 +352,7 @@ WHERE submissions.submission_id = $1
 module.exports = {
   createClass,
   studentClass,
+  joinClass,
   submissionUpload,
   createAssigment,
   createAssignments_attachments,

@@ -1,4 +1,4 @@
-import ClassSection from "../components/ClassSection"
+import ClassSection from "../components/classSection"
 import ClassWork from "../components/ClassWork"
 import ClassPeople from "../components/ClassPeople"
 import Tab from "../components/Tab"

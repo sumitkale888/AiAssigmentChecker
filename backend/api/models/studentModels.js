@@ -1,4 +1,4 @@
-const {pool,bcrypt} = require('./database'); 
+const { pool, bcrypt } = require('./database');
 
 createStudent = async (studentData) => {
   const { first_name, last_name, email, password } = studentData;
@@ -13,7 +13,37 @@ createStudent = async (studentData) => {
     console.error('Error creating student:', error);
     throw error;
   }
-   
+
+}
+getClassInfoByStudentId = async (student_id) => {
+  const query = `
+    SELECT 
+      t.first_name || ' ' || t.last_name AS teacher_name,
+      c.class_id,
+      c.class_name,
+      c.section,
+      c.subject,
+      c.room,
+      c.description,
+      c.uploaded_photo_url
+    FROM 
+      class_students cs
+    JOIN 
+      classes c ON c.class_id = cs.class_id
+    JOIN 
+      teachers t ON c.teacher_id = t.teacher_id
+    WHERE 
+      cs.student_id = $1;
+
+  `
+  try {
+    const result = await pool.query(query, [student_id]);
+    return result.rows;
+
+  } catch (error) {
+    console.error('Error fetching student by email:', error);
+    throw error;
+  }
 }
 
 getStudentByEmail = async (email) => {
@@ -43,7 +73,7 @@ getClass_idByStudent_id = async (student_id) => {
 }
 
 const getStudentsByClass_id = async (class_id) => {
-  console.log("class_id",class_id);
+  console.log("class_id", class_id);
   const query = `
     SELECT first_name, last_name, email, url_dp
     FROM students
@@ -69,6 +99,7 @@ module.exports = {
   createStudent,
   getStudentByEmail,
   getClass_idByStudent_id,
-  getStudentsByClass_id
+  getStudentsByClass_id,
+  getClassInfoByStudentId
 }
 

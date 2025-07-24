@@ -1,21 +1,40 @@
 ///////////////////PUT Endpoints///////////////////////////////
-const { studentClass, submissionUpload, createAssignments_attachments, createAssigment, getSubmissionAndEvaluation } = require('../models/classModels')
+const { studentClass, submissionUpload, createAssignments_attachments, createAssigment, getSubmissionAndEvaluation,joinClass} = require('../models/classModels')
 const upload = require('../services/myMulter')
 const Redis = require('ioredis');
 const { Queue } = require('bullmq');
+// handleJoinClasses = async (req, res) => {
+//   try {
+//     const classData = req.body;
+//     const studentId = req.user.student_id; // Assuming user info is attached to request by auth middleware
+//     if (!studentId) {
+//       return res.status(401).json({ error: 'Unauthorized' });
+//     }
+
+//     const newClass = await studentClass({ ...classData, student_id: studentId });
+//     res.status(201).json(newClass);
+//   } catch (error) {
+//     console.error('Error joining class:', error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// }
 handleJoinClasses = async (req, res) => {
   try {
-    const classData = req.body;
-    const studentId = req.user.student_id; // Assuming user info is attached to request by auth middleware
+    const studentId = req.user.student_id;
+    const { joining_code } = req.body
     if (!studentId) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
-
-    const newClass = await studentClass({ ...classData, student_id: studentId });
+    if (!joining_code) {
+      return res.status(400).json({ error: 'Joining code is required' });
+    }
+    const newClass = await joinClass(joining_code, studentId);
     res.status(201).json(newClass);
-  } catch (error) {
-    console.error('Error joining class:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+  }
+  catch (err) {
+    console.error('Error joining class:', err);
+    res.status(500).json({ error: err });
+
   }
 }
 
@@ -196,6 +215,7 @@ handleGetGradesByStudent_id = async (req, res) => {
 
 module.exports = {
   handleJoinClasses,
+  
   handleSubmissionUpload,
   handleCreateAssigment,
   handleAssignments_attachments,
