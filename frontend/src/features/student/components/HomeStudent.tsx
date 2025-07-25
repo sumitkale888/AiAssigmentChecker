@@ -1,5 +1,6 @@
 import addImg from '../../../assets/add-svgrepo-com.svg';
-import ClassCard from '../../../shared/components/cards/ClassCard';
+// import ClassCard from '../../../shared/components/cards/ClassCard';
+import StudentClassCard from "./StudentClassCard"
 import CreateClass from '../../../shared/components/cards/CreateClass';
 import useFetch from '../../../shared/hooks/UseFetch';
 import JoinClass from './JoinClass';
@@ -27,7 +28,7 @@ const HomeStudent = () => {
         <div className="flex flex-wrap gap-4 p-4">
           {data &&
             data.map((item: any) => (
-              <ClassCard key={item.class_id} classNameText={item.class_name} class_id={item.class_id} />
+              <StudentClassCard key={item.class_id} {...item} />
             ))}
         </div>
 

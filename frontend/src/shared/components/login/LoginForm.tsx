@@ -35,7 +35,7 @@ const LoginForm = ({ role, url }: LoginFormProps) => {
           user: `${data.first_name} ${data.last_name}`,
         })
       );
-      navigate("/")
+      navigate(`/${role}`)
     }
   };
 

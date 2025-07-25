@@ -6,12 +6,13 @@ import useManualFetch from '../../../../shared/hooks/useManualFetch';
 import { updateAuth } from '../../authSlice';
 import { useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 const SignupTeacher: FC = () => {
 
     const dispath = useDispatch();
-
+    const navigate = useNavigate();
     const [firstName, setFirstName] = useState<string | null>(null);
     const [lastName, setLastName] = useState<string | null>(null);
     const [email, setEmail] = useState<string | null>(null);
@@ -28,6 +29,7 @@ const SignupTeacher: FC = () => {
                 authenticated: true,
                 user: firstName +' ' + lastName
             }))
+            navigate("/teacher")
         }else{
             console.log(error)
         }

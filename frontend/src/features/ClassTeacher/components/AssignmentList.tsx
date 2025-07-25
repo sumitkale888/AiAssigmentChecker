@@ -21,7 +21,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({ assignments }) => {
         <div className="space-y-4 p-4  rounded-lg ">
             {/* <h2 className="text-2xl font-bold text-gray-800 mb-4">Assignments</h2> */}
             {assignments.length === 0 ? (
-                <p className="text-gray-600 text-center py-8">No assignments available yet.</p>
+                <p className="text-gray-600 text-center py-8 ">No assignments available yet.</p>
             ) : (
                 assignments.map((assignment) => (
                     <div
@@ -48,7 +48,6 @@ const AssignmentList: React.FC<AssignmentListProps> = ({ assignments }) => {
                                 <span className="font-medium">Guidelines:</span> {assignment.evaluation_guideline}
                             </p>
                         )}
-                        <p className="text-xs text-gray-400 mt-2">Class ID: {assignment.class_id} | Assignment ID: {assignment.assignment_id}</p>
                     </div>
                 ))
             )}

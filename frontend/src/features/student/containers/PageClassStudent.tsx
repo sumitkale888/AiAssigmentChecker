@@ -1,7 +1,8 @@
 // import ClassSection from "../../ClassTeacher/components/classSection"
-import ClassWork from "../../ClassTeacher/components/ClassWork"
+// import ClassWork from "../../ClassTeacher/components/ClassWork"
 import ClassPeople from "../../ClassTeacher/components/ClassPeople"
 import Tab from "../../ClassTeacher/components/Tab"
+import StudentSection from "../components/StudentSection"
 
 import { useDispatch, useSelector } from "react-redux"
 
@@ -14,10 +15,10 @@ const PageClassStudent: React.FC<{ class_id: string }> = ({ class_id }) => {
 
             {currentTab === "Section" ? (
                 // <ClassSection class_id={String(class_id)} />
-                <ClassWork class_id={String(class_id)}/>
+                <StudentSection class_id={String(class_id)}/>
 
             ) : currentTab === "Classwork" ? (
-                <ClassWork class_id={String(class_id)}/>
+                <StudentSection class_id={String(class_id)}/>
             ) : currentTab === "People" ? (
                 // Render People component here
                 <ClassPeople class_id={String(class_id)}/>

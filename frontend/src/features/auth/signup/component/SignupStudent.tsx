@@ -28,7 +28,7 @@ const SignupTeacher: FC = () => {
                 authenticated: true,
                 user: firstName + ' ' + lastName
             }))
-            navigate('/')
+            navigate('/student')
         }else{
             console.log(error)
         }
