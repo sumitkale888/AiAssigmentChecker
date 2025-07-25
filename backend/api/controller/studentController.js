@@ -1,5 +1,7 @@
+
+///////////////////GET CONTROLLER////////////////////
 const {getClassInfoByStudentId} =require("../models/studentModels")
-const {joinClass} = require("../models/classModels")
+const {getAssignmentInfoByAssignment_id} = require("../models/classModels")
 handleGetClassInfoByStudentID = async(req,res)=>{
     try{
         const student_id = req.user.student_id;
@@ -12,6 +14,22 @@ handleGetClassInfoByStudentID = async(req,res)=>{
     }
 }
 
+handleGetAssignmentsByAssignment_id = async(req,res)=>{
+    try{
+        const assignment_id = req.params.assignment_id;
+        const result = await getAssignmentInfoByAssignment_id(assignment_id);
+        res.status(200).json(result)
+    }catch(err){
+
+        console.error('Error fetching assignments:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+
+///////////////////POST CONTROLLER////////////////////
+const {joinClass} = require("../models/classModels");
+const { handleGetAssignmentsByClass_id } = require("./classController");
 handleJointClassByJoiningID=async(req,res)=>{
         try{
         const student_id = req.user.student_id;
@@ -27,5 +45,9 @@ handleJointClassByJoiningID=async(req,res)=>{
 
 module.exports ={
     handleGetClassInfoByStudentID,
+    handleGetAssignmentsByAssignment_id,
+
+
+
     handleJointClassByJoiningID
 }

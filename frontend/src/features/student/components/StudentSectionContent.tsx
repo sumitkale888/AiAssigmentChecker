@@ -1,18 +1,24 @@
 import React from 'react';
-import AssignmentList from '../../ClassTeacher/components/AssignmentList';
+// import AssignmentList from '../../ClassTeacher/components/AssignmentList';
+import StudentAssigmentList from './StudentAssigmentList';
+import AssignmentPost from './AssigmentPost';
 import useFetch from '../../../shared/hooks/UseFetch';
 import { useNavigate } from 'react-router-dom';
-const StudentSectionContent: React.FC<{class_id:string | undefined}> = ({class_id}) => {
-        const { data, error, status } = useFetch<any>({ method: "GET", url: `http://localhost:3000/api/class/assignments/${class_id}` })
+const StudentSectionContent: React.FC<{ class_id: string | undefined }> = ({ class_id }) => {
+
+    const navigate = useNavigate();
+    const { data, error, status } = useFetch<any>({ method: "GET", url: `http://localhost:3000/api/student/class/assignments/${class_id}` })
+    const { data: classData, error: classError, status: classStatus } = useFetch<any>({ method: "GET", url: `http://localhost:3000/api/student/class/${class_id}` })
+
     return (
-<div className="bg-white rounded-lg border border-gray-200 overflow-hidden w-full max-w-4xl ml-[15px]">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden w-full max-w-4xl ml-[15px]">
 
             {/* Class Banner */}
             <div className="relative h-48 bg-blue-600 flex items-end justify-between p-6 rounded-t-lg"
-                 >
+            >
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 rounded-t-lg"></div>
                 {/* <h1 className="text-white text-3xl font-bold relative z-10">{classInfo.class_name}</h1> */}
-                     <div>ClassName</div>
+                <div className='text-white font-semibold'>{classData && classData.class_name}</div>
             </div>
 
             {/* Main Content Area */}
@@ -28,29 +34,24 @@ const StudentSectionContent: React.FC<{class_id:string | undefined}> = ({class_i
                     </div>
                 </div>
 
-                {/* Main Stream Content */}
+                    {/* Main Stream Content */}
                 <div className="w-full md:w-2/3">
-                    {/* Announce something section */}
-                    <div className="bg-gray-50 p-4 rounded-lg shadow-sm flex items-center mb-4">
-                        <div className="w-10 h-10 bg-purple-500 text-white flex items-center justify-center rounded-full font-bold text-lg mr-4">
-                            P
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="Announce something to your class"
-                            className="flex-grow bg-transparent border-none focus:outline-none text-gray-700"
-                        />
-                        <button className="text-gray-500 hover:text-gray-700 ml-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                            </svg>
-                        </button>
+                    <div>
+                        {data && data.length > 0 ? (
+                            data.map((assignment: any) => (
+                                <div className='mb-4 cursor-pointer' key={assignment.assignment_id} onClick={() => navigate(`/student/assignment/${assignment.assignment_id}`)}>
+                                    <AssignmentPost key={assignment.assignment_id} assignment={assignment} />
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-500">No assignments found.</p>
+                        )}
                     </div>
-                    
+                    {/* 
                     <div >
-                    {data && <AssignmentList assignments={data}/>}
-                    </div>
-                 
+                        {data && <StudentAssigmentList assignments={data} />}
+                    </div> */}
+
                 </div>
             </div>
         </div>

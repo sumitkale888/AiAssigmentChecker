@@ -33,8 +33,8 @@ function App() {
 
         <Route path="/student" element={<DashboardPageStudent/>}></Route>
         <Route path="/student/class/:class_id" element={<DashboardStudentClassPage/>}></Route>
-        <Route path="/student/class/:class_id/assignment/view" element={<PageViewAssignment/>}></Route>
-        
+        <Route path="/student/class/:class_id/assignment/:assignment_id" element={<PageViewAssignment/>}></Route>
+
 
      
       </Routes>

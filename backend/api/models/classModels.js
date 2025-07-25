@@ -285,6 +285,20 @@ getAssignments_attachmentsByAssignment_id = async (assignment_id) => {
     throw error;
   }
 }
+getAssignmentInfoByAssignment_id = async(assignment_id)=> {
+  const query = `
+    SELECT * FROM assignments WHERE assignment_id = $1
+  `;
+
+  try {
+    const result = await pool.query(query, [assignment_id]);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error fetching assignment info:', error);
+    throw error;
+  }
+}
+
 getSubmissionsByAssignment_id = async (assignment_id) => {
   const query = `
     SELECT * FROM submissions WHERE assignment_id = $1
@@ -362,6 +376,7 @@ module.exports = {
   getClassInfoByClass_id,
   getAssignmentsByClass_id,
   getAssignments_attachmentsByAssignment_id,
+  getAssignmentInfoByAssignment_id,
   getSubmissionsByAssignment_id,
   getGradesByAssignment_id,
   getGradesByStudent_id,
