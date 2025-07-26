@@ -8,7 +8,7 @@ const initialState = {
     classesStatus: {
         classesData: ''
     },
-    currentClass:{
+    currentClass: {
         class_id: '',
     },
     tabStatus: {
@@ -17,8 +17,11 @@ const initialState = {
     assignmentCreateStatus: {
         title: '',
         description: '',
-        evaluation_guideline:'',
+        evaluation_guideline: '',
         points: 0
+    },
+    AssignmentUploadHadle: {
+        ReadyToUpload: false
     }
 }
 
@@ -54,9 +57,21 @@ export const sharedSlice = createSlice({
                 evaluation_guideline: action.payload.evaluation_guideline,
                 points: action.payload.points
             }
+        },
+        updateAssignmentUploadHadle: (state, action) => {
+            state.AssignmentUploadHadle = {
+                ReadyToUpload: action.payload.upload
+            }
+
         }
     }
 })
 
-export const { updatesidebarStatus, updateClassesStatus,updateTabStatus, updateCurrentClass, updateAssignmentCreateStatus } = sharedSlice.actions
+export const {
+    updatesidebarStatus,
+    updateClassesStatus, updateTabStatus,
+    updateCurrentClass,
+    updateAssignmentCreateStatus,
+    updateAssignmentUploadHadle
+} = sharedSlice.actions
 export default sharedSlice.reducer

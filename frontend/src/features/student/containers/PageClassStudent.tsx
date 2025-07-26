@@ -7,7 +7,7 @@ import StudentClassWork from "../components/StudentClassWork"
 import { useDispatch, useSelector } from "react-redux"
 
 const PageClassStudent: React.FC<{ class_id: string }> = ({ class_id }) => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     let currentTab = useSelector((state: any) => state.shared.tabStatus.activeTab);
     return (
         <div className="w-[1000px]">

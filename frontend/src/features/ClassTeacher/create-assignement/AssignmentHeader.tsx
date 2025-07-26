@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateAssignmentUploadHadle } from '../../../shared/slices/sharedSlice'
 import useManualFetch from "../../../shared/hooks/useManualFetch";
-import { useParams,useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 import AssignmentImg from '../../../assets/assigment.svg';
-const AssignmentHeader: React.FC <{class_id:string}>= ({class_id}) => {
+
+const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
+
     const { class_id: classId } = useParams<{ classId: string, class_id: string }>();
+
     const assignmentCreateStatus = useSelector((state: any) => state.shared.assignmentCreateStatus);
+    const dispatch = useDispatch();
+
     const { execute, data, status, error } = useManualFetch();
 
     const navigate = useNavigate();
@@ -21,6 +27,10 @@ const AssignmentHeader: React.FC <{class_id:string}>= ({class_id}) => {
             points,
             class_id
         };
+        dispatch(updateAssignmentUploadHadle({
+            ReadyToUpload: true
+        }))
+
 
         try {
             await execute('http://localhost:3000/api/class/assignment', 'POST', payload);
@@ -30,7 +40,7 @@ const AssignmentHeader: React.FC <{class_id:string}>= ({class_id}) => {
             console.error('Error creating assignment:', err);
         }
     };
-    
+
     return (
 
         <div className='flex h-[50px] relative shadow-[0_4px_2px_-2px_rgba(0,0,0,0.3)] items-center'>
@@ -42,7 +52,7 @@ const AssignmentHeader: React.FC <{class_id:string}>= ({class_id}) => {
             </div>
             <div className='absolute  right-5'>
                 <button className='bg-[#67abf0] text-white px-4 py-2 rounded-md hover:bg-[#5591d6] cursor-pointer'
-                onClick={handleAssign}
+                    onClick={handleAssign}
                 >
                     Assign
                 </button>

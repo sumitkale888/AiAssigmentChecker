@@ -2,9 +2,23 @@ import { useParams } from "react-router-dom";
 import Header from "../../../shared/components/header/Header";
 import PageList from "../../../shared/components/sidebar/PageList";
 import PageClassTeacher from "./PageClassTeacher";
+import { useEffect } from "react";
+
+
+import { useDispatch } from "react-redux";
+import { updateAssignmentUploadHadle } from "../../../shared/slices/sharedSlice"
+
 const DashboardTeacherClassPage: React.FC = () => {
-    const {  class_id } = useParams<{ classId: string, class_id: string }>();
-    console.log( "class_id", typeof(class_id));
+    const { class_id } = useParams<{ classId: string, class_id: string }>();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+
+        dispatch(updateAssignmentUploadHadle({
+            ReadyToUpload: false
+        }))
+    }, [])
+
     return (
         <div>
             <Header />

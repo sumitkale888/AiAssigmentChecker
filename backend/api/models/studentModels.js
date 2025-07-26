@@ -1,5 +1,6 @@
 const { pool, bcrypt } = require('./database');
 
+////////////POST MODULES/////////////////////////
 createStudent = async (studentData) => {
   const { first_name, last_name, email, password } = studentData;
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -15,6 +16,8 @@ createStudent = async (studentData) => {
   }
 
 }
+
+
 getClassInfoByStudentId = async (student_id) => {
   const query = `
     SELECT 
@@ -72,7 +75,7 @@ getClass_idByStudent_id = async (student_id) => {
   }
 }
 
-const getStudentsByClass_id = async (class_id) => {
+getStudentsByClass_id = async (class_id) => {
   console.log("class_id", class_id);
   const query = `
     SELECT first_name, last_name, email, url_dp
@@ -91,6 +94,23 @@ const getStudentsByClass_id = async (class_id) => {
   }
 };
 
+getSubmissionsByAssigment_idAndStudent_id = async (student_id,assignmnet_id) => {
+  const query = `
+    SELECT *
+    FROM assignemnts
+    WHERE student_id = $1
+    AND assignmnet_id = $2
+  `; 
+
+  try {
+    const result = await pool.query(query, [student_id,assignmnet_id]);
+    console.log(result.rows);
+    return result.rows;
+  } catch (error) {
+    console.error('Error getSubmissionsByAssigment_idAndStudent_id:', error);
+    throw error;
+  }
+};
 
 
 
@@ -100,6 +120,9 @@ module.exports = {
   getStudentByEmail,
   getClass_idByStudent_id,
   getStudentsByClass_id,
-  getClassInfoByStudentId
+  getClassInfoByStudentId,
+  getSubmissionsByAssigment_idAndStudent_id
+
+
 }
 

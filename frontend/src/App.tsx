@@ -8,7 +8,7 @@ import DashboardPage from './shared/containers/DashboardPage';
 import DashboardTeacherClassPage from './features/ClassTeacher/container/DashboardTeacherClassPage'
 import PageCreateAssignment from './features/ClassTeacher/container/PageCreateAssignment';
 
-import PageViewAssignment from './features/ClassTeacher/container/PageViewAssignment';
+import PageAssignmentView from "./features/student/containers/PageAssignmentView";
 import DashboardStudentClassPage from './features/student/containers/DashboardStudentClassPage';
 import DashboardPageStudent from './features/student/containers/DashboardPageStudent';
 function App() {
@@ -22,6 +22,7 @@ function App() {
         {/* ----------AUTH ROUTES-------------- */}
         <Route path="/auth/signup" element={<SingupPage/>}></Route>
         <Route path="/auth/signin" element={<SigninPage/>}></Route>
+        <Route path="/" element={<SigninPage/>}></Route>
         {/* ----------TEACHER ROUTES-------------- */}
 
         <Route path="/teacher" element={<DashboardPage/>}></Route>
@@ -33,10 +34,7 @@ function App() {
 
         <Route path="/student" element={<DashboardPageStudent/>}></Route>
         <Route path="/student/class/:class_id" element={<DashboardStudentClassPage/>}></Route>
-        <Route path="/student/class/:class_id/assignment/:assignment_id" element={<PageViewAssignment/>}></Route>
-
-
-     
+        <Route path="/student/assignment/:assignment_id" element={<PageAssignmentView/>}></Route>
       </Routes>
     </BrowserRouter>
   
