@@ -8,7 +8,7 @@ const AssignmentForm: React.FC = () => {
   const dispatch = useDispatch();
   const {assignment_id}=useParams()
   const assignmentCreateStatus = useSelector((state: any) => state.shared.assignmentCreateStatus);
-  const uploadState = useSelector((state:any)=>state.shared.AssignmentUploadHandle.ReadyToUpload)
+  const uploadState = useSelector((state:any)=>state.shared.assignmentUploadHandle)
 
   const [files, setFiles] = useState<FileList | null>(null);
   const [title, setTitle] = useState<string>('');
@@ -35,17 +35,21 @@ const AssignmentForm: React.FC = () => {
     formData.append('description', description);
 
     await execute(
-      `http://localhost:3000/api/class/assignmentAttachments/${assignment_id}`,
+      `http://localhost:3000/api/class/assignmentAttachments/${uploadState.assignment_id}`,
       'POST',
       formData,
       true // isFormData
     );
     return true 
   };
-  useEffect(()=>{
-    handleUpload
-
-  },[uploadState])
+ useEffect(() => {
+  if (uploadState) {
+    const upload = async () => {
+      await handleUpload(new Event('submit') as unknown as React.FormEvent);
+    };
+    upload();
+  }
+}, [uploadState]);
 
   return (
     <div>

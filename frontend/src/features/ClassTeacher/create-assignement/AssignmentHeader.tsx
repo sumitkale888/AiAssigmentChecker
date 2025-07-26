@@ -19,27 +19,35 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
     const navigate = useNavigate();
 
     const handleAssign = async () => {
-        const { title, description, evaluation_guideline, points } = assignmentCreateStatus;
-        const payload = {
-            title,
-            description,
-            evaluation_guideline,
-            points,
-            class_id
-        };
-        dispatch(updateAssignmentUploadHandle({
-            ReadyToUpload: true
-        }))
+  const { title, description, evaluation_guideline, points } = assignmentCreateStatus;
+  const payload = {
+    title,
+    description,
+    evaluation_guideline,
+    points,
+    class_id
+  };
 
+  try {
+    const response = await execute('http://localhost:3000/api/class/assignment', 'POST', payload);
+    
+    if (!response) {
+      console.error('No response returned from assignment creation.');
+      return;
+    }
 
-        try {
-            await execute('http://localhost:3000/api/class/assignment', 'POST', payload);
-            console.log('Assignment created successfully:', data);
-            navigate(`/teacher/class/${classId}`);
-        } catch (err) {
-            console.error('Error creating assignment:', err);
-        }
-    };
+    console.log('Assignment created successfully:', response);
+
+    dispatch(updateAssignmentUploadHandle({
+      ReadyToUpload: true,
+      assignment_id: response.assignment_id
+    }));
+
+    navigate(`/teacher/class/${classId}`);
+  } catch (err) {
+    console.error('Error creating assignment:', err);
+  }
+};
 
     return (
 
