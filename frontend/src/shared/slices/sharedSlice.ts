@@ -20,7 +20,7 @@ const initialState = {
         evaluation_guideline: '',
         points: 0
     },
-    AssignmentUploadHadle: {
+    AssignmentUploadHandle: {
         ReadyToUpload: false
     }
 }
@@ -58,8 +58,8 @@ export const sharedSlice = createSlice({
                 points: action.payload.points
             }
         },
-        updateAssignmentUploadHadle: (state, action) => {
-            state.AssignmentUploadHadle = {
+        updateAssignmentUploadHandle: (state, action) => {
+            state.AssignmentUploadHandle = {
                 ReadyToUpload: action.payload.upload
             }
 
@@ -72,6 +72,6 @@ export const {
     updateClassesStatus, updateTabStatus,
     updateCurrentClass,
     updateAssignmentCreateStatus,
-    updateAssignmentUploadHadle
+    updateAssignmentUploadHandle
 } = sharedSlice.actions
 export default sharedSlice.reducer

@@ -8,7 +8,7 @@ const AssignmentForm: React.FC = () => {
   const dispatch = useDispatch();
   const {assignment_id}=useParams()
   const assignmentCreateStatus = useSelector((state: any) => state.shared.assignmentCreateStatus);
-  const uploadState = useSelector((state:any)=>state.shared.AssignmentUploadHadle.ReadyToUpload)
+  const uploadState = useSelector((state:any)=>state.shared.AssignmentUploadHandle.ReadyToUpload)
 
   const [files, setFiles] = useState<FileList | null>(null);
   const [title, setTitle] = useState<string>('');

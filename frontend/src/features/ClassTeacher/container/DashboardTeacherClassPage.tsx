@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 
 import { useDispatch } from "react-redux";
-import { updateAssignmentUploadHadle } from "../../../shared/slices/sharedSlice"
+import { updateAssignmentUploadHandle } from "../../../shared/slices/sharedSlice"
 
 const DashboardTeacherClassPage: React.FC = () => {
     const { class_id } = useParams<{ classId: string, class_id: string }>();
@@ -14,7 +14,7 @@ const DashboardTeacherClassPage: React.FC = () => {
 
     useEffect(() => {
 
-        dispatch(updateAssignmentUploadHadle({
+        dispatch(updateAssignmentUploadHandle({
             ReadyToUpload: false
         }))
     }, [])

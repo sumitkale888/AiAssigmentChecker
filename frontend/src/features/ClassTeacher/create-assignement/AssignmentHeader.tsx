@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
-import { updateAssignmentUploadHadle } from '../../../shared/slices/sharedSlice'
+import { updateAssignmentUploadHandle } from '../../../shared/slices/sharedSlice'
 import useManualFetch from "../../../shared/hooks/useManualFetch";
 import { useParams, useNavigate } from 'react-router-dom';
 
@@ -27,7 +27,7 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
             points,
             class_id
         };
-        dispatch(updateAssignmentUploadHadle({
+        dispatch(updateAssignmentUploadHandle({
             ReadyToUpload: true
         }))
 
