@@ -71,7 +71,7 @@ const LoginForm = ({ role, url }: LoginFormProps) => {
     </button>
      <Link   className="text-blue-600 px-21" to={'/auth/signup'}>Don't have an account</Link>
 
-    {status === 'loading' && <p className="text-blue-600">Logging in...</p>}
+    {status === 'loading' && <p className="text-blue-600 px-30">Logging in...</p>}
     {status === 'error' && <p className="text-red-600">Error: {error?.message}</p>}
   </form>
 );
