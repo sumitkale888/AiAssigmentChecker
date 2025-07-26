@@ -40,7 +40,7 @@ const SignupTeacher: FC = () => {
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md w-full p-8 bg-white shadow-lg rounded-lg">
                 <label htmlFor="firstName" className="text-sm font-medium text-gray-700">
-                    First Name
+                    First Name id
                 </label>
                 <input
                     type="text"
