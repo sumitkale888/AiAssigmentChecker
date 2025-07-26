@@ -21,7 +21,7 @@ const PageClassStudent: React.FC<{ class_id: string }> = ({ class_id }) => {
                 <StudentClassWork class_id={String(class_id)}/>
             ) : currentTab === "People" ? (
                 // Render People component here
-                <ClassPeople class_id={String(class_id)}/>
+                <ClassPeople class_id={String(class_id)} role={"student"}/>
             ) : null}
 
         </div>

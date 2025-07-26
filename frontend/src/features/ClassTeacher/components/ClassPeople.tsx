@@ -13,12 +13,13 @@ interface User {
 
 interface ClassPeopleProps {
     class_id: string;
+    role:"student" |"teacher";
 }
 
-const ClassPeople: React.FC<ClassPeopleProps> = ({ class_id }) => {
+const ClassPeople: React.FC<ClassPeopleProps> = ({ class_id,role }) => {
     const { data, error, status } = useFetch({
         method: "GET",
-        url: `http://localhost:3000/api/teacher/class/students/${class_id}`
+        url: `http://localhost:3000/api/${role}/class/students/${class_id}`
     });
     return (
         <div>
