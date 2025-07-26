@@ -25,7 +25,7 @@ return (
       </button>
     </div>
 
-    <div className="max-w-md mx-auto">
+    <div className="max-w-md mx-auto ">
       {role === 'student' ? (
         <LoginForm
           role={'Student'}

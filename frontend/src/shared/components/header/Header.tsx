@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface AuthStatus {
     authenticated: boolean;
-    user:String
+    user:string
     // add other properties if needed
 }
 interface RootState {
@@ -28,7 +28,7 @@ const Header = ()=>{
             <div onClick={handleLogoClick} className='cursor-pointer '>
             <img src={MenuImg} className='w-[20px] m-4 cursor-pointer' alt="" onClick={handleLogoClick} />
             </div>
-            hi
+           
             <img src={LogoImg} alt="" />
             <div className='absolute  right-10 m-2.5'>  {authStatus.user}</div>
             <img src={UserImg} className='w-[30px] ml-[100px] absolute  right-0 m-2.5' alt="" />
