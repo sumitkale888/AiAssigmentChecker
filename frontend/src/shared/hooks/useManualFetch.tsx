@@ -5,7 +5,7 @@ const useManualFetch = <T = unknown>() => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState<Error | null>(null);
 
-  const execute = async (url: string, method: string, body?: unknown) => {
+  const execute = async (url: string, method: string, body?: unknown): Promise<T | undefined> => {
     setStatus('loading');
     try {
       const res = await fetch(url, {
@@ -24,9 +24,11 @@ const useManualFetch = <T = unknown>() => {
       const result = await res.json();
       setData(result);
       setStatus('success');
+      return result;
     } catch (err) {
       setError(err as Error);
       setStatus('error');
+      return undefined;
     }
   };
 

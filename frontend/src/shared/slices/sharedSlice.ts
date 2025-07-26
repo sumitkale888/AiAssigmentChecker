@@ -20,8 +20,9 @@ const initialState = {
         evaluation_guideline: '',
         points: 0
     },
-    AssignmentUploadHandle: {
-        ReadyToUpload: false
+    assignmentUploadHandle: {
+        ReadyToUpload: false,
+        assignment_id:""
     }
 }
 
@@ -59,10 +60,10 @@ export const sharedSlice = createSlice({
             }
         },
         updateAssignmentUploadHandle: (state, action) => {
-            state.AssignmentUploadHandle = {
-                ReadyToUpload: action.payload.upload
+            state.assignmentUploadHandle = {
+                ReadyToUpload: action.payload.ReadyToUpload,
+                assignment_id:action.payload.assignment_id
             }
-
         }
     }
 })

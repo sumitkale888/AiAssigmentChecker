@@ -15,7 +15,8 @@ const DashboardTeacherClassPage: React.FC = () => {
     useEffect(() => {
 
         dispatch(updateAssignmentUploadHandle({
-            ReadyToUpload: false
+            ReadyToUpload: false,
+            assignment_id: ""
         }))
     }, [])
 
