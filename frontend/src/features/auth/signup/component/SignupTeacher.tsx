@@ -38,8 +38,9 @@ const SignupTeacher: FC = () => {
 
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md w-full p-8 bg-white shadow-lg rounded-lg">
+        <div className="flex items-center justify-center min-h-screen ">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md w-full p-8 bg-white shadow-xl rounded-[2vw]">
+                <span className="font-semibold  text-gray-800  text-3xl py-3">For Teacher</span>
                 <label htmlFor="firstName" className="text-sm font-medium text-gray-700">
                     First Name
                 </label>
@@ -47,7 +48,7 @@ const SignupTeacher: FC = () => {
                     type="text"
                     name="firstName"
                     onChange={(e) => setFirstName(e.target.value)}
-                    className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-300 rounded-[2vw] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
                 <label htmlFor="lastName" className="text-sm font-medium text-gray-700">
@@ -57,7 +58,7 @@ const SignupTeacher: FC = () => {
                     type="text"
                     name="lastName"
                     onChange={(e) => setLastName(e.target.value)}
-                    className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-300 rounded-[2vw] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
                 <label htmlFor="email" className="text-sm font-medium text-gray-700">
@@ -67,7 +68,7 @@ const SignupTeacher: FC = () => {
                     type="text"
                     name="email"
                     onChange={(e) => setEmail(e.target.value)}
-                    className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-300 rounded-[2vw] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
                 <label htmlFor="password" className="text-sm font-medium text-gray-700">
@@ -77,17 +78,17 @@ const SignupTeacher: FC = () => {
                     type="text"
                     name="password"
                     onChange={(e) => setPassword(e.target.value)}
-                    className="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border border-gray-300 rounded-[2vw] px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
 
                 <button
                     // onClick={handleSubmit}
                     type='submit'
-                    className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
+                    className="bg-blue-600 text-white py-2 rounded-[2vw] hover:bg-blue-800 transition-colors"
                 >
                     Submit
                 </button>
-                <Link  className="text-blue-600" to={'/auth/signin'}>Arleady have an account?</Link>
+                <Link  className="text-blue-600 px-24" to={'/auth/signin'}>Arleady have an account?</Link>
             </form>
         </div>
 

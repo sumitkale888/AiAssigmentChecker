@@ -40,8 +40,8 @@ const LoginForm = ({ role, url }: LoginFormProps) => {
   };
 
  return (
-  <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-sm mx-auto p-6 bg-white shadow-md rounded-md">
-    <div className="text-lg font-semibold text-gray-700">{role}</div>
+  <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-sm mx-auto p-6  bg-white shadow-xl rounded-[2vw]">
+    <div className=" font-semibold text-3xl text-gray-800">For {role}</div>
 
     <label htmlFor="email" className="text-sm font-medium text-gray-600">
       Email
@@ -50,7 +50,7 @@ const LoginForm = ({ role, url }: LoginFormProps) => {
       type="text"
       name="email"
       onChange={(e) => setEmail(e.target.value)}
-      className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="border border-gray-300 rounded-[2vw] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
 
     <label htmlFor="password" className="text-sm font-medium text-gray-600">
@@ -60,18 +60,18 @@ const LoginForm = ({ role, url }: LoginFormProps) => {
       type="password"
       name="password"
       onChange={(e) => setPassword(e.target.value)}
-      className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      className="border border-gray-300 rounded-[2vw] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
     />
 
     <button
       type="submit"
-      className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition-colors"
+      className="bg-blue-600 text-white py-2 rounded-[2vw] hover:bg-blue-700 transition-colors"
     >
       Submit
     </button>
-     <Link   className="text-blue-600" to={'/auth/signup'}>don't have an account create for free!</Link>
+     <Link   className="text-blue-600 px-21" to={'/auth/signup'}>Don't have an account</Link>
 
-    {status === 'loading' && <p className="text-blue-600">Logging in...</p>}
+    {status === 'loading' && <p className="text-blue-600 px-30">Logging in...</p>}
     {status === 'error' && <p className="text-red-600">Error: {error?.message}</p>}
   </form>
 );
