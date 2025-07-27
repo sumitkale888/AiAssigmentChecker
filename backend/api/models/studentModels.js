@@ -97,10 +97,10 @@ getStudentsByClass_id = async (class_id) => {
 getSubmissionsByAssigment_idAndStudent_id = async (student_id,assignmnet_id) => {
   const query = `
     SELECT *
-    FROM assignemnts
+    FROM submissions
     WHERE student_id = $1
-    AND assignmnet_id = $2
-  `; 
+    AND assignment_id = $2
+  `;
 
   try {
     const result = await pool.query(query, [student_id,assignmnet_id]);

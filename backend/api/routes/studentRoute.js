@@ -13,6 +13,7 @@ const {
     handleGetAssignments_attachmentsByAssignment_id,
     getAssignmentInfoByAssignment_id
 } = require("../controller/classController")
+const{handleGetStudentsByClass_id} = require("../controller/teacherController")
 ////////////////GET ROUTES//////////////////////////////
 
 router.get("/class",handleGetClassInfoByStudentID)
@@ -22,6 +23,7 @@ router.get("/class/assignment/attachment/:assignment_id",handleGetAssignments_at
 router.get("/class/assignment/:assignment_id",handleGetAssignmentsByAssignment_id)
 router.get("/class/assignment/:assignment_id/submissions",handleGetSubmissionsByAssigment_idAndStudent_id)
 
+router.get('/class/students/:class_id',handleGetStudentsByClass_id)
 
 //////////////////POST ROUTES/////////////////////////
 

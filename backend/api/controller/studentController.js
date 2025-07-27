@@ -2,10 +2,14 @@
 ///////////////////GET CONTROLLER////////////////////
 const { getClassInfoByStudentId } = require("../models/studentModels")
 const {
-        getAssignmentInfoByAssignment_id,
         getAssignments_attachmentsByAssignment_id,
         getSubmissionsByAssigment_idAndStudent_id
-        } = require("../models/classModels")
+        } = require("../models/studentModels");
+const {
+        getAssignmentInfoByAssignment_id,
+
+} = require("../models/classModels");
+
 
 handleGetClassInfoByStudentID = async (req, res) => {
     try {
@@ -30,11 +34,11 @@ handleGetAssignmentsByAssignment_id = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
-handleGetSubmissionsByAssigment_idAndStudent_id = async(res,req)=>{
-        try {
+handleGetSubmissionsByAssigment_idAndStudent_id = async (req, res) => {
+    try {
         const assignment_id = req.params.assignment_id;
         const student_id = req.user.student_id;
-        const result = await getSubmissionsByAssigment_idAndStudent_id(student_id,assignment_id);
+        const result = await getSubmissionsByAssigment_idAndStudent_id(student_id, assignment_id);
         res.status(200).json(result)
     } catch (err) {
 
@@ -42,6 +46,7 @@ handleGetSubmissionsByAssigment_idAndStudent_id = async(res,req)=>{
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 
 // handleGetAssignmentsAttachmentsByAssignment_id = async (req, res) => {
 //     try {
