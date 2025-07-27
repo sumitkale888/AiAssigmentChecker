@@ -7,7 +7,7 @@ const DashboardPageStudent = () => {
   return (
    <div>
             <Header/>
-            <div className='flex'>
+            <div className='flex '>
             <PageList />
             <PagecontentSideStudent/>
             </div>

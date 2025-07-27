@@ -5,7 +5,7 @@ import { updateAssignmentUploadHandle } from '../../../shared/slices/sharedSlice
 import useManualFetch from "../../../shared/hooks/useManualFetch";
 import { useParams, useNavigate } from 'react-router-dom';
 
-import AssignmentImg from '../../../assets/assigment.svg';
+import AssignmentImg from '../../../assets/assignment.svg';
 
 const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
 
@@ -53,13 +53,14 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
 
         <div className='flex h-[50px] relative shadow-[0_4px_2px_-2px_rgba(0,0,0,0.3)] items-center'>
             <div>
-                <img src={AssignmentImg} className='w-[35px]' />
+                
             </div>
-            <div className='cursor-pointer '>
-                Assignment
+            <div className='cursor-pointer flex items-center p-4 ml-3'>
+              <img src={AssignmentImg} className='w-7 h-7' />
+               <h1 className="text-2xl  ml-2">Assignment</h1> 
             </div>
             <div className='absolute  right-5'>
-                <button className='bg-[#67abf0] text-white px-4 py-2 rounded-md hover:bg-[#5591d6] cursor-pointer'
+                <button className='bg-[#67abf0] text-white px-5 py-2 rounded-[3vw] hover:bg-[#5591d6] cursor-pointer'
                     onClick={handleAssign}
                 >
                     Assign

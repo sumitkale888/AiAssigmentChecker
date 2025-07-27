@@ -1,18 +1,21 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAssignmentCreateStatus } from '../../../shared/slices/sharedSlice';
-import useManualFetch from "../../../shared/hooks/useUploadFecth"
+import useManualFetch from "../../../shared/hooks/useUploadFecth";
 import { useParams } from 'react-router-dom';
-const AssignmentForm: React.FC = () => {
 
+const AssignmentForm: React.FC = () => {
   const dispatch = useDispatch();
-  const {assignment_id}=useParams()
+  const { assignment_id } = useParams();
   const assignmentCreateStatus = useSelector((state: any) => state.shared.assignmentCreateStatus);
-  const uploadState = useSelector((state:any)=>state.shared.assignmentUploadHandle)
+  const uploadState = useSelector((state: any) => state.shared.assignmentUploadHandle);
 
   const [files, setFiles] = useState<FileList | null>(null);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [points, setPoints] = useState<string>('100');
+  const [dueDate, setDueDate] = useState<string>('');
+  const [topic, setTopic] = useState<string>('');
 
   const { execute, data, status, error } = useManualFetch();
 
@@ -22,7 +25,6 @@ const AssignmentForm: React.FC = () => {
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!files) return;
 
     const formData = new FormData();
@@ -30,83 +32,146 @@ const AssignmentForm: React.FC = () => {
       formData.append('files', file);
     });
 
-    // Optionally add title and description to FormData
     formData.append('title', title);
     formData.append('description', description);
+    formData.append('points', points);
+    formData.append('dueDate', dueDate);
+    formData.append('topic', topic);
 
     await execute(
       `http://localhost:3000/api/class/assignmentAttachments/${uploadState.assignment_id}`,
       'POST',
       formData,
-      true // isFormData
+      true
     );
-    return true 
+    return true;
   };
- useEffect(() => {
-  if (uploadState) {
-    const upload = async () => {
-      await handleUpload(new Event('submit') as unknown as React.FormEvent);
-    };
-    upload();
-  }
-}, [uploadState]);
+
+  useEffect(() => {
+    if (uploadState) {
+      const upload = async () => {
+        await handleUpload(new Event('submit') as unknown as React.FormEvent);
+      };
+      upload();
+    }
+  }, [uploadState]);
 
   return (
-    <div>
-      <div className='flex flex-col items-center justify-center mt-10'>
-        <form className='w-full max-w-lg' onSubmit={handleUpload}>
-          <div className='mb-4'>
-            <input
-              type='text'
-              id='title'
-              placeholder='Enter assignment title'
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              value={title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-                dispatch(updateAssignmentCreateStatus({
-                  title: e.target.value,
-                  description: assignmentCreateStatus.description,
-                  evaluation_guideline: assignmentCreateStatus.evaluation_guideline,
-                  points: assignmentCreateStatus.points
-                }));
-              }}
-            />
-          </div>
-
-          <div>
-            <textarea
-              id="description"
-              placeholder="Enter assignment description"
-              className="shadow appearance-none border rounded w-full h-[250px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              value={description}
-              onChange={(e) => {
-                setDescription(e.target.value);
-                dispatch(updateAssignmentCreateStatus({
-                  title: assignmentCreateStatus.title,
-                  description: e.target.value,
-                  evaluation_guideline: assignmentCreateStatus.evaluation_guideline,
-                  points: assignmentCreateStatus.points
-                }));
-              }}
-            />
-          </div>
-
-          <div className="mt-4">
-            <input type="file" multiple onChange={handleFileChange} />
-          </div>
-
-          <button
-            type="submit"
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-          >
-            {status === 'loading' ? 'Uploading...' : 'Upload Files'}
-          </button>
-
-          {status === 'error' && <p className="text-red-500">Error: {error?.message}</p>}
-          {status === 'success' && <p className="text-green-500">Success: {JSON.stringify(data)}</p>}
-        </form>
+    <div className="p-6 bg-white rounded-lg shadow-md max-w-3xl mx-auto">
+      
+      
+      {/* Title Section */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Title<span className="text-red-500">*</span>
+          <span className="text-xs text-gray-500 block">*Required</span>
+        </label>
+        <input
+          type="text"
+          id="title"
+          placeholder="Enter assignment title"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value);
+            dispatch(updateAssignmentCreateStatus({
+              title: e.target.value,
+              description: assignmentCreateStatus.description,
+              evaluation_guideline: assignmentCreateStatus.evaluation_guideline,
+              points: assignmentCreateStatus.points
+            }));
+          }}
+        />
       </div>
+
+      {/* Instructions Section */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Instructions
+          <span className="text-xs text-gray-500 block">(optional)</span>
+        </label>
+        <textarea
+          id="description"
+          placeholder="Enter assignment instructions"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 h-32"
+          value={description}
+          onChange={(e) => {
+            setDescription(e.target.value);
+            dispatch(updateAssignmentCreateStatus({
+              title: assignmentCreateStatus.title,
+              description: e.target.value,
+              evaluation_guideline: assignmentCreateStatus.evaluation_guideline,
+              points: assignmentCreateStatus.points
+            }));
+          }}
+        />
+      </div>
+
+      {/* File Upload Section */}
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Attach Files
+          <span className="text-xs text-gray-500 block">(optional)</span>
+        </label>
+        <input
+          type="file"
+          multiple
+          onChange={handleFileChange}
+          className="w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+        />
+      </div>
+
+      {/* Assignment Details Section */}
+      <div className="space-y-4">
+        <div className="flex items-center">
+          <span className="w-24 text-sm font-medium text-gray-700">For</span>
+          <select className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm">
+            <option>All students</option>
+          </select>
+        </div>
+
+        <div className="flex items-center">
+          <span className="w-24 text-sm font-medium text-gray-700">Points</span>
+          <input
+            type="text"
+            value={points}
+            onChange={(e) => setPoints(e.target.value)}
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+          />
+        </div>
+
+        <div className="flex items-center">
+          <span className="w-24 text-sm font-medium text-gray-700">Due</span>
+          <input
+            type="date"
+            value={dueDate}
+            onChange={(e) => setDueDate(e.target.value)}
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+          />
+        </div>
+
+        <div className="flex items-center">
+          <span className="w-24 text-sm font-medium text-gray-700">Topic</span>
+          <select
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+          >
+            <option>No topic</option>
+          </select>
+        </div>
+
+        <div className="flex items-center">
+          <span className="w-24 text-sm font-medium text-gray-700">Rubric</span>
+          <button className="text-blue-500 text-sm flex items-center">
+            <span>+ Rubric</span>
+          </button>
+        </div>
+      </div>
+
+
+      {status === 'error' && <p className="text-red-500 mt-4">Error: {error?.message}</p>}
+      {status === 'success' && <p className="text-green-500 mt-4">Success: Assignment created!</p>}
     </div>
   );
 };
