@@ -21,7 +21,7 @@ const PeopleList: React.FC<UserListProps> = ({ users }) => {
                 users.map((user, index) => (
                     <div
                         key={index} // Using index as key, consider a unique ID if available in real data
-                        className="bg-white p-6 rounded-lg shadow-md border border-gray-200 flex items-center hover:shadow-lg transition-shadow duration-200"
+                        className="bg-white p-6 rounded-4xl shadow-md border border-gray-200 flex items-center hover:shadow-lg transition-shadow duration-200"
                     >
                         <img
                             src={user.url_dp}

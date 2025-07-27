@@ -30,7 +30,7 @@ const StudentAssigmentList: React.FC<AssignmentListProps> = ({ assignments }) =>
                 assignments.map((assignment) => (
                     <div
                         key={assignment.assignment_id}
-                        className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+                        className="bg-white p-6 rounded-4xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200 cursor-pointer"
                         onClick={() => navigate(`/student/class/${class_id}/assignment/${assignment.assignment_id}`)}
                     >
                         <div className="flex justify-between items-start mb-2">
