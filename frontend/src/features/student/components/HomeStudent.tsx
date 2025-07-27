@@ -18,7 +18,7 @@ const HomeStudent = () => {
     <div>
       <div>
         <button
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 m-2.5"
+          className="flex items-center gap-2 px-6 py-3 bg-blue-500 text-white rounded-[70px] hover:bg-blue-700 m-4"
           onClick={() => setShowModal(true)}
         >
           Join Class
