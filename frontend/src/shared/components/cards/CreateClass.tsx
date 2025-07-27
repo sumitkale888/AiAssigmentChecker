@@ -33,7 +33,7 @@ const CreateClass = ({ onSuccess, onClose }: CreateClassProps) => {
     };
 
     return (
-        <div className="fixed inset-0  flex justify-center items-center p-4 z-50">
+        <div className="fixed inset-0  flex justify-center items-center p-4 z-50 ">
             <form
                 onSubmit={handleSubmit}
                 className="flex flex-col gap-5 p-8 bg-white rounded-xl shadow-2xl w-full max-w-md border border-gray-200"

@@ -34,7 +34,7 @@ const PageList = () => {
     ];
 
     return (
-        <div className="w-64 p-4 bg-white rounded-lg shadow-lg flex flex-col min-h-screen">
+        <div className="w-75 p-4 flex flex-col min-h-screen ">
             {/* Main content area that will grow and push the logout down */}
             <div className="flex-grow">
                 {pageList.map((item) => (
@@ -45,14 +45,14 @@ const PageList = () => {
                             flex items-center gap-5 p-3 rounded-[70px] cursor-pointer mb-2
                             transition-colors duration-200 ease-in-out
                             ${activePage === item.item_name
-                                ? 'bg-blue-600 text-white font-semibold shadow-inner'
+                                ? 'bg-blue-500 text-white font-semibold shadow-inner'
                                 : 'text-gray-700 hover:bg-blue-50 hover:text-blue-700'
                             }
                         `}
                     >
                         <img
                             src={item.item_img}
-                            className={`w-5 h-5 ${activePage === item.item_name ? 'filter brightness-0 invert' : ''}`}
+                            className={`w-7 h-7 ${activePage === item.item_name ? 'filter brightness-0 invert' : ''}`}
                             alt={item.item_name}
                         />
                         <span className="text-sm md:text-base">{item.item_name}</span>
@@ -66,7 +66,7 @@ const PageList = () => {
                     onClick={handleLogoClick} 
                     className='cursor-pointer flex items-center gap-3 p-3 rounded-[70px] transition-colors duration-200 ease-in-out hover:bg-red-50 hover:text-red-700'
                 >
-                    <h1 className='text-red-500 font-semibold text-xl'>Logout</h1>
+                    <h1 className='text-red-500 font-semibold text-xl px-8'>Logout</h1>
                     <img src={MenuImg} className='w-6 h-6' alt="Logout" />
                 </div>
             </div>
