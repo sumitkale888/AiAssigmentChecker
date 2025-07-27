@@ -40,9 +40,9 @@ const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) 
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden w-full max-w-4xl ml-[15px]">
 
             {/* Class Banner */}
-            <div className="relative h-48 bg-blue-600 flex items-end justify-between p-6 rounded-t-lg"
+            <div className="relative h-48 bg-blue-600 flex items-end justify-between p-6 rounded-t-[70px]"
                  >
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 rounded-t-lg"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 rounded-t-[70px]"></div>
                 {/* <h1 className="text-white text-3xl font-bold relative z-10">{classInfo.class_name}</h1> */}
                 <button className="bg-white text-blue-700 px-4 py-2 rounded-full shadow-md hover:bg-gray-100 transition-colors duration-200 relative z-10 flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
