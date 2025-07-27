@@ -13,9 +13,6 @@ const AssignmentForm: React.FC = () => {
   const [files, setFiles] = useState<FileList | null>(null);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [points, setPoints] = useState<string>('100');
-  const [dueDate, setDueDate] = useState<string>('');
-  const [topic, setTopic] = useState<string>('');
 
   const { execute, data, status, error } = useManualFetch();
 
@@ -34,9 +31,8 @@ const AssignmentForm: React.FC = () => {
 
     formData.append('title', title);
     formData.append('description', description);
-    formData.append('points', points);
-    formData.append('dueDate', dueDate);
-    formData.append('topic', topic);
+    formData.append('points', assignmentCreateStatus.points.toString());
+    formData.append('evaluation_guideline', assignmentCreateStatus.evaluation_guideline || '');
 
     await execute(
       `http://localhost:3000/api/class/assignmentAttachments/${uploadState.assignment_id}`,
@@ -57,121 +53,76 @@ const AssignmentForm: React.FC = () => {
   }, [uploadState]);
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md max-w-3xl mx-auto">
-      
-      
-      {/* Title Section */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Title<span className="text-red-500">*</span>
-          <span className="text-xs text-gray-500 block">*Required</span>
-        </label>
-        <input
-          type="text"
-          id="title"
-          placeholder="Enter assignment title"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-            dispatch(updateAssignmentCreateStatus({
-              title: e.target.value,
-              description: assignmentCreateStatus.description,
-              evaluation_guideline: assignmentCreateStatus.evaluation_guideline,
-              points: assignmentCreateStatus.points
-            }));
-          }}
-        />
-      </div>
-
-      {/* Instructions Section */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Instructions
-          <span className="text-xs text-gray-500 block">(optional)</span>
-        </label>
-        <textarea
-          id="description"
-          placeholder="Enter assignment instructions"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 h-32"
-          value={description}
-          onChange={(e) => {
-            setDescription(e.target.value);
-            dispatch(updateAssignmentCreateStatus({
-              title: assignmentCreateStatus.title,
-              description: e.target.value,
-              evaluation_guideline: assignmentCreateStatus.evaluation_guideline,
-              points: assignmentCreateStatus.points
-            }));
-          }}
-        />
-      </div>
-
-      {/* File Upload Section */}
-      <div className="mb-6">
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          Attach Files
-          <span className="text-xs text-gray-500 block">(optional)</span>
-        </label>
-        <input
-          type="file"
-          multiple
-          onChange={handleFileChange}
-          className="w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-        />
-      </div>
-
-      {/* Assignment Details Section */}
-      <div className="space-y-4">
-        <div className="flex items-center">
-          <span className="w-24 text-sm font-medium text-gray-700">For</span>
-          <select className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm">
-            <option>All students</option>
-          </select>
-        </div>
-
-        <div className="flex items-center">
-          <span className="w-24 text-sm font-medium text-gray-700">Points</span>
+    <div className="flex-1 p-6 bg-gray-200"> {/* Changed to bg-gray-50 for a light gray background */}
+      <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-sm"> {/* Added white container with shadow */}
+        <h1 className="text-2xl font-medium text-gray-800 mb-6">Assignment</h1>
+        
+        {/* Title Section */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-1">
+            <label className="block text-sm font-medium text-gray-700">
+              Title<span className="text-red-500 ml-1">*</span>
+            </label>
+            <span className="text-xs text-gray-500">*Required</span>
+          </div>
           <input
             type="text"
-            value={points}
-            onChange={(e) => setPoints(e.target.value)}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+            id="title"
+            placeholder="Title"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            value={title}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              dispatch(updateAssignmentCreateStatus({
+                ...assignmentCreateStatus,
+                title: e.target.value
+              }));
+            }}
           />
         </div>
 
-        <div className="flex items-center">
-          <span className="w-24 text-sm font-medium text-gray-700">Due</span>
-          <input
-            type="date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
+        {/* Instructions Section */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Instructions
+            <span className="text-xs text-gray-500 ml-2">(optional)</span>
+          </label>
+          <textarea
+            id="description"
+            placeholder="Instructions"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[150px]"
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+              dispatch(updateAssignmentCreateStatus({
+                ...assignmentCreateStatus,
+                description: e.target.value
+              }));
+            }}
           />
         </div>
 
-        <div className="flex items-center">
-          <span className="w-24 text-sm font-medium text-gray-700">Topic</span>
-          <select
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-sm"
-          >
-            <option>No topic</option>
-          </select>
+        
+
+        {/* File Input */}
+        <div className="mb-6">
+          <input 
+            type="file" 
+            multiple 
+            onChange={handleFileChange}
+            className="block w-full text-sm text-gray-500
+              file:mr-4 file:py-2 file:px-4
+              file:rounded-md file:border-0
+              file:text-sm file:font-semibold
+              file:bg-blue-50 file:text-blue-700
+              hover:file:bg-blue-100"
+          />
         </div>
 
-        <div className="flex items-center">
-          <span className="w-24 text-sm font-medium text-gray-700">Rubric</span>
-          <button className="text-blue-500 text-sm flex items-center">
-            <span>+ Rubric</span>
-          </button>
-        </div>
+        
+        {status === 'error' && <p className="text-red-500 mt-4">Error: {error?.message}</p>}
+        {status === 'success' && <p className="text-green-500 mt-4">Success: Assignment created!</p>}
       </div>
-
-
-      {status === 'error' && <p className="text-red-500 mt-4">Error: {error?.message}</p>}
-      {status === 'success' && <p className="text-green-500 mt-4">Success: Assignment created!</p>}
     </div>
   );
 };

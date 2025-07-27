@@ -51,7 +51,7 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
 
     return (
 
-        <div className='flex h-[50px] relative shadow-[0_4px_2px_-2px_rgba(0,0,0,0.3)] items-center'>
+        <div className='flex h-[70px] relative  border-b border-gray-200 items-center'>
             <div>
                 
             </div>
@@ -60,7 +60,7 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
                <h1 className="text-2xl  ml-2">Assignment</h1> 
             </div>
             <div className='absolute  right-5'>
-                <button className='bg-[#67abf0] text-white px-5 py-2 rounded-[3vw] hover:bg-[#5591d6] cursor-pointer'
+                <button className='bg-blue-500 text-white px-5 py-2 rounded-[3vw] hover:bg-blue-700 cursor-pointer'
                     onClick={handleAssign}
                 >
                     Assign
