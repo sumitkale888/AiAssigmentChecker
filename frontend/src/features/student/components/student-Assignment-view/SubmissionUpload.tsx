@@ -1,18 +1,21 @@
 import useFetch from "../../../../shared/hooks/UseFetch";
-import { useParams } from "react-router-dom";
+import { useParams ,useNavigate} from "react-router-dom";
 import useUploadFetch from "../../../../shared/hooks/useUploadFecth";
 import React, { useState } from "react";
 
 const SubmissionUpload: React.FC = () => {
-    const { assignment_id } = useParams()
+    const navigate = useNavigate();
+    const { assignment_id,class_id } = useParams()
     const [files, setFiles] = useState<FileList | null>(null);
     const {
         data: dataSubmission,
         error: errorSubmission,
-        status: statusSubmission } = useFetch({
-            method: "GET",
-            url: `http://localhost:3000/api/student/class/assignment/${assignment_id}/submissions`
-        });
+        status: statusSubmission,
+        refetch
+    } = useFetch({
+        method: "GET",
+        url: `http://localhost:3000/api/student/class/assignment/${assignment_id}/submissions`
+    });
 
     const { execute, data, status, error } = useUploadFetch();
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +38,8 @@ const SubmissionUpload: React.FC = () => {
             'POST',
             formData,
         );
+        refetch()
+
     };
 
 
@@ -44,12 +49,12 @@ const SubmissionUpload: React.FC = () => {
                 submission Display
                 {JSON.stringify(dataSubmission)}
             </div>
-              <form className='w-full max-w-lg' onSubmit={handleUpload}>
+              <form className='w-full max-w-lg' onSubmit={handleUpload} encType="multipart/form-data">
      
              
       
                 <div className="mt-4">
-                  <input type="file" multiple onChange={handleFileChange} />
+                  <input type="file" name="files" multiple onChange={handleFileChange} />
                 </div>
       
                 <button
@@ -62,6 +67,12 @@ const SubmissionUpload: React.FC = () => {
                 {status === 'error' && <p className="text-red-500">Error: {error?.message}</p>}
                 {status === 'success' && <p className="text-green-500">Success: {JSON.stringify(data)}</p>}
               </form>
+
+              <div>
+                <button onClick={()=>{navigate(`/student/class/${class_id}`)}}>
+                    Submit
+                </button>
+              </div>
         </div>
 
     )

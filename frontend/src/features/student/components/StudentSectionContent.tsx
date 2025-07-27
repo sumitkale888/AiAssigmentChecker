@@ -39,7 +39,7 @@ const StudentSectionContent: React.FC<{ class_id: string | undefined }> = ({ cla
                     <div>
                         {data && data.length > 0 ? (
                             data.map((assignment: any) => (
-                                <div className='mb-4 cursor-pointer' key={assignment.assignment_id} onClick={() => navigate(`/student/assignment/${assignment.assignment_id}`)}>
+                                <div className='mb-4 cursor-pointer' key={assignment.assignment_id} onClick={() => navigate(`/student/class/${class_id}/assignment/${assignment.assignment_id}`)}>
                                     <AssignmentPost key={assignment.assignment_id} assignment={assignment} />
                                 </div>
                             ))

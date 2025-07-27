@@ -34,7 +34,7 @@ function App() {
 
         <Route path="/student" element={<DashboardPageStudent/>}></Route>
         <Route path="/student/class/:class_id" element={<DashboardStudentClassPage/>}></Route>
-        <Route path="/student/assignment/:assignment_id" element={<PageAssignmentView/>}></Route>
+        <Route path="/student/class/:class_id/assignment/:assignment_id" element={<PageAssignmentView/>}></Route>
       </Routes>
     </BrowserRouter>
   

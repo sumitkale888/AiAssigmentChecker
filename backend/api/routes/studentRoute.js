@@ -26,10 +26,11 @@ router.get("/class/assignment/:assignment_id/submissions",handleGetSubmissionsBy
 router.get('/class/students/:class_id',handleGetStudentsByClass_id)
 
 //////////////////POST ROUTES/////////////////////////
+const uploadMiddleware = require('../services/myMulter');
 
 const {handleSubmissionUpload}  = require("../controller/classController")
 const {handleJointClassByJoiningID} =require("../controller/studentController")
 router.post("/class/join",handleJointClassByJoiningID)
-router.post("/class/assignment/:assignment_id/submissions",handleSubmissionUpload)
+router.post("/class/assignment/:assignment_id/submissions", uploadMiddleware.array('files', 10),handleSubmissionUpload)
 
 module.exports = router;

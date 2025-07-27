@@ -1,31 +1,32 @@
 import { useState } from "react";
 
-const useUploadFetch = <T = unknown>() => {
-  const [data, setData] = useState<T | null>(null);
+const useUploadFetch = () => {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [error, setError] = useState<Error | null>(null);
+  const [data, setData] = useState<any>(null);
+  const [error, setError] = useState<any>(null);
 
-  const execute = async (url: string, method: string, body?: unknown, isFormData = false) => {
+  const execute = async (url: string, method: string, body: FormData) => {
     setStatus('loading');
+    setError(null);
+
     try {
-      const res = await fetch(url, {
+      const response = await fetch(url, {
         method,
-        credentials: 'include',
-        headers: isFormData
-          ? undefined // Let the browser set Content-Type when using FormData
-          : { 'Content-Type': 'application/json' },
-        body: isFormData ? (body as FormData) : body ? JSON.stringify(body) : undefined,
+        body,
+        credentials: 'include', // ✅ Don't set Content-Type manually
+        // headers: { 'Content-Type': 'multipart/form-data' } ❌ DO NOT DO THIS
       });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Upload failed');
       }
 
-      const result = await res.json();
       setData(result);
       setStatus('success');
-    } catch (err) {
-      setError(err as Error);
+    } catch (err: any) {
+      setError(err);
       setStatus('error');
     }
   };

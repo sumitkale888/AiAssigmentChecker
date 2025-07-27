@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 // Interface for a single assignment object
 interface Assignment {
     assignment_id: number;
@@ -18,6 +19,7 @@ interface AssignmentListProps {
 
 // AssignmentList component to display a list of assignments
 const StudentAssigmentList: React.FC<AssignmentListProps> = ({ assignments }) => {
+    const {class_id}= useParams()
     const navigate = useNavigate();
     return (
         <div className="space-y-4 p-4  rounded-lg ">
@@ -29,7 +31,7 @@ const StudentAssigmentList: React.FC<AssignmentListProps> = ({ assignments }) =>
                     <div
                         key={assignment.assignment_id}
                         className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200 cursor-pointer"
-                        onClick={() => navigate(`/student/assignment/${assignment.assignment_id}`)}
+                        onClick={() => navigate(`/student/class/${class_id}/assignment/${assignment.assignment_id}`)}
                     >
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="text-xl font-semibold text-blue-700">{assignment.title}</h3>

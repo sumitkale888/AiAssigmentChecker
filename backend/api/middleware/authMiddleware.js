@@ -4,7 +4,7 @@ function authMiddleware(cookieName) {
   return (req, res, next) => {
     const token = req.cookies[cookieName];
     if (!token) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(402).json({ error: 'Unauthorized' });
     }
    try{
      const payload = verifyToken(token);
