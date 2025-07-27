@@ -1,51 +1,63 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useFetch from '../../../../shared/hooks/UseFetch';
 
-const App = () => {
-  const [students] = useState([
-    {
-      id: 1,
-      firstName: 'Pruthviraj',
-      lastName: 'Gawande',
-      email: 'pruthviraj.gawande@example.com',
-      dpUrl: 'public/img/user_photo',
-    },
-    {
-      id: 2,
-      firstName: 'kruthviraj',
-      lastName: 'Gawande',
-      email: 'pruthviraj.gawande@example.com',
-      dpUrl: 'public/img/user_photo',
-    },
-  ]);
+interface Student {
+  student_id: number;
+  first_name: string;
+  last_name: string;
+}
 
-  const [assignments] = useState([
-    { id: 101, title: 'fgf', dueDate: 'No due date', points: 100 },
-    { id: 102, title: 'bbfgb', dueDate: 'No due date', points: 100 },
-  ]);
+interface Assignment {
+  assignment_id: number;
+  title: string;
+  deadline: string | null;
+  points: number;
+}
 
-  const [grades] = useState([
-    { studentId: 1, assignmentId: 101, obtainedGrade: 54, status: 'Draft' },
-    { studentId: 1, assignmentId: 102, obtainedGrade: 0, status: 'Draft' },
-  ]);
+interface Grade {
+  student_id: number;
+  assignment_id: number;
+  obtained_grade: number | null;
+  status: string;
+}
 
-  const getGrade = (studentId, assignmentId) => {
+interface Gradebook {
+  students: Student[];
+  assignments: Assignment[];
+  grades: Grade[];
+}
+
+const AssignmentSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
+  const { data: rawData, error, status } = useFetch<any>({
+    method: "GET",
+    url: `http://localhost:3000/api/teacher/class/submissions/${class_id}`
+  });
+
+  const data: Gradebook | undefined = rawData?.[0]?.gradebook_json;
+
+  if (status === 'loading') return <p className="p-4">Loading...</p>;
+  if (status === 'error' || !data) return <p className="p-4 text-red-500">Error loading data</p>;
+
+  const { students, assignments, grades } = data;
+
+  const getGrade = (studentId: number, assignmentId: number) => {
     return grades.find(
-      (g) => g.studentId === studentId && g.assignmentId === assignmentId
+      (g) => g.student_id === studentId && g.assignment_id === assignmentId
     ) || null;
   };
 
-  const calculateClassAverage = (assignmentId) => {
+  const calculateClassAverage = (assignmentId: number) => {
     const assignmentGrades = grades.filter(
-      (g) => g.assignmentId === assignmentId && g.obtainedGrade !== null
+      (g) => g.assignment_id === assignmentId && g.obtained_grade !== null
     );
     if (assignmentGrades.length === 0) return '-';
-    const total = assignmentGrades.reduce((sum, g) => sum + g.obtainedGrade, 0);
+    const total = assignmentGrades.reduce((sum, g) => sum + (g.obtained_grade || 0), 0);
     return (total / assignmentGrades.length).toFixed(0);
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 flex justify-center">
-      <div className="w-full max-w-6xl bg-white rounded-lg shadow">
+    <div className="min-h-screen  p-4  overflow-x-auto">
+      <div className="w-full max-w-6xl bg-white rounded-lg shadow min-w-[800px]">
         
         {/* Header */}
         <div className="grid grid-cols-[260px_repeat(auto-fit,minmax(140px,1fr))] items-start p-4 border-b border-gray-200 bg-white">
@@ -64,17 +76,17 @@ const App = () => {
           </div>
 
           {assignments.map((assignment) => (
-            <div key={assignment.id} className="text-center space-y-1">
-              <p className="text-xs text-gray-500">{assignment.dueDate}</p>
+            <div key={assignment.assignment_id} className="text-center space-y-1">
+              <p className="text-xs text-gray-500">
+                {assignment.deadline || 'No due date'}
+              </p>
               <a href="#" className="text-blue-600 font-medium text-sm hover:underline">
                 {assignment.title}
               </a>
               <p className="text-xs text-gray-500">out of {assignment.points}</p>
               <div className="flex justify-center">
                 <button className="text-gray-400 hover:text-gray-600">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
-                  </svg>
+
                 </button>
               </div>
             </div>
@@ -95,8 +107,8 @@ const App = () => {
             Class average
           </div>
           {assignments.map((assignment) => (
-            <div key={`avg-${assignment.id}`} className="text-center font-semibold text-gray-800">
-              {calculateClassAverage(assignment.id)}
+            <div key={`avg-${assignment.assignment_id}`} className="text-center font-semibold text-gray-800">
+              {calculateClassAverage(assignment.assignment_id)}
             </div>
           ))}
         </div>
@@ -104,27 +116,27 @@ const App = () => {
         {/* Student Rows */}
         {students.map((student) => (
           <div
-            key={student.id}
+            key={student.student_id}
             className="grid grid-cols-[260px_repeat(auto-fit,minmax(140px,1fr))] items-center p-4 border-b border-gray-100 hover:bg-gray-50"
           >
-            <div className="flex items-center space-x-3">
-              <div className="h-10 w-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
-                {student.firstName.charAt(0)}
+            <div className="flex items-center space-x-3" onClick={() => console.log(`Selected student: ${student.first_name} ${student.last_name}`)}>
+              <div className="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
+                {student.first_name.charAt(0)}
               </div>
-              <span className="text-sm font-medium text-gray-900">
-                {student.firstName} {student.lastName}
+              <span className="text-sm font-medium text-gray-900 underline cursor-pointer hover:text-blue-600">
+                {student.first_name} {student.last_name}
               </span>
             </div>
 
             {assignments.map((assignment) => {
-              const grade = getGrade(student.id, assignment.id);
+              const grade = getGrade(student.student_id, assignment.assignment_id);
               return (
-                <div key={`${student.id}-${assignment.id}`} className="text-center space-y-0.5">
-                  <p className="text-green-600 font-semibold text-sm">
-                    {grade ? grade.obtainedGrade : '-'}
+                <div key={`${student.student_id}-${assignment.assignment_id}`} className="text-center space-y-0.5">
+                  <p className={`text-sm font-semibold ${grade?.obtained_grade ? 'text-green-600' : 'text-gray-600'}`}>
+                    {grade?.obtained_grade ?? '-'}
                   </p>
                   <p className="text-xs text-gray-500 italic">
-                    {grade ? grade.status : 'Not submitted'}
+                    {grade?.status ?? 'Not Submitted'}
                   </p>
                 </div>
               );
@@ -136,4 +148,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default AssignmentSubmission;

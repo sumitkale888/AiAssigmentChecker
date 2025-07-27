@@ -1,5 +1,5 @@
-const {pool} = require('./database')
-const Redis= require('ioredis')
+const { pool } = require('./database')
+const Redis = require('ioredis')
 ///////////////////////// CREATE MODELS //////////////////////
 createClass = async (classData, res) => {
   const {
@@ -32,9 +32,9 @@ createClass = async (classData, res) => {
     subject ?? null,
     room ?? null,
     description ?? null,
-    joining_code,              
+    joining_code,
     uploaded_photo_url ?? null,
-    teacher_id                
+    teacher_id
   ];
 
   try {
@@ -52,7 +52,7 @@ studentClass = async (classData, res) => {
   if (!class_id || !student_id) {
     return res.status(400).json({ error: 'Class ID and Student ID are required' });
   }
-  
+
 
   const query = `
     INSERT INTO class_students (class_id, student_id)
@@ -71,7 +71,7 @@ studentClass = async (classData, res) => {
   }
 };
 
-joinClass = async(joining_code, student_id) => {
+joinClass = async (joining_code, student_id) => {
   // Find class_id from joining_code
   const classQuery = `
     SELECT class_id FROM classes WHERE joining_code = $1
@@ -100,7 +100,7 @@ joinClass = async(joining_code, student_id) => {
 };
 
 submissionUpload = async (fileData) => {
-  const {file_link,file_original_name,student_id,assignment_id} = fileData;
+  const { file_link, file_original_name, student_id, assignment_id } = fileData;
 
   const query = `
     INSERT INTO submissions (
@@ -127,14 +127,14 @@ submissionUpload = async (fileData) => {
 
 createAssigment = async (assignmentData) => {
   const {
-  deadline,
-  evalution_guideline,
-  title,
-  description,
-  points,
-  class_id,
+    deadline,
+    evalution_guideline,
+    title,
+    description,
+    points,
+    class_id,
   } = assignmentData;
-    if (!class_id && !title) {
+  if (!class_id && !title) {
     throw new Error('Class ID and Title are required');
   }
 
@@ -148,7 +148,7 @@ createAssigment = async (assignmentData) => {
   const values = [
     deadline ?? null,
     evalution_guideline ?? null,
-    title ,
+    title,
     description ?? null,
     points ?? null,
     class_id
@@ -164,7 +164,7 @@ createAssigment = async (assignmentData) => {
 };
 
 createAssignments_attachments = async (attachmentData) => {
-  const {file_link, file_original_name,assignment_id} = attachmentData;
+  const { file_link, file_original_name, assignment_id } = attachmentData;
 
   const query = `
     INSERT INTO assignments_attachments (
@@ -229,7 +229,7 @@ createGrade = async (evaluationData) => {
 
 ///////////////////////////GET MODLELS///////////////////////////
 
-getClassByTeacher_id = async (teacher_id)=>{
+getClassByTeacher_id = async (teacher_id) => {
   const query = `
     SELECT * FROM classes WHERE teacher_id = $1
   `;
@@ -285,7 +285,7 @@ getAssignments_attachmentsByAssignment_id = async (assignment_id) => {
     throw error;
   }
 }
-getAssignmentInfoByAssignment_id = async(assignment_id)=> {
+getAssignmentInfoByAssignment_id = async (assignment_id) => {
   const query = `
     SELECT * FROM assignments WHERE assignment_id = $1
   `;
@@ -342,7 +342,7 @@ getGradesByAssignment_id = async (assignment_id) => {
 }
 
 
-getSubmissionAndEvaluation = async(submission_id)=>{
+getSubmissionAndEvaluation = async (submission_id) => {
   const query = `
 SELECT file_link,student_id,submission_id,evaluation_guideline
 FROM submissions
@@ -350,18 +350,69 @@ INNER JOIN assignments ON submissions.assignment_id = assignments.assignment_id
 WHERE submissions.submission_id = $1
   `
 
-  try{
-    const result = await pool.query(query,[submission_id]);
+  try {
+    const result = await pool.query(query, [submission_id]);
     console.log(result.rows)
     return result.rows;
 
-  }catch(error){
-        console.error('Error  getSubmissionAndEvaluation:', error);
+  } catch (error) {
+    console.error('Error  getSubmissionAndEvaluation:', error);
     throw error;
   }
-  
+
 }
 
+getJsonBuildObjectSubmission = async (class_id) => {
+  const query = `
+WITH student_list AS (
+  SELECT s.student_id, s.first_name, s.last_name
+  FROM students s
+  JOIN class_students cs ON cs.student_id = s.student_id
+  WHERE cs.class_id = $1
+),
+assignment_list AS (
+  SELECT a.assignment_id, a.title, a.deadline, a.points
+  FROM assignments a
+  WHERE a.class_id = $1
+),
+grade_data AS (
+  SELECT 
+    s.student_id,
+    a.assignment_id,
+    g.obtained_grade,
+    CASE 
+      WHEN g.obtained_grade IS NOT NULL THEN 'Submitted'
+      WHEN sub.submission_id IS NOT NULL THEN 'Pending Grade'
+      ELSE 'Not Submitted'
+    END AS status
+  FROM student_list s
+  CROSS JOIN assignment_list a
+  LEFT JOIN submissions sub 
+    ON sub.assignment_id = a.assignment_id AND sub.student_id = s.student_id
+  LEFT JOIN grades g 
+    ON g.submission_id = sub.submission_id
+)
+
+-- 🧾 Final JSON Structure
+SELECT json_build_object(
+  'students', (SELECT json_agg(student_list) FROM student_list),
+  'assignments', (SELECT json_agg(assignment_list) FROM assignment_list),
+  'grades', (SELECT json_agg(grade_data) FROM grade_data)
+) AS gradebook_json
+  `
+
+  try {
+    const result = await pool.query(query, [class_id]);
+    console.log(result.rows)
+    return result.rows;
+
+  } catch (error) {
+    console.error('Error  getSubmissionAndEvaluation:', error);
+    throw error;
+  }
+
+
+};
 
 module.exports = {
   createClass,
@@ -380,7 +431,8 @@ module.exports = {
   getSubmissionsByAssignment_id,
   getGradesByAssignment_id,
   getGradesByStudent_id,
-  getSubmissionAndEvaluation
+  getSubmissionAndEvaluation,
+  getJsonBuildObjectSubmission
 
 };
 

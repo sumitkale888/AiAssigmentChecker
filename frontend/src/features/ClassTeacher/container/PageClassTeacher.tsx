@@ -20,7 +20,7 @@ const PageClassTeacher: React.FC<{ class_id: string }> = ({ class_id }) => {
             ) : currentTab === "People" ? (
                 <ClassPeople class_id={String(class_id)} role={"teacher"}/>
             ) : currentTab === "Grades" ? (
-                <PageSubmission  />
+                <PageSubmission class_id={String(class_id)} />
             ) : null}
 
         </div>

@@ -1,10 +1,11 @@
 import React from 'react';
-import Test from "../components/assignment-submission-view/text"
-const PageSubmission: React.FC = () => {
+import AssigmnentSumission from "../components/assignment-submission-view/AssigmnentSumission"
+
+const PageSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
     return (
         <div>
-            <h1>Page Submission</h1>
-            <Test />
+          
+            <AssigmnentSumission class_id={class_id} />
             {/* Add your content here */}
         </div>
     );
