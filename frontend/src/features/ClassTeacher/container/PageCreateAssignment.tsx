@@ -13,7 +13,7 @@ const PageCreateAssignment:React.FC = ({})=>{
 
     </div>
   
-PageCreateAssignment
+
   </div>
     )
 

@@ -11,7 +11,7 @@ const PageClassStudent: React.FC<{ class_id: string }> = ({ class_id }) => {
     let currentTab = useSelector((state: any) => state.shared.tabStatus.activeTab);
     return (
         <div className="w-[1500px]">
-            <Tab list={[{ item_name: "Section" }, { item_name: "Classwork" }, { item_name: "People" },{ item_name: "Grades" }]} />
+            <Tab list={[{ item_name: "Section" }, { item_name: "Classwork" }, { item_name: "People" }]} />
 
             {currentTab === "Section" ? (
                 // <ClassSection class_id={String(class_id)} />
