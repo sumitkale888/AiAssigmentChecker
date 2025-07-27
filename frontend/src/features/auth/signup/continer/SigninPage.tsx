@@ -15,7 +15,7 @@ return (
   <>
     
 
-    <div className="max-w-md mx-auto my-50 space-y-4">
+    <div className=" my-50 space-y-4">
       {role === 'student' ? (
         <LoginForm
           role={'Student'}

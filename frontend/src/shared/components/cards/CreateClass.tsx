@@ -46,28 +46,28 @@ const CreateClass = ({ onSuccess, onClose }: CreateClassProps) => {
                     value={className}
                     onChange={(e) => setClassName(e.target.value)}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-[3vw] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-[3vw] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-gray-800 placeholder-gray-500"
                 />
                 <input
                     type="text"
                     placeholder="Section"
                     value={section}
                     onChange={(e) => setSection(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-[3vw] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-[3vw] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-gray-800 placeholder-gray-500"
                 />
                 <input
                     type="text"
                     placeholder="Subject"
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-[3vw] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-[3vw] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-gray-800 placeholder-gray-500"
                 />
                 <input
                     type="text"
                     placeholder="Room"
                     value={room}
                     onChange={(e) => setRoom(e.target.value)}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-[3vw] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-800 placeholder-gray-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-[3vw] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent text-gray-800 placeholder-gray-500"
                 />
 
                 <div className="flex justify-end gap-3 mt-4">
