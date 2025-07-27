@@ -26,7 +26,7 @@ const AssignmentList: React.FC<AssignmentListProps> = ({ assignments }) => {
                 assignments.map((assignment) => (
                     <div
                         key={assignment.assignment_id}
-                        className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200"
+                        className="bg-white p-6 rounded-4xl shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-200"
                     >
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="text-xl font-semibold text-blue-700">{assignment.title}</h3>

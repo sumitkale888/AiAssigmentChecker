@@ -25,7 +25,7 @@ const DashboardTeacherClassPage: React.FC = () => {
             <Header />
             <div className="flex ">
                 <PageList />
-                <PageClassTeacher class_id={String(class_id)} />
+                <PageClassTeacher class_id={String(class_id)}  />
             </div>
         </div>
     );
