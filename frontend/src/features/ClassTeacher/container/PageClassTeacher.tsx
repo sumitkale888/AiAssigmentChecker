@@ -2,6 +2,7 @@ import ClassSection from "../components/classSection"
 import ClassWork from "../components/ClassWork"
 import ClassPeople from "../components/ClassPeople"
 import Tab from "../components/Tab"
+import PageSubmission from "./PageSubmission"
 
 import { useDispatch, useSelector } from "react-redux"
 
@@ -19,6 +20,8 @@ const PageClassTeacher: React.FC<{ class_id: string }> = ({ class_id }) => {
             ) : currentTab === "People" ? (
                 // Render People component here
                 <ClassPeople class_id={String(class_id)} role={"teacher"}/>
+            ) : currentTab === "Grades" ? (
+                <PageSubmission  />
             ) : null}
 
         </div>
