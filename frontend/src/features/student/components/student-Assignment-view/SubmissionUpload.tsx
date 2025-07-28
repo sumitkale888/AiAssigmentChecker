@@ -7,11 +7,13 @@ const SubmissionUpload: React.FC = () => {
   const navigate = useNavigate();
     const { assignment_id,class_id } = useParams()
   const [files, setFiles] = useState<FileList | null>(null);
-  const {
-    data: dataSubmission,
-    error: errorSubmission,
-	@@ -18,64 +34,112 @@ const SubmissionUpload: React.FC = () => {
-  });
+const {
+  data: dataSubmission,
+  error: errorSubmission,
+  refetch,
+} = useFetch(
+  `http://localhost:3000/api/student/class/assignment/${assignment_id}/submissions`
+);
 
   const { execute, data, status, error } = useUploadFetch();
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
