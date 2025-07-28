@@ -1,6 +1,6 @@
 import React from 'react';
 import useFetch from '../../../../shared/hooks/UseFetch';
-
+import { useNavigate } from 'react-router-dom';
 interface Student {
   student_id: number;
   first_name: string;
@@ -28,6 +28,7 @@ interface Gradebook {
 }
 
 const AssignmentSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
+  const navigate = useNavigate();
   const { data: rawData, error, status } = useFetch<any>({
     method: "GET",
     url: `http://localhost:3000/api/teacher/class/submissions/${class_id}`
@@ -75,7 +76,7 @@ const AssignmentSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
             </div>
           </div>
 
-          {assignments.map((assignment) => (
+          {assignments &&  assignments.map((assignment) => (
             <div key={assignment.assignment_id} className="text-center space-y-1">
               <p className="text-xs text-gray-500">
                 {assignment.deadline || 'No due date'}
@@ -106,7 +107,7 @@ const AssignmentSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
             </svg>
             Class average
           </div>
-          {assignments.map((assignment) => (
+           { assignments &&  assignments.map((assignment) => (
             <div key={`avg-${assignment.assignment_id}`} className="text-center font-semibold text-gray-800">
               {calculateClassAverage(assignment.assignment_id)}
             </div>
@@ -114,12 +115,12 @@ const AssignmentSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
         </div>
 
         {/* Student Rows */}
-        {students.map((student) => (
+        {students &&  students.map((student) => (
           <div
             key={student.student_id}
             className="grid grid-cols-[260px_repeat(auto-fit,minmax(140px,1fr))] items-center p-4 border-b border-gray-100 hover:bg-gray-50"
           >
-            <div className="flex items-center space-x-3" onClick={() => console.log(`Selected student: ${student.first_name} ${student.last_name}`)}>
+            <div className="flex items-center space-x-3" onClick={() => navigate(`/teacher/class/${class_id}/student/${student.student_id}`)}>
               <div className="h-10 w-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
                 {student.first_name.charAt(0)}
               </div>
@@ -128,7 +129,7 @@ const AssignmentSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
               </span>
             </div>
 
-            {assignments.map((assignment) => {
+            {assignments &&  assignments.map((assignment) => {
               const grade = getGrade(student.student_id, assignment.assignment_id);
               return (
                 <div key={`${student.student_id}-${assignment.assignment_id}`} className="text-center space-y-0.5">
