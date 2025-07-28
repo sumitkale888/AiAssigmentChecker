@@ -407,11 +407,82 @@ SELECT json_build_object(
     return result.rows;
 
   } catch (error) {
-    console.error('Error  getSubmissionAndEvaluation:', error);
+    console.error('Error  getJsonBuildObjectSubmission:', error);
     throw error;
   }
 
 
+};
+
+
+
+
+getJsonBuildObjectStudentSubmission = async (class_id, student_id) => {
+  const query = `
+  SELECT
+    a.assignment_id,
+    a.title,
+    a.deadline AS dueDate,
+    a.description,
+    a.points,
+    c.class_name,
+    s.submission_id,
+    COUNT(aa.upload_id) AS attachmentCount,
+    CASE
+        WHEN COUNT(aa.upload_id) > 0 THEN TRUE
+        ELSE FALSE
+    END AS hasAttachment,
+    CASE
+        WHEN g.obtained_grade IS NOT NULL THEN
+            CAST(g.obtained_grade AS VARCHAR) || '/' || CAST(a.points AS VARCHAR)
+        WHEN s.submission_id IS NOT NULL THEN
+            'Submitted'
+        WHEN a.deadline IS NOT NULL AND a.deadline < CURRENT_TIMESTAMP THEN
+            'Overdue'
+        ELSE
+            'Assigned'
+    END AS status
+FROM
+    students AS st
+JOIN
+    class_students AS cs ON st.student_id = cs.student_id
+JOIN
+    classes AS c ON cs.class_id = c.class_id
+JOIN
+    assignments AS a ON c.class_id = a.class_id
+LEFT JOIN
+    assignments_attachments AS aa ON a.assignment_id = aa.assignment_id
+LEFT JOIN
+    submissions AS s ON a.assignment_id = s.assignment_id AND st.student_id = s.student_id
+LEFT JOIN
+    grades AS g ON s.submission_id = g.submission_id
+WHERE
+    st.student_id = $1
+    AND c.class_id = $2 -- <--- NEW: Filter by class_id
+GROUP BY
+    a.assignment_id,
+    a.title,
+    a.deadline,
+    a.description,
+    a.points,
+    c.class_name,
+    s.submission_id,
+    g.obtained_grade
+ORDER BY
+    a.deadline ASC NULLS LAST,
+    a.created_date DESC;
+  `;
+
+  try {
+    // Pass both student_id and class_id as parameters in the correct order
+    const result = await pool.query(query, [student_id, class_id]);
+    console.log(result.rows);
+    return result.rows;
+
+  } catch (error) {
+    console.error('Error getJsonBuildObjectStudentSubmission:', error);
+    throw error;
+  }
 };
 
 module.exports = {
@@ -432,7 +503,8 @@ module.exports = {
   getGradesByAssignment_id,
   getGradesByStudent_id,
   getSubmissionAndEvaluation,
-  getJsonBuildObjectSubmission
+  getJsonBuildObjectSubmission,
+  getJsonBuildObjectStudentSubmission
 
 };
 
