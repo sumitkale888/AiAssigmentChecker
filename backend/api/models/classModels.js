@@ -484,6 +484,39 @@ ORDER BY
     throw error;
   }
 };
+getJsonAssignmentCheckInfo = async (student_id, submission_id) => {
+  const query = `
+    SELECT 
+      g.grade_id,
+      g.obtained_grade,
+      g.feedback,
+      g.submission_id,
+      g.student_id AS grade_student_id,
+
+      s.submission_date,
+      s.file_link,
+      s.file_original_name,
+      s.student_id AS submission_student_id,
+      s.assignment_id,
+
+      st.first_name,
+      st.last_name
+
+    FROM grades g
+    JOIN submissions s ON g.submission_id = s.submission_id
+    JOIN students st ON s.student_id = st.student_id
+    WHERE s.student_id = $1 AND s.submission_id = $2
+  `;
+
+  try {
+    const result = await pool.query(query, [student_id, submission_id]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error getJsonAssignmentCheckInfo:', error);
+    throw error;
+  }
+};
+
 
 module.exports = {
   createClass,
@@ -504,7 +537,8 @@ module.exports = {
   getGradesByStudent_id,
   getSubmissionAndEvaluation,
   getJsonBuildObjectSubmission,
-  getJsonBuildObjectStudentSubmission
+  getJsonBuildObjectStudentSubmission,
+  getJsonAssignmentCheckInfo
 
 };
 

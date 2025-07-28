@@ -16,7 +16,7 @@ interface Assignment {
 }
 
 const StudentSubmission: React.FC<{ class_id: string|undefined; student_id: string |undefined}> = ({ class_id, student_id }) => {
-
+  const navigate = useNavigate();
   const {
     data: assignments,
     error,
@@ -86,7 +86,7 @@ const StudentSubmission: React.FC<{ class_id: string|undefined; student_id: stri
             <div
               key={assignment.assignment_id} // Unique key is important for list rendering
               className="flex items-center justify-between py-4 border-b border-gray-200 last:border-b-0  cursor-pointer hover:bg-gray-50 transition duration-200"
-              onClick={() => {}}
+              onClick={() => {navigate(`/teacher/student/${student_id}/submission/${assignment.submission_id}`)}}
             >
               <div>
                 <div className="flex items-center space-x-2">
