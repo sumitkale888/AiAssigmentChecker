@@ -112,6 +112,18 @@ getSubmissionsByAssigment_idAndStudent_id = async (student_id,assignmnet_id) => 
   }
 };
 
+getStudentByStudent_id = async (student_id) => {
+  const query = 'SELECT first_name , last_name FROM students WHERE student_id = $1';
+
+  try {
+    const result = await pool.query(query, [student_id]);
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error fetching student by ID:', error);
+    throw error;
+  }
+};
+
 
 
 
@@ -121,7 +133,8 @@ module.exports = {
   getClass_idByStudent_id,
   getStudentsByClass_id,
   getClassInfoByStudentId,
-  getSubmissionsByAssigment_idAndStudent_id
+  getSubmissionsByAssigment_idAndStudent_id,
+  getStudentByStudent_id
 
 
 }

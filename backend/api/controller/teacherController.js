@@ -28,7 +28,7 @@ handleGetClassByTeacher_id = async (req, res) => {
 
 /////////////////////////GET ROUTES/////////////////////////
 
-const { getStudentsByClass_id } = require("../models/studentModels")
+const { getStudentsByClass_id,getStudentByStudent_id } = require("../models/studentModels")
 const {getJsonBuildObjectSubmission,getJsonBuildObjectStudentSubmission} = require("../models/classModels")
 
 handleGetStudentsByClass_id = async (req, res) => {
@@ -43,6 +43,19 @@ handleGetStudentsByClass_id = async (req, res) => {
         res.json({ error: error })
     }
 
+}
+
+handleGetStudentByStudent_id = async (req, res) => {
+        const student_id = req.params.student_id;
+    try {
+        if (!student_id) {
+            return res.status(401).json({ error: 'student_id missing' });
+        }
+        const student = await getStudentByStudent_id(student_id);
+        res.json(student)
+    } catch (error) {
+        res.json({ error: error })
+    }
 }
 handleGetJsonBuildObjectSubmission = async (req, res) => {
     const class_id = req.params.class_id;
@@ -70,11 +83,13 @@ handleGetJsonBuildObjectStudentSubmission = async (req, res) => {
     }
 }
 
+
 module.exports = {
     handleCreateClass,
 
     handleGetStudentsByClass_id,
     handleGetJsonBuildObjectSubmission,
     handleGetClassByTeacher_id,
-    handleGetJsonBuildObjectStudentSubmission
+    handleGetJsonBuildObjectStudentSubmission,
+    handleGetStudentByStudent_id
 }

@@ -1,39 +1,45 @@
 import React from 'react';
-import useFetch from '../../../../shared/hooks/UseFetch'; // Adjust the path as needed
+import useFetch from '../../../../shared/hooks/UseFetch';
+import { useNavigate } from 'react-router-dom';
 
-// Define an interface for the assignment data, matching your SQL query output
 interface Assignment {
   assignment_id: number;
   title: string;
-  dueDate: string | null; // From TIMESTAMP, will be an ISO string if not null
+  dueDate: string | null;
   description: string;
   points: number | null;
   class_name: string;
-  submission_id: number | null; // Null if no submission
+  submission_id: number | null; 
   attachmentCount: number;
   hasAttachment: boolean;
   status: string;
 }
 
-const StudentSubmission: React.FC<{ class_id: number; student_id: number }> = ({ class_id, student_id }) => {
-  // --- IMPORTANT: Replace with the actual student ID ---
-  // In a real application, this would come from authentication context, URL params, etc.
-   // Example student ID
+const StudentSubmission: React.FC<{ class_id: string|undefined; student_id: string |undefined}> = ({ class_id, student_id }) => {
 
-  // Use your custom useFetch hook
   const {
-    data: assignments, // Rename 'data' to 'assignments' for clarity
+    data: assignments,
     error,
-    status, // 'idle' | 'loading' | 'success' | 'error'
-    refetch, // If you need to manually trigger a refetch, e.g., after an action
+    status, 
+    refetch,
   } = useFetch<Assignment[]>({
     method: 'GET',
-    // --- IMPORTANT: Replace with your actual backend API endpoint ---
+
     url: `http://localhost:3000/api/teacher/class/submissions/${class_id}/student/${student_id}`,
   });
   
+    const {
+    data: studentData,
+    error: studentError,
+    status: studentStatus,
+    refetch: studentRefetch,
+  } = useFetch<Assignment[]>({
+    method: 'GET',
+    // --- IMPORTANT: Replace with your actual backend API endpoint ---
+    url: `http://localhost:3000/api/teacher/student/${student_id}`,
+  });
 
-  const isLoading = status === 'loading' || status === 'idle'; // Consider 'idle' as loading initially
+  const isLoading = studentStatus === 'loading' || studentStatus === 'idle'; // Consider 'idle' as loading initially
   const isError = status === 'error';
   const isSuccess = status === 'success';
 
@@ -42,13 +48,13 @@ const StudentSubmission: React.FC<{ class_id: number; student_id: number }> = ({
       {/* Header Section */}
       <div className="flex items-center space-x-4 mb-8">
         <div className="w-16 h-16 bg-amber-900 rounded-full flex items-center justify-center">
-          <span className="text-white text-3xl font-bold">P</span>
+          <span className="text-white text-3xl font-bold">{studentData?.first_name.charAt(0)}{studentData?.last_name.charAt(0)  }</span>
         </div>
-        <h1 className="text-3xl font-semibold text-gray-800">Pruthviraj Gawande</h1>
+        <h1 className="text-3xl font-semibold text-gray-800">{studentData?.first_name} {studentData?.last_name}</h1>
       </div>
 
       {/* Dropdown Filter (can be made functional later with useState) */}
-      <div className="mb-8">
+      {/* <div className="mb-8">
         <select
           className="block w-64 px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-lg"
           defaultValue="All"
@@ -58,9 +64,8 @@ const StudentSubmission: React.FC<{ class_id: number; student_id: number }> = ({
           <option value="Submitted">Submitted</option>
           <option value="Graded">Graded</option>
           <option value="Overdue">Overdue</option>
-          {/* Add more options here based on your filtering needs */}
         </select>
-      </div>
+      </div> */}
 
       {/* Conditional Rendering based on hook status */}
       {isLoading && <p className="text-center text-gray-600 text-lg">Loading assignments...</p>}
@@ -80,7 +85,8 @@ const StudentSubmission: React.FC<{ class_id: number; student_id: number }> = ({
           {assignments.map((assignment) => (
             <div
               key={assignment.assignment_id} // Unique key is important for list rendering
-              className="flex items-center justify-between py-4 border-b border-gray-200 last:border-b-0"
+              className="flex items-center justify-between py-4 border-b border-gray-200 last:border-b-0  cursor-pointer hover:bg-gray-50 transition duration-200"
+              onClick={() => {}}
             >
               <div>
                 <div className="flex items-center space-x-2">
