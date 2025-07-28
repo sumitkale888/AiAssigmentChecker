@@ -13,7 +13,6 @@ interface AuthStatus {
         picture?: string; // Google profile image URL
         name?: string;
     };
-    // add other properties if needed
 }
 interface RootState {
     auth: { authStatus: AuthStatus };
@@ -39,8 +38,8 @@ const Header = ()=>{
                 <h1 className="text-2xl  ml-2">Classroom</h1> 
             </div>
 
-            <div className='absolute right-10 m-2.5'>
-                {authStatus.userData?.name || authStatus.user}
+            <div className='absolute right-15 m-2.5 margin-top-2 text-gray-800 font-semibold pt-2 '>
+                Hi! {authStatus.userData?.name || authStatus.user}
             </div>
 
             <div className="absolute right-0 m-2.5">

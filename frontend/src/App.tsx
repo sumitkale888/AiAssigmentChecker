@@ -9,6 +9,7 @@ import DashboardTeacherClassPage from './features/ClassTeacher/container/Dashboa
 import PageCreateAssignment from './features/ClassTeacher/container/PageCreateAssignment';
 import PageSubmission from './features/ClassTeacher/container/PageSubmission';
 import DashboardStudentSubmission from './features/ClassTeacher/container/DashboardStudentSubmission'
+import DashboardAssigmentCheck from './features/ClassTeacher/container/DashboardAssigmentCheck';
 
 import PageAssignmentView from "./features/student/containers/PageAssignmentView";
 import DashboardStudentClassPage from './features/student/containers/DashboardStudentClassPage';
@@ -32,6 +33,8 @@ function App() {
         <Route path="/teacher/class/:class_id/assignment/create" element={<PageCreateAssignment/>}></Route>
         <Route path="/teacher/class/:class_id/submission" element={<PageAssignmentView/>}></Route>
         <Route  path="/teacher/class/:class_id/student/:student_id" element={<DashboardStudentSubmission/>}></Route>
+        {/*  */}
+        <Route path="/teacher/student/:student_id/submission/:submission_id" element={<DashboardAssigmentCheck/>}></Route>
         {/* --------------STUDENTS ROUTES --------------------*/}
         {/* <Route path="/student" element={<DashboardPageStudent/>}></Route> */}
         {/* <Route path="/student" element={<DashboardPage/>}></Route> */}
