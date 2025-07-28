@@ -1,81 +1,78 @@
 import useFetch from "../../../../shared/hooks/UseFetch";
-import { useParams ,useNavigate} from "react-router-dom";
 import useUploadFetch from "../../../../shared/hooks/useUploadFecth";
 import React, { useState } from "react";
 
 const SubmissionUpload: React.FC = () => {
-    const navigate = useNavigate();
-    const { assignment_id,class_id } = useParams()
-    const [files, setFiles] = useState<FileList | null>(null);
-    const {
-        data: dataSubmission,
-        error: errorSubmission,
-        status: statusSubmission,
-        refetch
-    } = useFetch({
-        method: "GET",
-        url: `http://localhost:3000/api/student/class/assignment/${assignment_id}/submissions`
-    });
-
-    const { execute, data, status, error } = useUploadFetch();
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFiles(e.target.files);
-    };
-
-    const handleUpload = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!files) return;
-
-        const formData = new FormData();
-        Array.from(files).forEach((file) => {
-            formData.append('files', file);
-        });
 
 
-        await execute(
-            `http://localhost:3000/api/student/class/assignment/${assignment_id}/submissions`,
-            'POST',
-            formData,
-        );
-        refetch()
-
-    };
 
 
-    return (
-        <div>
-            <div>
-                submission Display
-                {JSON.stringify(dataSubmission)}
-            </div>
-              <form className='w-full max-w-lg' onSubmit={handleUpload} encType="multipart/form-data">
-     
-             
-      
-                <div className="mt-4">
-                  <input type="file" name="files" multiple onChange={handleFileChange} />
-                </div>
-      
-                <button
-                  type="submit"
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                  {status === 'loading' ? 'Uploading...' : 'Upload Files'}
-                </button>
-      
-                {status === 'error' && <p className="text-red-500">Error: {error?.message}</p>}
-                {status === 'success' && <p className="text-green-500">Success: {JSON.stringify(data)}</p>}
-              </form>
 
+
+
+
+
+
+      />
+
+      {selectedFile && (
+        <div className="mt-6 bg-white p-4 rounded-lg shadow w-full max-w-lg">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <img
+                src={
+                  selectedFile.name.endsWith(".pdf")
+                    ? pdfIcon
+                    : selectedFile.name.endsWith(".docx") || selectedFile.name.endsWith(".doc")
+                      ? wordIcon
+                      : selectedFile.name.endsWith(".pptx") || selectedFile.name.endsWith(".pptx")
+                        ? pptIcon
+                        : fileIcon
+                }
+                alt="File Icon"
+                className="w-12 h-12"
+              />
               <div>
-                <button onClick={()=>{navigate(`/student/class/${class_id}`)}}>
-                    Submit
-                </button>
+                <div className="w-full max-w-[200px] overflow-hidden">
+                  <p
+                    className="truncate text-sm text-gray-800"
+                    title={selectedFile.name} 
+                  >
+                    {selectedFile.name}
+                  </p>
+                </div>
+                <div>{getFileTypeLabel(selectedFile.type)}</div>
               </div>
+            </div>
+            <div>
+              <button
+                className="text-sm text-red-600 hover:underline"
+                onClick={() => setSelectedFile(null)}
+              >
+                Remove
+              </button>
+            </div>
+          </div>
         </div>
+      )}
+      <div className="mt-4 flex flex-row items-start gap-2">
+        <button
+          type="submit"
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          {status === 'loading' ? 'Uploading...' : 'Upload Files'}
+        </button>
+        <button
+          onClick={() => {
+            navigate(`/student/class/${class_id}`);
+          }}
+          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  );
 
-    )
 }
-
-export default SubmissionUpload; 
+export default SubmissionUpload;
