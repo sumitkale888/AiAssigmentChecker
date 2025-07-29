@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-import axios from 'axios';
 // import React, { useState } from 'react';
 // import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
@@ -16,7 +14,6 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
     const assignmentCreateStatus = useSelector((state: any) => state.shared.assignmentCreateStatus);
     const dispatch = useDispatch();
 
-    const { execute, data, status, error } = useManualFetch();
     const { execute,  error } = useManualFetch();
     if (error) {
         console.error('Error fetching data:', error);
@@ -35,7 +32,6 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
   };
 
   try {
-    const response = await execute('http://localhost:3000/api/class/assignment', 'POST', payload);
     const response:any = await execute('process.env.BACKEND_URL/class/assignment', 'POST', payload);
     
     if (!response) {

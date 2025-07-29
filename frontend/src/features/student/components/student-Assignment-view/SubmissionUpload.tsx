@@ -6,30 +6,6 @@ import React, { useState } from "react";
 const SubmissionUpload: React.FC = () => {
   const navigate = useNavigate();
     const { assignment_id,class_id } = useParams()
-<<<<<<< HEAD
-  const [files, setFiles] = useState<FileList | null>(null);
-const {
-  data: dataSubmission,
-  error: errorSubmission,
-  refetch,
-} = useFetch(
-  `http://localhost:3000/api/student/class/assignment/${assignment_id}/submissions`
-);
-
-  const { execute, data, status, error } = useUploadFetch();
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFiles(e.target.files);
-  };
-
-  const handleUpload = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!files) return;
-
-    const formData = new FormData();
-    Array.from(files).forEach((file) => {
-            formData.append('files', file);
-=======
     const [files, setFiles] = useState<FileList | null>(null);
     const {
         data: dataSubmission,
@@ -39,14 +15,9 @@ const {
     } = useFetch({
         method: "GET",
         url: `process.env.BACKEND_URL/student/class/assignment/${assignment_id}/submissions`
->>>>>>> 9ee16a7dcff25e64cbde5a623b4fabd3127e4640
     });
 
 
-<<<<<<< HEAD
-    await execute(
-      `http://localhost:3000/api/student/class/assignment/${assignment_id}/submissions`,
-=======
     const handleUpload = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -60,7 +31,6 @@ const {
 
         await execute(
             `process.env.BACKEND_URL/student/class/assignment/${assignment_id}/submissions`,
->>>>>>> 9ee16a7dcff25e64cbde5a623b4fabd3127e4640
             'POST',
             formData,
     );

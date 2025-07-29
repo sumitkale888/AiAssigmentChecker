@@ -4,11 +4,9 @@ import ClassPeople from "../components/ClassPeople"
 import Tab from "../components/Tab"
 import PageSubmission from "./PageSubmission"
 
-import { useDispatch, useSelector } from "react-redux"
 import { useSelector } from "react-redux"
 
 const PageClassTeacher: React.FC<{ class_id: string }> = ({ class_id }) => {
-    const dispatch = useDispatch();
     // const dispatch = useDispatch();
     let currentTab = useSelector((state: any) => state.shared.tabStatus.activeTab);
     return (

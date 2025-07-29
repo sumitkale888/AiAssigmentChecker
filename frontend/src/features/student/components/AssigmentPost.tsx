@@ -11,9 +11,6 @@ interface Assignment {
 }
 
 // Interface for the props of the AssignmentList component
-interface AssignmentListProps {
-    assignments: Assignment[];
-}
 // interface AssignmentListProps {
 //     assignments: Assignment[];
 // }

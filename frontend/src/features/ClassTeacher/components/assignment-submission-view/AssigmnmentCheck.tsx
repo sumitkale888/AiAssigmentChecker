@@ -1,6 +1,5 @@
 import React from "react";
 import useFetch from "../../../../shared/hooks/UseFetch";
-import getFileIcon from "../../../../shared/utils/getFileIcon";
 // import getFileIcon from "../../../../shared/utils/getFileIcon";
 const AssignmentCheck: React.FC<{
   submission_id: string | undefined;
@@ -10,11 +9,9 @@ const AssignmentCheck: React.FC<{
     data: assignmentsMetadata,
     error: assignmentsMetadataError,
     status: assignmentsMetadataStatus,
-    refetch: assignmentsMetadataRefetch,
     // refetch: assignmentsMetadataRefetch,
   } = useFetch<any[]>({
     method: "GET",
-    url: `http://localhost:3000/api/teacher/submission/${submission_id}/student/${student_id}`,
     url: `process.env.BACKEND_URL/teacher/submission/${submission_id}/student/${student_id}`,
   });
 
