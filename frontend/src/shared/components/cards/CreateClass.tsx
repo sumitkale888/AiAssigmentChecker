@@ -13,14 +13,12 @@ const CreateClass = ({ onSuccess, onClose }: CreateClassProps) => {
     const [subject, setSubject] = useState('');
     const [room, setRoom] = useState('');
 
-    const { execute, data, status, error } = useManualFetch<any>();
     const { execute,  status, error } = useManualFetch<any>();
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         await execute(
-            'http://localhost:3000/api/teacher/classes',
             'process.env.BACKEND_URL/teacher/classes',
             'POST',
             {

@@ -1,6 +1,5 @@
 import React from 'react';
 // import AssignmentList from '../../ClassTeacher/components/AssignmentList';
-import StudentAssigmentList from './StudentAssigmentList';
 // import StudentAssigmentList from './StudentAssigmentList';
 import AssignmentPost from './AssigmentPost';
 import useFetch from '../../../shared/hooks/UseFetch';
@@ -8,8 +7,6 @@ import { useNavigate } from 'react-router-dom';
 const StudentSectionContent: React.FC<{ class_id: string | undefined }> = ({ class_id }) => {
 
     const navigate = useNavigate();
-    const { data, error, status } = useFetch<any>({ method: "GET", url: `http://localhost:3000/api/student/class/assignments/${class_id}` })
-    const { data: classData, error: classError, status: classStatus } = useFetch<any>({ method: "GET", url: `http://localhost:3000/api/student/class/${class_id}` })
     const { data, } = useFetch<any>({ method: "GET", url: `process.env.BACKEND_URL/student/class/assignments/${class_id}` })
     const { data: classData} = useFetch<any>({ method: "GET", url: `process.env.BACKEND_URL/student/class/${class_id}` })
 

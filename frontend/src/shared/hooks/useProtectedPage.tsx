@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -15,7 +14,6 @@ interface RootState {
 
 const UseProtectedPage = () => {
     const authInfo = useSelector((state: RootState) => state.auth.authStatus);
-    const navigate = useNavigate();
     // const navigate = useNavigate();
 
     // const navigate = useNavigate();
