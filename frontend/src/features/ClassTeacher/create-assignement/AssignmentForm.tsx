@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAssignmentCreateStatus } from '../../../shared/slices/sharedSlice';
 import useManualFetch from "../../../shared/hooks/useUploadFecth";
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 
 const AssignmentForm: React.FC = () => {
   const dispatch = useDispatch();
-  const { assignment_id } = useParams();
+  // const { assignment_id } = useParams();
   const assignmentCreateStatus = useSelector((state: any) => state.shared.assignmentCreateStatus);
   const uploadState = useSelector((state: any) => state.shared.assignmentUploadHandle);
 
@@ -14,7 +14,7 @@ const AssignmentForm: React.FC = () => {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
-  const { execute, data, status, error } = useManualFetch();
+  const { execute, status, error } = useManualFetch();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFiles(e.target.files);
@@ -38,7 +38,7 @@ const AssignmentForm: React.FC = () => {
       `http://localhost:3000/api/class/assignmentAttachments/${uploadState.assignment_id}`,
       'POST',
       formData,
-      true
+      // true
     );
     return true;
   };

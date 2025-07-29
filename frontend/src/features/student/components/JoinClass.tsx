@@ -10,7 +10,7 @@ interface CreateClassProps {
 const JoinClass = ({ onSuccess, onClose }: CreateClassProps) => {
     const [joiningCode, setJoiningCode] = useState('');
 
-    const { execute, data, status, error } = useManualFetch<any>();
+    const { execute, status, error } = useManualFetch<any>();
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();

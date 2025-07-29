@@ -33,6 +33,10 @@ const AssignmentSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
     method: "GET",
     url: `http://localhost:3000/api/teacher/class/submissions/${class_id}`
   });
+  if (error) {
+    console.error("Error fetching data:", error);
+    return <p className="p-4 text-red-500">Error loading data</p>;
+  }
 
   const data: Gradebook | undefined = rawData?.[0]?.gradebook_json;
 

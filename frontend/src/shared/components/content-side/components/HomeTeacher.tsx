@@ -5,7 +5,7 @@ import useFetch from '../../../hooks/UseFetch';
 import { useState } from 'react';
 
 const HomeTeacher = () => {
-  const { data, error, status, refetch } = useFetch<any>({
+  const { data,  refetch } = useFetch<any>({
     method: "GET",
     url: "http://localhost:3000/api/teacher/classes"
   });

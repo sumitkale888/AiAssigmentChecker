@@ -17,10 +17,16 @@ interface ClassPeopleProps {
 }
 
 const ClassPeople: React.FC<ClassPeopleProps> = ({ class_id,role }) => {
-    const { data, error, status } = useFetch({
+    const { data, status } = useFetch({
         method: "GET",
         url: `http://localhost:3000/api/${role}/class/students/${class_id}`
     });
+    if (status === "loading") {
+        return <div>Loading...</div>;
+    }
+    if (status === "error") {
+        return <div>Error loading data.</div>;
+    }
     return (
         <div>
             {Array.isArray(data) && <PeopleList users={data as User[]} />}

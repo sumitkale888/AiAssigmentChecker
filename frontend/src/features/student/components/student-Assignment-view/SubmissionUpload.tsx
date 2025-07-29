@@ -9,8 +9,8 @@ const SubmissionUpload: React.FC = () => {
     const [files, setFiles] = useState<FileList | null>(null);
     const {
         data: dataSubmission,
-        error: errorSubmission,
-        status: statusSubmission,
+        // error: errorSubmission,
+        // status: statusSubmission,
         refetch
     } = useFetch({
         method: "GET",
