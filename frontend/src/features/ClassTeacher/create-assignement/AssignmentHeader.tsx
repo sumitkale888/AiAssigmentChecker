@@ -32,7 +32,7 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
   };
 
   try {
-    const response:any = await execute('http://localhost:3000/api/class/assignment', 'POST', payload);
+    const response:any = await execute('process.env.BACKEND_URL/class/assignment', 'POST', payload);
     
     if (!response) {
       console.error('No response returned from assignment creation.');

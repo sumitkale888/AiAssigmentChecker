@@ -9,7 +9,7 @@ import { useState } from 'react';
 const HomeStudent = () => {
   const { data, refetch } = useFetch<any>({
     method: "GET",
-    url: "http://localhost:3000/api/student/class",
+    url: "process.env.BACKEND_URL/student/class",
   });
 
   const [showModal, setShowModal] = useState(false);

@@ -16,7 +16,7 @@ const JoinClass = ({ onSuccess, onClose }: CreateClassProps) => {
         e.preventDefault();
 
         await execute(
-            'http://localhost:3000/api/student/class/join',
+            'process.env.BACKEND_URL/student/class/join',
             'POST',
             {
                 joining_code: joiningCode

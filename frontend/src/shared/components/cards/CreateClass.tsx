@@ -19,7 +19,7 @@ const CreateClass = ({ onSuccess, onClose }: CreateClassProps) => {
         e.preventDefault();
 
         await execute(
-            'http://localhost:3000/api/teacher/classes',
+            'process.env.BACKEND_URL/teacher/classes',
             'POST',
             {
                 class_name: className,

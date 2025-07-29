@@ -31,6 +31,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:80',
   'http://localhost',
+  'https://ai-assigment-checker-rho.vercel.app'
 
 ];
 

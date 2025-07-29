@@ -35,7 +35,7 @@ const AssignmentForm: React.FC = () => {
     formData.append('evaluation_guideline', assignmentCreateStatus.evaluation_guideline || '');
 
     await execute(
-      `http://localhost:3000/api/class/assignmentAttachments/${uploadState.assignment_id}`,
+      `process.env.BACKEND_URL/class/assignmentAttachments/${uploadState.assignment_id}`,
       'POST',
       formData,
       // true

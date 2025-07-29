@@ -19,7 +19,7 @@ interface ClassPeopleProps {
 const ClassPeople: React.FC<ClassPeopleProps> = ({ class_id,role }) => {
     const { data, status } = useFetch({
         method: "GET",
-        url: `http://localhost:3000/api/${role}/class/students/${class_id}`
+        url: `process.env.BACKEND_URL/${role}/class/students/${class_id}`
     });
     if (status === "loading") {
         return <div>Loading...</div>;

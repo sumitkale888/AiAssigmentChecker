@@ -14,7 +14,7 @@ const SubmissionUpload: React.FC = () => {
         refetch
     } = useFetch({
         method: "GET",
-        url: `http://localhost:3000/api/student/class/assignment/${assignment_id}/submissions`
+        url: `process.env.BACKEND_URL/student/class/assignment/${assignment_id}/submissions`
     });
 
     const { execute, data, status, error } = useUploadFetch();
@@ -34,7 +34,7 @@ const SubmissionUpload: React.FC = () => {
 
 
         await execute(
-            `http://localhost:3000/api/student/class/assignment/${assignment_id}/submissions`,
+            `process.env.BACKEND_URL/student/class/assignment/${assignment_id}/submissions`,
             'POST',
             formData,
         );

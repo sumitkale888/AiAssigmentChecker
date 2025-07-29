@@ -12,7 +12,7 @@ const AssignmentCheck: React.FC<{
     // refetch: assignmentsMetadataRefetch,
   } = useFetch<any[]>({
     method: "GET",
-    url: `http://localhost:3000/api/teacher/submission/${submission_id}/student/${student_id}`,
+    url: `process.env.BACKEND_URL/teacher/submission/${submission_id}/student/${student_id}`,
   });
 
   if (assignmentsMetadataStatus === "loading") return <p>Loading...</p>;

@@ -31,7 +31,7 @@ const AssignmentSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
   const navigate = useNavigate();
   const { data: rawData, error, status } = useFetch<any>({
     method: "GET",
-    url: `http://localhost:3000/api/teacher/class/submissions/${class_id}`
+    url: `process.env.BACKEND_URL/teacher/class/submissions/${class_id}`
   });
   if (error) {
     console.error("Error fetching data:", error);
