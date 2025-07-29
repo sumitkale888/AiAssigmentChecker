@@ -28,3 +28,6 @@ const ContentAssignment: React.FC = () => {
         </div>
     )
 }
+
+
+export default  ContentAssignment
