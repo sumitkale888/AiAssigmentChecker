@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+// import React, { useState } from 'react';
+// import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateAssignmentUploadHandle } from '../../../shared/slices/sharedSlice'
 import useManualFetch from "../../../shared/hooks/useManualFetch";
@@ -15,6 +17,10 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
     const dispatch = useDispatch();
 
     const { execute, data, status, error } = useManualFetch();
+    const { execute,  error } = useManualFetch();
+    if (error) {
+        console.error('Error fetching data:', error);
+    }
 
     const navigate = useNavigate();
 
@@ -30,6 +36,7 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
 
   try {
     const response = await execute('http://localhost:3000/api/class/assignment', 'POST', payload);
+    const response:any = await execute('process.env.BACKEND_URL/class/assignment', 'POST', payload);
     
     if (!response) {
       console.error('No response returned from assignment creation.');

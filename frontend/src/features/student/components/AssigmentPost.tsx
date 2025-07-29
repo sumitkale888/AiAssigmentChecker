@@ -14,6 +14,9 @@ interface Assignment {
 interface AssignmentListProps {
     assignments: Assignment[];
 }
+// interface AssignmentListProps {
+//     assignments: Assignment[];
+// }
 
 // AssignmentPost component for individual assignment entries
 const AssignmentPost:React.FC<{assignment: Assignment}> = ({assignment}) => {

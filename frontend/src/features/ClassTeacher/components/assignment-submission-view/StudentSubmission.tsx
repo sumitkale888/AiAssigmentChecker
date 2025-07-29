@@ -13,6 +13,8 @@ interface Assignment {
   attachmentCount: number;
   hasAttachment: boolean;
   status: string;
+  first_name: string;
+  last_name: string;
 }
 
 const StudentSubmission: React.FC<{ class_id: string|undefined; student_id: string |undefined}> = ({ class_id, student_id }) => {
@@ -26,17 +28,22 @@ const StudentSubmission: React.FC<{ class_id: string|undefined; student_id: stri
     method: 'GET',
 
     url: `http://localhost:3000/api/teacher/class/submissions/${class_id}/student/${student_id}`,
+    url: `process.env.BACKEND_URL/teacher/class/submissions/${class_id}/student/${student_id}`,
   });
   
     const {
+  const {
     data: studentData,
     error: studentError,
     status: studentStatus,
     refetch: studentRefetch,
   } = useFetch<Assignment[]>({
+    // refetch: studentRefetch,
+  } = useFetch<Assignment>({
     method: 'GET',
     // --- IMPORTANT: Replace with your actual backend API endpoint ---
     url: `http://localhost:3000/api/teacher/student/${student_id}`,
+    url: `process.env.BACKEND_URL/teacher/student/${student_id}`,
   });
 
   const isLoading = studentStatus === 'loading' || studentStatus === 'idle'; // Consider 'idle' as loading initially

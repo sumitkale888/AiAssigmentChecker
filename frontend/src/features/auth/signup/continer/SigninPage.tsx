@@ -20,11 +20,13 @@ return (
         <LoginForm
           role={'Student'}
           url={'http://localhost:3000/api/auth/loginStudent'}
+          url={'process.env.BACKEND_URL/auth/loginStudent'}
         />
       ) : (
         <LoginForm
           role={'Teacher'}
           url={'http://localhost:3000/api/auth/loginTeacher'}
+          url={'process.env.BACKEND_URL/auth/loginTeacher'}
         />
       )}    <div className="flex justify-center ">
       

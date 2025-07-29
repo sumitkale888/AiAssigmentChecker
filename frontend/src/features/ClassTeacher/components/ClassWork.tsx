@@ -6,6 +6,13 @@ import AssignmentList from "./AssignmentList"
 const ClassWork: React.FC<{ class_id: string | undefined }> = ({ class_id }) => {
     const navigate = useNavigate();
     const { data, error, status } = useFetch<any>({ method: "GET", url: `http://localhost:3000/api/class/assignments/${class_id}` })
+    const { data, error, status } = useFetch<any>({ method: "GET", url: `process.env.BACKEND_URL/class/assignments/${class_id}` })
+        if (status === "loading") {
+        return <div>Loading...</div>;
+    }
+    if (status === "error") {
+        return <div>Error loading data: {error && error.message ? error.message : String(error)}</div>;
+    }
     return (
         <div>
             <button

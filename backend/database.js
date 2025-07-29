@@ -4,6 +4,7 @@ const pool = new Pool({
 
   connectionString: process.env.DATABASE_URL, // for Heroku or other platforms
   // ssl: { rejectUnauthorized: false } // required for Supabase
+  ssl: { rejectUnauthorized: false } // required for Supabase
 })
 const bcrypt = require('bcrypt');
 console.log(`Database connected on port ${process.env.DATABASE_URL}`)
