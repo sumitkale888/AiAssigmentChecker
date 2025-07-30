@@ -7,7 +7,7 @@ import { useState } from 'react';
 const HomeTeacher = () => {
   const { data,  refetch } = useFetch<any>({
     method: "GET",
-    url: "process.env.BACKEND_URL/teacher/classes"
+    url: `${import.meta.env.VITE_BACKEND_URL}/teacher/classes`
   });
 
   const [showModal, setShowModal] = useState(false);

@@ -27,7 +27,7 @@ const StudentSubmission: React.FC<{ class_id: string|undefined; student_id: stri
   } = useFetch<Assignment[]>({
     method: 'GET',
 
-    url: `process.env.BACKEND_URL/teacher/class/submissions/${class_id}/student/${student_id}`,
+    url: `${import.meta.env.VITE_BACKEND_URL}/teacher/class/submissions/${class_id}/student/${student_id}`,
   });
   
   const {
@@ -37,7 +37,7 @@ const StudentSubmission: React.FC<{ class_id: string|undefined; student_id: stri
   } = useFetch<Assignment>({
     method: 'GET',
     // --- IMPORTANT: Replace with your actual backend API endpoint ---
-    url: `process.env.BACKEND_URL/teacher/student/${student_id}`,
+    url: `${import.meta.env.VITE_BACKEND_URL}/teacher/student/${student_id}`,
   });
 
   const isLoading = studentStatus === 'loading' || studentStatus === 'idle'; // Consider 'idle' as loading initially

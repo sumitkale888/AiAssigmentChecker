@@ -7,7 +7,7 @@ import { updateAuth } from '../../authSlice';
 import { useDispatch } from "react-redux";
 import { Link,useNavigate } from 'react-router-dom';
 
-const SignupTeacher: FC = () => {
+const SignupStudent: FC = () => {
 
     const dispath = useDispatch();
     const navigate= useNavigate()
@@ -20,7 +20,7 @@ const SignupTeacher: FC = () => {
     const { execute, data, status, error } = useManualFetch()
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        await execute('process.env.BACKEND_URL/auth/signupStudent', 'POST', { first_name: firstName, last_name: lastName, email, password }).then();
+        await execute(`${import.meta.env.VITE_BACKEND_URL}/auth/signupStudent`, 'POST', { first_name: firstName, last_name: lastName, email, password }).then();
         console.log('data', data)
         if (status !== 'error') {
             console.log('authenticating')
@@ -94,4 +94,4 @@ const SignupTeacher: FC = () => {
 
 }
 
-export default SignupTeacher;
+export default SignupStudent;

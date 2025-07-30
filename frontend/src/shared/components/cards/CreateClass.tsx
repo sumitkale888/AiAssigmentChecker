@@ -19,7 +19,7 @@ const CreateClass = ({ onSuccess, onClose }: CreateClassProps) => {
         e.preventDefault();
 
         await execute(
-            'process.env.BACKEND_URL/teacher/classes',
+            `${import.meta.env.VITE_BACKEND_URL}/teacher/classes`,
             'POST',
             {
                 class_name: className,

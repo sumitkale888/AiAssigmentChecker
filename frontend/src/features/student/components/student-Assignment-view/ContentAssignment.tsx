@@ -7,7 +7,7 @@ const ContentAssignment: React.FC = () => {
         // status:statusAssignmentAttachment 
     } = useFetch({
         method: "GET",
-        url:  `process.env.BACKEND_URL/student/class/assignment/attachment/${assignment_id}`
+        url:  `${import.meta.env.VITE_BACKEND_URL}/student/class/assignment/attachment/${assignment_id}`
     });
         const { 
         data:dataAssignment, 
@@ -15,7 +15,7 @@ const ContentAssignment: React.FC = () => {
         // status:statusAssignment 
     } = useFetch({
         method: "GET",
-        url:  `process.env.BACKEND_URL/student/class/assignment/${assignment_id}`
+        url:  `${import.meta.env.VITE_BACKEND_URL}/student/class/assignment/${assignment_id}`
     });
 
     return (

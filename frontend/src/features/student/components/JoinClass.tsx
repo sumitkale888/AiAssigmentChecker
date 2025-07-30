@@ -16,7 +16,7 @@ const JoinClass = ({ onSuccess, onClose }: CreateClassProps) => {
         e.preventDefault();
 
         await execute(
-            'process.env.BACKEND_URL/student/class/join',
+            `${import.meta.env.VITE_BACKEND_URL}/student/class/join`,
             'POST',
             {
                 joining_code: joiningCode
