@@ -35,8 +35,8 @@ const ContentAssignment: React.FC = () => {
     : 'N/A';
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 font-sans">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 font-sans w-150 rounded-tl-4xl">
+      <div className="max-w-4xl mx-auto bg-white rounded-[30px] shadow-md overflow-hidden">
         {/* Left Column: Assignment Details */}
         <div className="flex-1 p-6 sm:p-8 lg:p-10">
           {/* Header */}
