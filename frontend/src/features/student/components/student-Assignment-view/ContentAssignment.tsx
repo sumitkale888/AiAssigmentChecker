@@ -84,4 +84,5 @@ const ContentAssignment: React.FC = () => {
   );
 };
 
-export default ContentAssignment;
+
+export default  ContentAssignment
