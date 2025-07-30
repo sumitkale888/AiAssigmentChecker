@@ -126,7 +126,7 @@ const AssignmentCheck: React.FC<{
           fontSize: "1.1rem",
           color: "#1a73e8"
         }}>
-          {data.obtained_grade}/100
+          {data.obtained_grade}/10
         </span>
       </div>
     </div>
