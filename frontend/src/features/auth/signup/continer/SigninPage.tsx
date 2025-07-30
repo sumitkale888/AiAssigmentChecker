@@ -19,12 +19,12 @@ return (
       {role === 'student' ? (
         <LoginForm
           role={'Student'}
-          url={'process.env.BACKEND_URL/auth/loginStudent'}
+          url={`${import.meta.env.VITE_BACKEND_URL}/auth/loginStudent`}
         />
       ) : (
         <LoginForm
           role={'Teacher'}
-          url={'process.env.BACKEND_URL/auth/loginTeacher'}
+          url={`${import.meta.env.VITE_BACKEND_URL}/auth/loginTeacher`}
         />
       )}    <div className="flex justify-center ">
       

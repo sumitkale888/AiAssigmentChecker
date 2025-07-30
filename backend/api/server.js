@@ -22,16 +22,12 @@ const connection = new Redis({
 
 const allowedOrigins = [
   'http://localhost',
-  'https://myfrontend.com',
-  'https://another-frontend.netlify.app',
-  'https://schoolmanagementsystem-1-i1d8.onrender.com',
-  'https://school-management-system-black-one.vercel.app',
-  'https://school-management-system-git-main-parthakadam2007s-projects.vercel.app',
-  'https://school-management-system-black-one.vercel.app',
+  "https://ai-assigment-checker-wy6o.vercel.app",
   'http://localhost:5173',
   'http://localhost:80',
   'http://localhost',
-  'https://ai-assigment-checker-rho.vercel.app'
+  'https://ai-assigment-checker-rho.vercel.app',
+  'https://ai-assigment-checker-zrth.vercel.app'
 
 ];
 

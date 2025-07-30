@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 const StudentSectionContent: React.FC<{ class_id: string | undefined }> = ({ class_id }) => {
 
     const navigate = useNavigate();
-    const { data, } = useFetch<any>({ method: "GET", url: `process.env.BACKEND_URL/student/class/assignments/${class_id}` })
-    const { data: classData} = useFetch<any>({ method: "GET", url: `process.env.BACKEND_URL/student/class/${class_id}` })
+    const { data, } = useFetch<any>({ method: "GET", url: `${import.meta.env.VITE_BACKEND_URL}/student/class/assignments/${class_id}` })
+    const { data: classData} = useFetch<any>({ method: "GET", url: `${import.meta.env.VITE_BACKEND_URL}/student/class/${class_id}` })
 
     return (
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden w-full max-w-4xl ml-[15px]">

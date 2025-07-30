@@ -21,7 +21,7 @@ const SignupTeacher: FC = () => {
     const { execute,data, status, error } = useManualFetch()
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        await execute('process.env.BACKEND_URL/auth/signupTeacher', 'POST', { first_name: firstName, last_name: lastName, email, password }).then();
+        await execute(`${import.meta.env.VITE_BACKEND_URL}/auth/signupTeacher`, 'POST', { first_name: firstName, last_name: lastName, email, password }).then();
         console.log('data',data)
         if (status !== 'error') {
             console.log('authenticating')
