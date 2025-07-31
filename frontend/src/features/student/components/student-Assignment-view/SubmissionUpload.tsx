@@ -42,7 +42,7 @@ const SubmissionUpload: React.FC = () => {
   });
 
   // Hook for handling file uploads
-  const { execute, data, status, error } = useUploadFetch();
+  const { execute,  status, error } = useUploadFetch();
 
   // Handle file input change
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +84,7 @@ const SubmissionUpload: React.FC = () => {
             <span className="text-sm text-gray-500">Turned in</span>
           </div>
 
-          {dataSubmission && dataSubmission.length > 0 ? (
+          {Array.isArray(dataSubmission) && dataSubmission.length > 0 ? (
             dataSubmission.map((submission: any) => (
               <div key={submission.submission_id} className="flex items-center space-x-3 p-3 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors cursor-pointer mb-2">
                 <FileIcon fileName={submission.file_original_name} />

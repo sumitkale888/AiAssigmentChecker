@@ -36,10 +36,11 @@ const FileIcon = ({ fileName }: { fileName: string }) => {
 
 
 type Assignment = {
-  title?: string;
-  created_date?: string;
-  points?: number;
-  description?: string;
+  title?: any;
+  assignment_id?: any;
+  created_date?: any;
+  points?: any;
+  description?: any;
   // add other properties as needed
 };
 
