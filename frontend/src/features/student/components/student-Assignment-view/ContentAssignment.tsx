@@ -35,19 +35,27 @@ const FileIcon = ({ fileName }: { fileName: string }) => {
 };
 
 
+type Assignment = {
+  title?: string;
+  created_date?: string;
+  points?: number;
+  description?: string;
+  // add other properties as needed
+};
+
 const ContentAssignment: React.FC = () => {
   const { assignment_id } = useParams();
 
   // Fetch assignment details data
-  const { data: dataAssignment } = useFetch({
+  const { data: dataAssignment } = useFetch<Assignment>({
     method: 'GET',
     url: `${import.meta.env.VITE_BACKEND_URL}/student/class/assignment/${assignment_id}`,
   });
 
   // Fetch assignment attachments data
   const {
-    data: dataAssignmentAttachments,
-  } = useFetch({
+    data: dataAssignmentAttachments = [],
+  } = useFetch<any[]>({
     method: "GET",
     url: `${import.meta.env.VITE_BACKEND_URL}/student/class/assignment/attachment/${assignment_id}`
   });
