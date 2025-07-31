@@ -16,6 +16,25 @@ const MoreVerticalIcon = () => (
   </svg>
 );
 
+// Placeholder for file icon based on type (simplified)
+const FileIcon = ({ fileName }: { fileName: string }) => {
+  const extension = fileName.split('.').pop()?.toLowerCase();
+  let iconPath = ''; // This would typically be a more robust icon mapping
+
+  if (extension === 'jpg' || extension === 'jpeg' || extension === 'png' || extension === 'gif') {
+    iconPath = 'https://placehold.co/40x40/e0e0e0/333333?text=IMG'; // Generic image icon placeholder
+  } else if (extension === 'docx' || extension === 'doc') {
+    iconPath = 'https://placehold.co/40x40/e0e0e0/333333?text=DOC'; // Generic document icon placeholder
+  } else if (extension === 'pdf') {
+    iconPath = 'https://placehold.co/40x40/e0e0e0/333333?text=PDF'; // Generic PDF icon placeholder
+  } else {
+    iconPath = 'https://placehold.co/40x40/e0e0e0/333333?text=FILE'; // Generic file icon placeholder
+  }
+
+  return <img src={iconPath} alt="file icon" className="w-10 h-10 rounded-md object-cover" />;
+};
+
+
 const ContentAssignment: React.FC = () => {
   const { assignment_id } = useParams();
 
@@ -23,6 +42,14 @@ const ContentAssignment: React.FC = () => {
   const { data: dataAssignment } = useFetch({
     method: 'GET',
     url: `${import.meta.env.VITE_BACKEND_URL}/student/class/assignment/${assignment_id}`,
+  });
+
+  // Fetch assignment attachments data
+  const {
+    data: dataAssignmentAttachments,
+  } = useFetch({
+    method: "GET",
+    url: `${import.meta.env.VITE_BACKEND_URL}/student/class/assignment/attachment/${assignment_id}`
   });
 
   // Format the assignment creation date
@@ -35,8 +62,8 @@ const ContentAssignment: React.FC = () => {
     : 'N/A';
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 font-sans">
-      <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 font-sans w-150 rounded-tl-4xl">
+      <div className="max-w-4xl mx-auto bg-white rounded-[30px] shadow-md overflow-hidden">
         {/* Left Column: Assignment Details */}
         <div className="flex-1 p-6 sm:p-8 lg:p-10">
           {/* Header */}
@@ -71,6 +98,36 @@ const ContentAssignment: React.FC = () => {
             </p>
           </div>
 
+          {/* --- */}
+          {/* Assignment Attachments Section */}
+          <div className="border-t border-gray-200 pt-6 mb-8">
+            <h3 className="text-lg font-medium text-gray-800 mb-3">Attachments</h3>
+            {dataAssignmentAttachments && dataAssignmentAttachments.length > 0 ? (
+              dataAssignmentAttachments.map((attachment: any) => (
+                <a
+                  key={attachment.upload_id}
+                  href={attachment.file_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center space-x-3 p-3 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors cursor-pointer mb-2"
+                >
+                  <FileIcon fileName={attachment.file_original_name} />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-800 truncate">
+                      {attachment.file_original_name}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {attachment.file_original_name.split('.').pop()?.toUpperCase()}
+                    </p>
+                  </div>
+                </a>
+              ))
+            ) : (
+              <div className="text-center text-gray-500 py-4">No attachments for this assignment.</div>
+            )}
+          </div>
+          {/* --- */}
+
           {/* Class Comments */}
           <div className="border-t border-gray-200 pt-6">
             <h3 className="text-lg font-medium text-gray-800 mb-3">Class comments</h3>
@@ -84,5 +141,4 @@ const ContentAssignment: React.FC = () => {
   );
 };
 
-
-export default  ContentAssignment
+export default ContentAssignment;

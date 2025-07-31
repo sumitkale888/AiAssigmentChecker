@@ -8,7 +8,16 @@ __pycache__/
 *.env
 *.env.local
 .environments
+*env.development
+*env.production
 
+.env
+.env.local
+.environments
+.env.development
+.env.production
+
+*docker-compose.prod.yml
 # Ignore virtual environments
 venv/
 env/
@@ -58,3 +67,5 @@ dist-ssr
 *.sw?
 
 uploads/
+
+
