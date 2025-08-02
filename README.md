@@ -81,77 +81,37 @@ An AI-powered platform for automating assignment checking, submission tracking, 
 - **Frontend**: React, Vite
 - **Backend**: Node.js, Express.js
 - **AI**: Language Model-based Evaluation
-- **Database**: MongoDB / PostgreSQL (Your choice)
-- **Cloud**: Azure (Deployment), Vercel (Frontend Hosting)
-- **Others**: BullMQ, Redis, Docker, Multer (File Upload)
+- **Database**: PostgreSQL / MongoDB (Pluggable)
+- **Cloud**: Azure (Backend), Vercel (Frontend)
+- **Others**: Docker, Redis, BullMQ, Multer
 
 ---
 
 ## 🧠 What I Learned
 
-- Working with multi-role authentication systems
-- Managing file uploads with Multer
-- Building async job queues using BullMQ and Redis
-- Deploying full-stack apps using Docker and Azure
-- Integrating AI to evaluate open-ended student responses
+- Multi-role authentication system design
+- File upload handling using Multer
+- Asynchronous job processing with BullMQ & Redis
+- Docker + Azure deployment pipelines
+- AI integration for response evaluation
 
 ---
 
 ## 📥 Local Setup
-# ============================
-# DATABASE CONFIGURATION
-# ============================
-POSTGRES_USER=your_postgres_user
-POSTGRES_PASSWORD=your_postgres_password
-POSTGRES_DB=your_postgres_db
-DB_HOST=your_db_host
-DB_PORT=5432
 
-# Alternatively, use DATABASE_URL (preferred)
-DATABASE_URL=postgresql://your_user:your_password@your_host:5432/your_database
-
-# ============================
-# EXPRESS / API SERVER CONFIG
-# ============================
-PORT=8000
-NODE_ENV=development
-
-# ============================
-# REDIS (BullMQ Queue)
-# ============================
-REDIS_HOST=localhost
-REDIS_PORT=6379
-QUEUE_NAME=assignments
-
-# ============================
-# SECURITY SECRETS
-# ============================
-JWT_SECRET=your_jwt_secret_here
-SESSION_SECRET=your_session_secret_here
-
-# ============================
-# FILE UPLOADS
-# ============================
-UPLOAD_DIR=/app/uploads
-
-# ============================
-# LOGGING
-# ============================
-LOG_LEVEL=debug
-
-# ============================
-# EXTERNAL SERVICES (OPTIONAL)
-# ============================
-GOOGLE_API_KEY=your_google_api_key_here
-GEMINI_API_KEY=your_gemini_api_key_here
-
+Clone and run both backend and frontend locally using Docker:
 
 ```bash
+# Clone the repo
 git clone https://github.com/your-username/ai-assignment-checker.git
-cd ai-assignment-checker/backend
+cd ai-assignment-checker
+
+# Setup backend
+cd backend
 npm install
 docker compose up
 
-cd frontend 
+# Setup frontend
+cd ../frontend
 npm install
-npm run dev 
+npm run dev
