@@ -19,7 +19,7 @@ const LoginForm = ({ role, url }: LoginFormProps) => {
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
 
-  const { execute, data, status, error } = useManualFetch<any>();
+  const { execute, data, status} = useManualFetch<any>();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
