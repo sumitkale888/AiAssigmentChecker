@@ -41,7 +41,7 @@ const SignupStudent: FC = () => {
                         user: `${firstName} ${lastName}`,
                     })
                 );
-                navigate("/teacher");
+                navigate("/student");
             }
         }, [status, data, dispatch, navigate]);
     
