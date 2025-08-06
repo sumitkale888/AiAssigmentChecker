@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import type { FormEvent } from "react";
 import useManualFetch from "../../../shared/hooks/useManualFetch";
 
@@ -32,7 +32,7 @@ const JoinClass = ({ onSuccess, onClose }: CreateClassProps) => {
                 onSubmit={handleSubmit}
                 className="flex flex-col gap-4 p-8 bg-white rounded-[3vw] shadow-xl w-full max-w-md border border-gray-200"
             >
-                <h2 className="text-2xl font-bold text-gray-700 mb-4 text-center">Join Class</h2>
+                <h2 className="text-2xl font-bold text-gray-700 mb-4 text-center">Join Class </h2>
 
                 <input
                     type="text"
@@ -59,7 +59,7 @@ const JoinClass = ({ onSuccess, onClose }: CreateClassProps) => {
                     </button>
                 </div>
 
-                {status === 'loading' && <p className="text-blue-600 text-center mt-4 text-sm font-medium">Creating class...</p>}
+                {status === 'loading' && <p className="text-blue-600 text-center mt-4 text-sm font-medium">Joining class...</p>}
                 {status === 'error' && (
                     <p className="text-red-600 text-center mt-4 text-sm font-medium">Error: {error?.message || 'Failed to create class.'}</p>
                 )}

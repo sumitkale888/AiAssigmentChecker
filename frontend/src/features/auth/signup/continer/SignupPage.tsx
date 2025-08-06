@@ -18,7 +18,7 @@ const SignupPage = () => {
     <>
       
 
-      <div className="mx-auto">
+      <div className="mx-auto relative">
         {role === 'student' ? (
           <SignupStudent />
 
@@ -29,9 +29,9 @@ const SignupPage = () => {
         
         <button
           onClick={handleRole}
-          className="px-2 py-2  bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+          className="px-2 py-2 underline cursor-pointer text-blue-600 rounded transition-colors absolute top-8 right-160 m-4"
         >
-          {role === 'student' ? 'Teacher ' : 'Student '}
+          {role === 'student' ? 'Teacher Signup?' : 'Student Signup?'}
         </button>
       </div>
       </div>

@@ -1,28 +1,6 @@
 import React from 'react';
-import AssignmentPost from "./AssigmentPost"
-// Main App component
-// const App = () => {
-//     // Sample class data
-//     const classData = {
-//         class_id: 2,
-//         class_name: "Mathematics 101",
-//         section: "A",
-//         subject: "Mathematics",
-//         room: "Room 12",
-//         description: "Basic algebra and geometry for beginners.",
-//         joining_code: "yqajjhv8",
-//         uploaded_photo_url: "https://placehold.co/1200x200/4F46E5/ffffff?text=Class+Banner", // Using a placeholder for the image
-//         teacher_id: 7
-//     };
-
-//     return (
-//         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4 font-sans">
-//             <ClassCard classInfo={classData} />
-//         </div>
-//     );
-// };
-
-// ClassCard component to display class information
+import AssignmentPost from "../../student/components/AssigmentPost"
+import useFetch from '../../../shared/hooks/UseFetch';
 interface SectionContent {
     class_id: number;
     class_name: string;
@@ -36,6 +14,7 @@ interface SectionContent {
 }
 
 const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) => {
+     const { data, } = useFetch<any>({ method: "GET", url: `${import.meta.env.VITE_BACKEND_URL}/class/assignments/${classInfo.class_id}` })
     return (
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden w-full max-w-4xl ml-[15px]">
 
@@ -118,49 +97,30 @@ const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) 
                     </div>
 
                     {/* Assignment Posts */}
-                    <div className="space-y-4">
-                        <AssignmentPost
-                            author="partha kadam"
-                            assignmentName="fgf"
-                            date="Jul 20"
-                        />
-                        <AssignmentPost
-                            author="partha kadam"
-                            assignmentName="bbfgb"
-                            date="Jul 20"
-                        />
-                        {/* You can add more AssignmentPost components here */}
+                      {/* Main Stream Content */}
+                <div className="w-full md:w-2/3">
+                    <div>
+                        {data && data.length > 0 ? (
+                            data.map((assignment: any) => (
+                                <div className='mb-4 cursor-pointer' key={assignment.assignment_id} onClick={() => navigate(`/student/class/${class_id}/assignment/${assignment.assignment_id}`)}>
+                                    <AssignmentPost key={assignment.assignment_id} assignment={assignment} />
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-gray-500">No assignments found.</p>
+                        )}
                     </div>
+                    {/* 
+                    <div >
+                        {data && <StudentAssigmentList assignments={data} />}
+                    </div> */}
+
+                </div>
                 </div>
             </div>
         </div>
     );
 };
 
-// AssignmentPost component for individual assignment entries
-// const AssignmentPost = ({ author, assignmentName, date }) => {
-//     return (
-//         <div className="bg-white p-4 rounded-lg shadow-sm flex items-center justify-between border border-gray-200">
-//             <div className="flex items-center">
-//                 <div className="w-10 h-10 bg-blue-500 text-white flex items-center justify-center rounded-full mr-4">
-//                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-//                     </svg>
-//                 </div>
-//                 <div>
-//                     <p className="text-gray-800">
-//                         <span className="font-semibold">{author}</span> posted a new assignment: <span className="font-medium">{assignmentName}</span>
-//                     </p>
-//                     <p className="text-gray-500 text-sm">{date}</p>
-//                 </div>
-//             </div>
-//             <button className="text-gray-500 hover:text-gray-700">
-//                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-//                 </svg>
-//             </button>
-//         </div>
-//     );
-// };
 
 export default SectionContent;

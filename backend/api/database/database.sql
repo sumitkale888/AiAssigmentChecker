@@ -11,19 +11,19 @@ DROP TABLE IF EXISTS teachers CASCADE;
 DROP TABLE IF EXISTS assignments_attachments CASCADE;
 
 -- ================================
--- 1️⃣ Teachers table
+-- Teachers table
 -- ================================
 CREATE TABLE teachers (
   teacher_id SERIAL PRIMARY KEY,
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   email VARCHAR(100) UNIQUE NOT NULL,
-  password VARCHAR(255) NOT NULL, -- store hashed password
+  password VARCHAR(255) NOT NULL, 
   url_dp VARCHAR(255) DEFAULT 'public/img/user_photo'
 );
 
 -- ================================
--- 2️⃣ Students table
+--  Students table
 -- ================================
 CREATE TABLE students (
   student_id SERIAL PRIMARY KEY,
@@ -35,7 +35,7 @@ CREATE TABLE students (
 );
 
 -- ================================
--- 3️⃣ Classes table
+--  Classes table
 -- ================================
 CREATE TABLE classes (
   class_id SERIAL PRIMARY KEY,
@@ -50,7 +50,7 @@ CREATE TABLE classes (
 );
 
 -- ================================
--- 4️⃣ Class-Students mapping (M:N)
+-- Class-Students mapping (M:N)
 -- ================================
 CREATE TABLE class_students (
   class_id INTEGER REFERENCES classes(class_id) ON DELETE CASCADE,
@@ -59,7 +59,7 @@ CREATE TABLE class_students (
 );
 
 -- ================================
--- 5️⃣ Assignments table
+--  Assignments table
 -- ================================
 CREATE TABLE assignments (
   assignment_id SERIAL PRIMARY KEY,
@@ -81,7 +81,7 @@ CREATE TABLE assignments_attachments (
 );
 
 -- ================================
--- 6️⃣ Submissions table
+--  Submissions table
 -- ================================
 CREATE TABLE submissions (
   submission_id SERIAL PRIMARY KEY,
@@ -95,7 +95,7 @@ CREATE TABLE submissions (
 
 
 -- ================================
--- 7️⃣ Grades table
+--  Grades table
 -- ================================
 CREATE TABLE grades (
   grade_id SERIAL PRIMARY KEY,

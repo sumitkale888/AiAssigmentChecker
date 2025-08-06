@@ -7,11 +7,11 @@ import { updateAuth } from '../../authSlice';
 import { useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import { useEffect } from 'react';
 
 const SignupTeacher: FC = () => {
 
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [firstName, setFirstName] = useState<string | null>(null);
     const [lastName, setLastName] = useState<string | null>(null);
@@ -22,10 +22,9 @@ const SignupTeacher: FC = () => {
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         await execute(`${import.meta.env.VITE_BACKEND_URL}/auth/signupTeacher`, 'POST', { first_name: firstName, last_name: lastName, email, password }).then();
-        console.log('data',data)
         if (status !== 'error') {
             console.log('authenticating')
-            dispath(updateAuth({
+            dispatch(updateAuth({
                 authenticated: true,
                 user: firstName +' ' + lastName
             }))
@@ -35,7 +34,17 @@ const SignupTeacher: FC = () => {
         }
     }
 
-
+    useEffect(() => {
+        if (status === 'success' && data) {
+            dispatch(
+                updateAuth({
+                    authenticated: true,
+                    user: `${firstName} ${lastName}`,
+                })
+            );
+            navigate("/teacher");
+        }
+    }, [status, data, dispatch, navigate]);
 
     return (
         <div className="flex my-20 justify-center  ">
@@ -86,7 +95,13 @@ const SignupTeacher: FC = () => {
                     type='submit'
                     className="bg-blue-600 text-white py-2 rounded-[2vw] hover:bg-blue-800 transition-colors"
                 >
-                    Submit
+                                {
+          status === 'loading' ? (
+            <span className="animate-spin inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full"></span>
+          ) : (
+            'Create'
+          )
+        }
                 </button>
                 <Link  className="text-blue-600 px-24" to={'/auth/signin'}>Already have an account?</Link>
             </form>

@@ -32,7 +32,7 @@ return (
         onClick={handleRole}
         className="px-2 py-2  bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
       >
-        {role === 'student' ? 'Teacher ' : 'Student '}
+        {role === 'student' ? 'Teacher Login?' : 'Student Login?'}
       </button>
     </div>
     </div>

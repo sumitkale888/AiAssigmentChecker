@@ -71,7 +71,7 @@ const assignmentQueue = new Queue('assignments', { connection });
 
 // Simple health check
 app.get('/api/health', (req, res) => {
-  res.send('API is healtdsdhy asf new!sasasas  again!');
+  res.send('API is healthy!');
 });
 
 const PORT = process.env.PORT || 3000;

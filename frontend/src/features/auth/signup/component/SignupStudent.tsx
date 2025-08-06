@@ -6,10 +6,10 @@ import useManualFetch from '../../../../shared/hooks/useManualFetch';
 import { updateAuth } from '../../authSlice';
 import { useDispatch } from "react-redux";
 import { Link,useNavigate } from 'react-router-dom';
-
+import { useEffect } from 'react';
 const SignupStudent: FC = () => {
 
-    const dispath = useDispatch();
+    const dispatch = useDispatch();
     const navigate= useNavigate()
 
     const [firstName, setFirstName] = useState<string | null>(null);
@@ -24,7 +24,7 @@ const SignupStudent: FC = () => {
         console.log('data', data)
         if (status !== 'error') {
             console.log('authenticating')
-            dispath(updateAuth({
+            dispatch(updateAuth({
                 authenticated: true,
                 user: firstName + ' ' + lastName
             }))
@@ -33,6 +33,18 @@ const SignupStudent: FC = () => {
             console.log(error)
         }
     }
+        useEffect(() => {
+            if (status === 'success' && data) {
+                dispatch(
+                    updateAuth({
+                        authenticated: true,
+                        user: `${firstName} ${lastName}`,
+                    })
+                );
+                navigate("/teacher");
+            }
+        }, [status, data, dispatch, navigate]);
+    
 
 
 
@@ -84,7 +96,13 @@ const SignupStudent: FC = () => {
                     type='submit'
                     className="bg-blue-600 text-white py-2 rounded-[3vw] hover:bg-blue-800 transition-colors"
                 >
-                    Submit
+                    {
+          status === 'loading' ? (
+            <span className="animate-spin inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full"></span>
+          ) : (
+            'Create'
+          )
+        }
                 </button>
                 <Link className="text-blue-600 px-24"  to={'/auth/signin'}>Already have an account?</Link>
             </form>
