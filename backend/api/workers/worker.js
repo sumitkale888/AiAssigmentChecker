@@ -21,6 +21,9 @@ const connection = new Redis({
   port: process.env.REDIS_PORT,
   maxRetriesPerRequest: null,
 });
+console.log(process.env.REDIS_HOST,
+  process.env.REDIS_PORT,
+)
 
 // Create BullMQ Worker
 const assignmentWorker = new Worker(
@@ -34,33 +37,59 @@ const assignmentWorker = new Worker(
         data[0].file_link
       )}`
     );
-    const uploadPath = path.join(process.cwd(), 'uploads', data[0].file_link);
+    // const uploadPath = path.join(process.cwd(), 'uploads', data[0].file_link);
 
-    const text = await extractor.extractText({ input: uploadPath, type: 'file' });
+    // const text = await extractor.extractText({ input: data[0].file_link, type: 'file' });
+    const text =`
+    
+    Here are 10 simple math questions for practice:
+
+5 + 3 = ?
+
+12 − 7 = ?
+
+4 × 6 = ?
+
+18 ÷ 3 = ?
+
+9 + 10 = ?
+
+15 − 9 = ?
+
+7 × 2 = ?
+
+20 ÷ 5 = ?
+
+3 + 8 = ?
+
+6 × 5 = ?
+    
+    `
+    console.log("text",text)
 
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
       contents: text,
       config: {
-        systemInstruction: `You are an assignment checker. Your task is to review and provide feedback on student assignments.
-You have to grade the assignment on a scale of 1 to 10 and provide feedback.
-The output should be in the following JSON format:
+              systemInstruction: `You are an assignment checker. Your task is to review and provide feedback on student assignments.
+              You have to grade the assignment on a scale of 1 to 10 and provide feedback.
+              The output should be in the following JSON format:
 
-{
-  "grade": 8,
-  "feedback": "The assignment is well-structured and covers the main points, but could benefit from more detailed examples.",
-  "suggestions": "Consider adding more examples to support your arguments and improve clarity.",
-  "strengths": "The assignment demonstrates a good understanding of the topic and is well-organized.",
-  "weaknesses": "Some sections lack depth and could be expanded upon.",
-  "improvementAreas": "Focus on providing more detailed explanations and examples in future assignments."
-}
+              {
+                "grade": 8,
+                "feedback": "The assignment is well-structured and covers the main points, but could benefit from more detailed examples.",
+                "suggestions": "Consider adding more examples to support your arguments and improve clarity.",
+                "strengths": "The assignment demonstrates a good understanding of the topic and is well-organized.",
+                "weaknesses": "Some sections lack depth and could be expanded upon.",
+                "improvementAreas": "Focus on providing more detailed explanations and examples in future assignments."
+              }
 
-The feedback should be constructive and helpful for the student to improve their work.
-You will also be given an evaluation criteria which you must follow while grading:
-${data[0]?.evaluation_guideline}`,
+              The feedback should be constructive and helpful for the student to improve their work.
+              You will also be given an evaluation criteria which you must follow while grading:
+              ${data[0]?.evaluation_guideline}`,
       },
     });
-
+  console.log("response",response.text)
     const regex = /\{[\s\S]*?\}/;
     const match = response.text.match(regex);
 
@@ -80,7 +109,7 @@ ${data[0]?.evaluation_guideline}`,
       await createGrade({
         obtained_grade: grade,
         student_id: data[0].student_id,
-        feedback: feedback, 
+        feedback: feedback,
         submission_id: data[0].submission_id
       });
 

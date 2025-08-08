@@ -3,6 +3,7 @@ const { studentClass, submissionUpload, createAssignments_attachments, createAss
 const upload = require('../services/myMulter')
 const Redis = require('ioredis');
 const { Queue } = require('bullmq');
+
 // handleJoinClasses = async (req, res) => {
 //   try {
 //     const classData = req.body;
@@ -47,29 +48,56 @@ const connection = new Redis({
 // Create BullMQ queue
 const assignmentQueue = new Queue('assignments', { connection });
 
+const { BlobServiceClient } = require('@azure/storage-blob');
+const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
+const containerName = 'uplodeaiassignemntchecker'; // Replace this
 
+const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
+const containerClient = blobServiceClient.getContainerClient(containerName);
 handleSubmissionUpload = async (req, res) => {
-  const files = req.files
+  const files = req.files;
+
   if (!files || files.length === 0) {
     return res.status(400).json({ error: 'No files uploaded' });
   }
-  for (const file of files) {
-    let respose = await submissionUpload({
-      file_link: file.filename,
-      file_original_name: file.originalname,
-      student_id: req.user.student_id,
-      assignment_id: req.params.assignment_id
+
+  try {
+    for (const file of files) {
+      const blobName = `${Date.now()}-${file.originalname}`;
+      const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+
+      // Upload the file buffer to Azure
+      await blockBlobClient.uploadData(file.buffer, {
+        blobHTTPHeaders: {
+          blobContentType: file.mimetype
+        }
+      });
+
+      const azureBlobUrl = blockBlobClient.url;
+
+      // Save metadata in your DB
+      const response = await submissionUpload({
+        file_link: azureBlobUrl,
+        file_original_name: file.originalname,
+        student_id: req.user.student_id,
+        assignment_id: req.params.assignment_id
+      });
+
+      const submissionEvaluation = await getSubmissionAndEvaluation(response.submission_id);
+
+      await assignmentQueue.add('evaluate', submissionEvaluation);
+    }
+
+    res.json({
+      message: 'Files uploaded and queued for evaluation!',
+      files: files.map(f => f.originalname)
     });
-    let submisson_evalution = await getSubmissionAndEvaluation(respose.submission_id)
 
-    await assignmentQueue.add('evaluate', submisson_evalution)
+  } catch (error) {
+    console.error('Upload error:', error);
+    res.status(500).json({ error: 'File upload failed' });
   }
-
-  res.json({
-    message: 'Files uploaded successfully!',
-    files: req.files
-  });
-}
+};
 
 handleCreateAssigment = async (req, res) => {
   const newAssignment = await createAssigment(req.body);
@@ -79,26 +107,52 @@ handleCreateAssigment = async (req, res) => {
   }
 }
 
+
+
+
+
+
+
 handleAssignments_attachments = async (req, res) => {
   const files = req.files;
+
   if (!files || files.length === 0) {
     return res.status(400).json({ error: 'No files uploaded' });
   }
 
+  try {
+    for (const file of files) {
+      // Unique blob name (can include folders if you want)
+      const blobName = `attachments/${Date.now()}-${file.originalname}`;
+      const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
-  for (const file of files) {
-    await createAssignments_attachments({
-      file_link: file.filename,
-      file_original_name: file.originalname,
-      assignment_id: req.params.assignment_id
+      // Upload buffer to Azure Blob
+      await blockBlobClient.uploadData(file.buffer, {
+        blobHTTPHeaders: {
+          blobContentType: file.mimetype,
+        },
+      });
+
+      const azureBlobUrl = blockBlobClient.url;
+
+      // Save metadata to your database
+      await createAssignments_attachments({
+        file_link: azureBlobUrl,
+        file_original_name: file.originalname,
+        assignment_id: req.params.assignment_id,
+      });
+    }
+
+    res.json({
+      message: 'Files uploaded successfully!',
+      files: files.map(f => f.originalname),
     });
-  }
 
-  res.json({
-    message: 'Files uploaded successfully!',
-    files: req.files
-  });
-}
+  } catch (error) {
+    console.error('Attachment upload failed:', error.message);
+    res.status(500).json({ error: 'File upload failed' });
+  }
+};
 
 /////////////////GET Endpoints///////////////////////////////
 
@@ -172,7 +226,7 @@ handleGetAssignments_attachmentsByAssignment_id = async (req, res) => {
 
   const attachmentsWithLinks = attachments.map(attachment => ({
     ...attachment,
-    file_link: `${req.protocol}://${req.get('host')}/uploads/${attachment.file_link}`
+    file_link: `${attachment.file_link}`
   }));
 
   res.json(attachmentsWithLinks);

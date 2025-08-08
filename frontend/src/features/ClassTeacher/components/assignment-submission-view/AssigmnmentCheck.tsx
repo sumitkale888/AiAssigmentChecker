@@ -74,7 +74,7 @@ const AssignmentCheck: React.FC<{
             />
             <div>
               <a
-                href={`http://localhost:3000/uploads/${data.file_link}`}
+                href={`${data.file_link}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{ 
