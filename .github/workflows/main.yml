@@ -24,12 +24,20 @@ jobs:
           echo "${{ secrets.REGISTRY_PASSWORD }}" | docker login ${{ secrets.REGISTRY_LOGIN_SERVER }} \
           --username ${{ secrets.REGISTRY_USERNAME }} --password-stdin
 
-      - name: Export Variables for Docker Compose
-        run: |
-          export REGISTRY_LOGIN_SERVER=${{ secrets.REGISTRY_LOGIN_SERVER }}
-          export GITHUB_SHA=${{ github.sha }}
-
       - name: Build and Push Images
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          NODE_ENV: ${{ secrets.NODE_ENV }}
+          QUEUE_NAME: ${{ secrets.QUEUE_NAME }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
+          UPLOAD_DIR: ${{ secrets.UPLOAD_DIR }}
+          LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
+          GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
         run: |
           docker compose -f ./backend/docker-compose.prod.yml build
           docker compose -f ./backend/docker-compose.prod.yml push
