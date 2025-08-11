@@ -45,5 +45,15 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
           app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
+          startup-command: >
+            docker network rm appnet || true &&
+            docker network create appnet &&
+            docker rm -f redis || true &&
+            docker rm -f api || true &&
+            docker rm -f worker1 || true &&
+            docker rm -f worker2 || true &&
+            docker rm -f nginx || true &&
+
           configuration-file: ./backend/docker-compose.prod.yml
