@@ -31,13 +31,7 @@ jobs:
           docker build ./backend/api -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }}
 
-          docker pull redis:latest
-          docker tag redis:latest ${{ secrets.REGISTRY_LOGIN_SERVER }}/redis:${{ github.sha }}
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/redis:${{ github.sha }}
 
-          docker pull nginx:latest
-          docker tag nginx:latest ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:${{ github.sha }}
-          docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/nginx:${{ github.sha }}
 
       - name: Azure Login
         uses: azure/login@v2
