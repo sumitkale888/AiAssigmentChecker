@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  redis:
+    image: aiassigmentcheckerregistry.azurecr.io/samples/redis
+    ports:
+      - "6379:6379"
+
+  api:
+    image: aiassigmentcheckerregistry.azurecr.io/samples/backend-api
+    env_file:
+      - .env.production
+    depends_on:
+      - redis
+    ports:
+      - "3000:3000"
+
+  worker-1:
+    image: aiassigmentcheckerregistry.azurecr.io/samples/backend-worker-1
+    env_file:
+      - .env.production
+    depends_on:
+      - redis
+    command: ["npm", "run", "workerdev"]
+
+  worker-2:
+    image: aiassigmentcheckerregistry.azurecr.io/samples/backend-worker-2
+    env_file:
+      - .env.production
+    depends_on:
+      - redis
+    command: ["npm", "run", "workerdev"]
+
+  nginx:
+    image: aiassigmentcheckerregistry.azurecr.io/samples/nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - api
