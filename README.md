@@ -13,7 +13,7 @@ An AI-powered platform for automating assignment checking, submission tracking, 
 - Upload assignment attachments
 - View student submissions
 - Automatically evaluate assignments with AI
-- Assign grades and feedback
+- Assign grades and feedbacks
 
 ### 👨‍🎓 Students
 - Sign up and join classes using a class code
