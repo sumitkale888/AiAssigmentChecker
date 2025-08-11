@@ -28,7 +28,8 @@ jobs:
       # Build & push each service
       - name: Build and push containers
         run: |
-          docker build ./api -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }}
+          ls
+          docker build .backend/api -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }}
 
           docker pull redis:latest
