@@ -47,14 +47,13 @@ jobs:
           images: |
             ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }}
           startup-command: >
-            docker network rm appnet || true &&
-            docker network create appnet &&
+
             docker rm -f api || true &&
             docker rm -f worker1 || true &&
             docker rm -f worker2 || true &&
-            docker run -d --name api --network appnet -p 3000:3000 ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }} &&
-            docker run -d --name worker1 --network appnet ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }} npm run workerdev &&
-            docker run -d --name worker2 --network appnet ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }} npm run workerdev &&
+            docker run -d --name api -p 3000:3000 ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }} &&
+            docker run -d --name worker1  ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }} npm run workerdev &&
+            docker run -d --name worker2  ${{ secrets.REGISTRY_LOGIN_SERVER }}/api:${{ github.sha }} npm run workerdev &&
 
       # Logout
       - name: Azure logout
