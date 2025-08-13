@@ -1,6 +1,7 @@
 import useFetch from "../../../shared/hooks/UseFetch"
 import PeopleList from "./PeopleList"
-
+import AnimatedLoader from "../../../shared/components/loaders/DefaultLoader"
+import CircularLoader from "../../../shared/components/loaders/CircularLoader"
 // Define the User type or import it from the appropriate module
 interface User {
     id: string;
@@ -22,7 +23,10 @@ const ClassPeople: React.FC<ClassPeopleProps> = ({ class_id,role }) => {
         url: `${import.meta.env.VITE_BACKEND_URL}/${role}/class/students/${class_id}`
     });
     if (status === "loading") {
-        return <div>Loading...</div>;
+        return (<div className=" mt-[300px] ">
+            <AnimatedLoader />
+        </div>
+        );
     }
     if (status === "error") {
         return <div>Error loading data.</div>;

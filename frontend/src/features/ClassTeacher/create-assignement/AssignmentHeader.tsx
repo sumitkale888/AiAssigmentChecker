@@ -14,7 +14,7 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
     const assignmentCreateStatus = useSelector((state: any) => state.shared.assignmentCreateStatus);
     const dispatch = useDispatch();
 
-    const { execute,  error } = useManualFetch();
+    const { execute,  error , status } = useManualFetch();
     if (error) {
         console.error('Error fetching data:', error);
     }
@@ -66,7 +66,11 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
                 <button className='bg-blue-500 text-white px-5 py-2 rounded-[3vw] hover:bg-blue-700 cursor-pointer'
                     onClick={handleAssign}
                 >
-                    Assign
+                  
+                  {
+                    status === 'loading' ? <span>Assiging...</span> : <span>Assign</span>
+                  }
+                    
                 </button>
             </div>
         </div>

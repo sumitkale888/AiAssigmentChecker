@@ -1,6 +1,8 @@
 import React from 'react';
 import AssignmentPost from "../../student/components/AssigmentPost"
 import useFetch from '../../../shared/hooks/UseFetch';
+import AnimatedLoader from '../../../shared/components/loaders/DefaultLoader';
+import CircularLoader from '../../../shared/components/loaders/CircularLoader';
 interface SectionContent {
     class_id: number;
     class_name: string;
@@ -14,7 +16,7 @@ interface SectionContent {
 }
 
 const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) => {
-     const { data, } = useFetch<any>({ method: "GET", url: `${import.meta.env.VITE_BACKEND_URL}/class/assignments/${classInfo.class_id}` })
+     const { data,status } = useFetch<any>({ method: "GET", url: `${import.meta.env.VITE_BACKEND_URL}/class/assignments/${classInfo.class_id}` })
     return (
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden w-full max-w-4xl ml-[15px]">
 
@@ -107,7 +109,9 @@ const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) 
                                 </div>
                             ))
                         ) : (
-                            <p className="text-gray-500">No assignments found.</p>
+                            <div className='text-center text-gray-500 '>
+                                {status === 'loading' ? <div className='mt-[50px] ml-[200px]'><CircularLoader /> </div>: 'No assignments available.'}
+                            </div>
                         )}
                     </div>
                     {/* 

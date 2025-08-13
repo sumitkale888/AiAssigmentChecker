@@ -1,7 +1,7 @@
 import React from 'react';
 import useFetch from '../../../../shared/hooks/UseFetch';
 import { useNavigate } from 'react-router-dom';
-
+import AnimatedLoader from '../../../../shared/components/loaders/DefaultLoader';
 interface Assignment {
   assignment_id: number;
   title: string;
@@ -65,7 +65,11 @@ const StudentSubmission: React.FC<{ class_id: string|undefined; student_id: stri
       </div>
 
       {/* Conditional Rendering based on hook status */}
-      {isLoading && <p style={{ textAlign: 'center', color: '#666' }}>Loading assignments...</p>}
+          {isLoading && <p style={{ textAlign: 'center', color: '#666' }}>
+          <div className='mt-[300px]'>
+            <AnimatedLoader />
+          </div>
+      </p>}
       {isError && (
         <p style={{ textAlign: 'center', color: 'red' }}>
           Error: {error?.message || 'Failed to load assignments.'}

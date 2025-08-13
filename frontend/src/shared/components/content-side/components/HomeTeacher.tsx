@@ -2,10 +2,11 @@ import addImg from '../../../../assets/add-svgrepo-com.svg';
 import ClassCard from '../../cards/ClassCard';
 import CreateClass from '../../cards/CreateClass';
 import useFetch from '../../../hooks/UseFetch';
+import AnimatedLoader from '../../../components/loaders/DefaultLoader';
 import { useState } from 'react';
 
 const HomeTeacher = () => {
-  const { data,  refetch } = useFetch<any>({
+  const { data,  refetch,status } = useFetch<any>({
     method: "GET",
     url: `${import.meta.env.VITE_BACKEND_URL}/teacher/classes`
   });
@@ -29,6 +30,13 @@ const HomeTeacher = () => {
               <ClassCard key={item.class_id} classNameText={item.class_name} class_id={item.class_id} />
             ))}
         </div>
+        {
+          status === 'loading' && (
+            <div className='mt-[300px]'>
+              <AnimatedLoader />
+            </div>
+          )
+        }
 
         {showModal && (
           <CreateClass

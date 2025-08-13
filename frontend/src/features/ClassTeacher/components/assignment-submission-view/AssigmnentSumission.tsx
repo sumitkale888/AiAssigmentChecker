@@ -1,6 +1,7 @@
 import React from 'react';
 import useFetch from '../../../../shared/hooks/UseFetch';
 import { useNavigate } from 'react-router-dom';
+import AnimatedLoader from '../../../../shared/components/loaders/DefaultLoader';
 interface Student {
   student_id: number;
   first_name: string;
@@ -40,7 +41,7 @@ const AssignmentSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
 
   const data: Gradebook | undefined = rawData?.[0]?.gradebook_json;
 
-  if (status === 'loading') return <p className="p-4">Loading...</p>;
+  if (status === 'loading') return <p className="p-4"><div className='mt-[300px]'><AnimatedLoader /></div></p>;
   if (status === 'error' || !data) return <p className="p-4 text-red-500">Error loading data</p>;
 
   const { students, assignments, grades } = data;
