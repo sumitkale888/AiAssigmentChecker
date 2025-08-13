@@ -4,6 +4,8 @@ const upload = require('../services/myMulter')
 const Redis = require('ioredis');
 const { Queue } = require('bullmq');
 
+require('dotenv').config();
+
 // handleJoinClasses = async (req, res) => {
 //   try {
 //     const classData = req.body;
