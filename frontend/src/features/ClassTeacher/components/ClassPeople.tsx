@@ -1,7 +1,6 @@
 import useFetch from "../../../shared/hooks/UseFetch"
 import PeopleList from "./PeopleList"
 import AnimatedLoader from "../../../shared/components/loaders/DefaultLoader"
-import CircularLoader from "../../../shared/components/loaders/CircularLoader"
 // Define the User type or import it from the appropriate module
 interface User {
     id: string;

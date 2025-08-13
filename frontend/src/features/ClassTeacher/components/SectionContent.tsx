@@ -1,7 +1,6 @@
 import React from 'react';
 import AssignmentPost from "../../student/components/AssigmentPost"
 import useFetch from '../../../shared/hooks/UseFetch';
-import AnimatedLoader from '../../../shared/components/loaders/DefaultLoader';
 import CircularLoader from '../../../shared/components/loaders/CircularLoader';
 interface SectionContent {
     class_id: number;
