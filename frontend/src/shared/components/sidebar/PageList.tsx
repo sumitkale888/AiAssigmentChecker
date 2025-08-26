@@ -1,7 +1,9 @@
 import HomeImg from '../../../assets/home.svg';
 import MenuImg from '../../../assets/logout.svg';
+import SettingImg from '../../../assets/settings.svg'
 import DashboardImg from '../../../assets/dashboardImg.svg';
 import AnalyticsImg from '../../../assets/Analytics.svg';
+import RobotImg from '../../../assets/Robot_2.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatesidebarStatus } from '../../slices/sharedSlice';
 import { useNavigate } from 'react-router-dom';
@@ -32,12 +34,13 @@ const PageList = () => {
     const pageList = [
         { item_name: 'Home', item_img: HomeImg },
         { item_name: 'Dashboard', item_img: DashboardImg},
-        { item_name: 'Analysis', item_img: AnalyticsImg}
+        { item_name: 'Analysis', item_img: AnalyticsImg},
+        { item_name: 'Chatbox', item_img: RobotImg}
     ];
 
     return (
         <div className="w-75 p-4 flex flex-col min-h-screen ">
-            {/* Main content area that will grow and push the logout down */}
+
             <div className="flex-grow">
                 {pageList.map((item) => (
                     <div
@@ -61,7 +64,20 @@ const PageList = () => {
                     </div>
                 ))}
             </div>
-            
+                
+
+            <div 
+                className={`
+                          flex items-center gap-5 p-3 rounded-[70px] cursor-pointer mb-2
+                           transition-colors duration-200 ease-in-out hover:bg-blue-100 `}
+                        >
+                        <img
+                            src={SettingImg}
+                            className={`w-7 h-7`}
+                        />
+                        <span className="text-sm md:text-base hover:text-blue-700 ">Settings</span>
+                    </div>
+              
             {/* Logout button positioned 200px from bottom */}
             <div className="mt-auto mb-[70px]">
                 <div 
