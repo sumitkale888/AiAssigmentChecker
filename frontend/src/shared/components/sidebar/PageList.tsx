@@ -1,6 +1,7 @@
 import HomeImg from '../../../assets/home.svg';
-import SettingImg from '../../../assets/settings.svg';
-import MenuImg from '../../../assets/logout.svg'
+import MenuImg from '../../../assets/logout.svg';
+import DashboardImg from '../../../assets/dashboardImg.svg';
+import AnalyticsImg from '../../../assets/Analytics.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatesidebarStatus } from '../../slices/sharedSlice';
 import { useNavigate } from 'react-router-dom';
@@ -30,7 +31,8 @@ const PageList = () => {
 
     const pageList = [
         { item_name: 'Home', item_img: HomeImg },
-        { item_name: 'Settings', item_img: SettingImg },
+        { item_name: 'Dashboard', item_img: DashboardImg},
+        { item_name: 'Analysis', item_img: AnalyticsImg}
     ];
 
     return (
