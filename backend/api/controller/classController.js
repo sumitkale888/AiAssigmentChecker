@@ -84,12 +84,13 @@ handleSubmissionUpload = async (req, res) => {
         student_id: req.user.student_id,
         assignment_id: req.params.assignment_id
       });
-
+      
       const submissionEvaluation = await getSubmissionAndEvaluation(response.submission_id);
-
+      
+      console.log("submissionEvaluation",JSON.stringify(submissionEvaluation))
       await assignmentQueue.add('evaluate', submissionEvaluation);
     }
-
+     
     res.json({
       message: 'Files uploaded and queued for evaluation!',
       files: files.map(f => f.originalname)

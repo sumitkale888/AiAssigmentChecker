@@ -76,7 +76,6 @@ getClass_idByStudent_id = async (student_id) => {
 }
 
 getStudentsByClass_id = async (class_id) => {
-  console.log("class_id", class_id);
   const query = `
     SELECT first_name, last_name, email, url_dp
     FROM students
@@ -86,7 +85,6 @@ getStudentsByClass_id = async (class_id) => {
 
   try {
     const result = await pool.query(query, [class_id]);
-    console.log(result.rows);
     return result.rows;
   } catch (error) {
     console.error('Error getStudentsByClass_id:', error);
@@ -104,7 +102,6 @@ getSubmissionsByAssigment_idAndStudent_id = async (student_id,assignmnet_id) => 
 
   try {
     const result = await pool.query(query, [student_id,assignmnet_id]);
-    console.log(result.rows);
     return result.rows;
   } catch (error) {
     console.error('Error getSubmissionsByAssigment_idAndStudent_id:', error);

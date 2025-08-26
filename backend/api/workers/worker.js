@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const { createGrade } = require('../models/classModels');
+const {getContext} = require("../models/teacherModels")
 
 const { readFile } = require('node:fs/promises');
 const { getTextExtractor } = require('office-text-extractor');
@@ -30,53 +31,36 @@ const assignmentWorker = new Worker(
   'assignments',
   async (job) => {
     const data = job.data;
-    console.log(
-      `job data: ${JSON.stringify(job.data)}, current dir: ${path.join(
-        process.cwd(),
-        'uploads',
-        data[0].file_link
-      )}`
-    );
-    // const uploadPath = path.join(process.cwd(), 'uploads', data[0].file_link);
+    // data[0].file_link 
+    console.log("job data: ",data);  
 
-    // const text = await extractor.extractText({ input: data[0].file_link, type: 'file' });
-    const text =`
-    
-    Here are 10 simple math questions for practice:
-
-5 + 3 = ?
-
-12 − 7 = ?
-
-4 × 6 = ?
-
-18 ÷ 3 = ?
-
-9 + 10 = ?
-
-15 − 9 = ?
-
-7 × 2 = ?
-
-20 ÷ 5 = ?
-
-3 + 8 = ?
-
-6 × 5 = ?
-    
-    `
-    console.log("text",text)
-
-    const response = await ai.models.generateContent({
+    const assignmentText = await extractor.extractText({ input: data[0].file_link, type: 'url' })
+    console.log("assignmentText",assignmentText)
+    const context = await getContext(data[0].assignment_id);
+    console.log("context|",context )
+    const  response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: text,
+      contents: assignmentText,
       config: {
               systemInstruction: `You are an assignment checker. Your task is to review and provide feedback on student assignments.
-              You have to grade the assignment on a scale of 1 to 10 and provide feedback.
+              You have to grade the assignment on a scale of 0 to points mensioned and provide feedback.
               The output should be in the following JSON format:
-
+              make this json short and to the point.
               {
                 "grade": 8,
+                "correction":{
+                            1:{
+                            wrongAns:"2+2=9",
+                            correctAns="2+2=4",
+                            explanation = "2+2 is 4 or any explanation "
+                            },
+                            2:{
+                            wrongAns:"answer which is wrong",
+                            correctAns="correct answer",
+                            explanation = "explanation of answer"
+                            },
+                          }
+                if no correction "correction" :{1:{"null"}}           
                 "feedback": "The assignment is well-structured and covers the main points, but could benefit from more detailed examples.",
                 "suggestions": "Consider adding more examples to support your arguments and improve clarity.",
                 "strengths": "The assignment demonstrates a good understanding of the topic and is well-organized.",
@@ -86,7 +70,8 @@ const assignmentWorker = new Worker(
 
               The feedback should be constructive and helpful for the student to improve their work.
               You will also be given an evaluation criteria which you must follow while grading:
-              ${data[0]?.evaluation_guideline}`,
+               ${context}
+              `,
       },
     });
   console.log("response",response.text)
@@ -97,7 +82,7 @@ const assignmentWorker = new Worker(
       const jsonResponse = JSON.parse(match[0]);
       console.log(jsonResponse);
 
-      const feedback = jsonResponse.feedback || "No feedback provided";
+      const feedback = jsonResponse|| "No feedback provided";
       const rawGrade = jsonResponse.grade;
       let grade = parseInt(rawGrade);
       if (isNaN(grade)) {

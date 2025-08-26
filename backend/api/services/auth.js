@@ -5,7 +5,6 @@ const secret = "mysecretkey"
 
 function generateToken(user) {
   const payload = user
-  console.log('Generating token for user:', payload);
   const token = JWT.sign(payload, secret);
   return token;
 }

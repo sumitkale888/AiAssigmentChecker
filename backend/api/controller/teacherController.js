@@ -3,7 +3,6 @@ const { createClass, getClassByTeacher_id } = require('../models/classModels');
 handleCreateClass = async (req, res) => {
     try {
         const classData = req.body;
-        console.log('Received class data:', req.user);
         const teacherId = req.user.teacher_id; // Assuming user info is attached to request by auth middleware
         if (!teacherId) {
             return res.status(401).json({ error: 'Unauthorized' });

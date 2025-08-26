@@ -47,7 +47,13 @@ const AssignmentSidebar = () => {
                     <input
                         type="date"
                         value={dueDate}
-                        onChange={(e) => setDueDate(e.target.value)}
+                        onChange={(e) => {
+                            setDueDate(e.target.value);
+                            dispatch(updateAssignmentCreateStatus({
+                                ...assignmentCreateStatus,
+                                deadline: e.target.value
+                            }));
+                        }}
                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     />
                 </div>

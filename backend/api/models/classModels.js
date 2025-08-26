@@ -128,7 +128,7 @@ submissionUpload = async (fileData) => {
 createAssigment = async (assignmentData) => {
   const {
     deadline,
-    evalution_guideline,
+    evaluation_guideline,
     title,
     description,
     points,
@@ -147,7 +147,7 @@ createAssigment = async (assignmentData) => {
 
   const values = [
     deadline ?? null,
-    evalution_guideline ?? null,
+    evaluation_guideline ?? null,
     title,
     description ?? null,
     points ?? null,
@@ -199,9 +199,7 @@ createAssignments_attachments = async (attachmentData) => {
 // -- api-1       | ]
 
 createGrade = async (evaluationData) => {
-  console.log('Creating grade with data:');
   const { obtained_grade, student_id, feedback, submission_id } = evaluationData;
-  console.log('Creating grade:', obtained_grade, student_id, feedback, submission_id);
   const query = `
     INSERT INTO grades (
        obtained_grade, student_id, feedback, submission_id
@@ -218,7 +216,6 @@ createGrade = async (evaluationData) => {
 
   try {
     const result = await pool.query(query, values);
-    console.log('Grade created:', result.rows[0]);
     return result.rows[0];
   } catch (error) {
     console.error('Error creating evaluation:', error);
@@ -265,7 +262,6 @@ getAssignmentsByClass_id = async (class_id) => {
 
   try {
     const result = await pool.query(query, [class_id]);
-    console.log(result)
     return result.rows;
   } catch (error) {
     console.error('Error fetching assignments by class ID:', error);
@@ -344,7 +340,7 @@ getGradesByAssignment_id = async (assignment_id) => {
 
 getSubmissionAndEvaluation = async (submission_id) => {
   const query = `
-SELECT file_link,student_id,submission_id,evaluation_guideline
+SELECT submissions.assignment_id,file_link,student_id,submission_id,evaluation_guideline
 FROM submissions
 INNER JOIN assignments ON submissions.assignment_id = assignments.assignment_id
 WHERE submissions.submission_id = $1
@@ -352,7 +348,6 @@ WHERE submissions.submission_id = $1
 
   try {
     const result = await pool.query(query, [submission_id]);
-    console.log(result.rows)
     return result.rows;
 
   } catch (error) {
@@ -403,7 +398,6 @@ SELECT json_build_object(
 
   try {
     const result = await pool.query(query, [class_id]);
-    console.log(result.rows)
     return result.rows;
 
   } catch (error) {
@@ -476,7 +470,6 @@ ORDER BY
   try {
     // Pass both student_id and class_id as parameters in the correct order
     const result = await pool.query(query, [student_id, class_id]);
-    console.log(result.rows);
     return result.rows;
 
   } catch (error) {

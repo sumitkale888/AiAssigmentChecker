@@ -18,7 +18,8 @@ const initialState = {
         title: '',
         description: '',
         evaluation_guideline: '',
-        points: 0
+        points: 100,
+        deadline: '',
     },
     assignmentUploadHandle: {
         ReadyToUpload: false,
@@ -56,7 +57,8 @@ export const sharedSlice = createSlice({
                 title: action.payload.title,
                 description: action.payload.description,
                 evaluation_guideline: action.payload.evaluation_guideline,
-                points: action.payload.points
+                points: action.payload.points,
+                deadline:action.payload.deadline
             }
         },
         updateAssignmentUploadHandle: (state, action) => {

@@ -22,9 +22,10 @@ const AssignmentHeader: React.FC<{ class_id: string }> = ({ class_id }) => {
     const navigate = useNavigate();
 
     const handleAssign = async () => {
-  const { title, description, evaluation_guideline, points } = assignmentCreateStatus;
+  const { deadline,title, description, evaluation_guideline, points } = assignmentCreateStatus;
   const payload = {
     title,
+    deadline,
     description,
     evaluation_guideline,
     points,

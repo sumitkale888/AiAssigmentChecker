@@ -110,7 +110,7 @@ const ContentAssignment: React.FC = () => {
           {/* --- */}
           {/* Assignment Attachments Section */}
           <div className="border-t border-gray-200 pt-6 mb-8">
-            <h3 className="text-lg font-medium text-gray-800 mb-3">Attachments</h3>
+            {/* <h3 className="text-lg font-medium text-gray-800 mb-3">Attachments</h3> */}
             {dataAssignmentAttachments && dataAssignmentAttachments.length > 0 ? (
               dataAssignmentAttachments.map((attachment: any) => (
                 <a

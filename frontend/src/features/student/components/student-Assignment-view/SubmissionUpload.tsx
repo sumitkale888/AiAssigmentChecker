@@ -83,9 +83,9 @@ const SubmissionUpload: React.FC = () => {
             <h3 className="text-lg font-medium text-gray-800">Your work</h3>
             <span className="text-sm text-gray-500">Turned in</span>
           </div>
-
           {Array.isArray(dataSubmission) && dataSubmission.length > 0 ? (
             dataSubmission.map((submission: any) => (
+              <a href={submission.file_link} target="_blank" rel="noopener noreferrer">
               <div key={submission.submission_id} className="flex items-center space-x-3 p-3 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors cursor-pointer mb-2">
                 <FileIcon fileName={submission.file_original_name} />
                 <div className="flex-1">
@@ -97,6 +97,7 @@ const SubmissionUpload: React.FC = () => {
                   </p>
                 </div>
               </div>
+              </a>
             ))
           ) : (
             <div className="text-center text-gray-500 py-4">No files submitted yet.</div>
@@ -147,7 +148,7 @@ const SubmissionUpload: React.FC = () => {
           <h3 className="text-lg font-medium text-gray-800 mb-3">Private comments</h3>
           <div className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors cursor-pointer">
             <UserIcon />
-            <button>Add comment to Preeti Kulkarni</button>
+            <button>Add comment to Teacher</button>
           </div>
         </div>
 
