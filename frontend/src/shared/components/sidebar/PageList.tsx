@@ -27,25 +27,31 @@ const PageList = () => {
     }
 
     const handleItemSelection = (itemName: string) => {
+        const selectedItem = pageList.find(item => item.item_name === itemName);
+        if (selectedItem) {
+            console.log(`Navigating to ${selectedItem.navigate}`);
+            navigate(selectedItem.navigate);
+        }
         console.log('state update');
         dispatch(updatesidebarStatus({ activePage: itemName }));
     };
 
     const pageList = [
-        { item_name: 'Home', item_img: HomeImg },
-        { item_name: 'Dashboard', item_img: DashboardImg},
-        { item_name: 'Analysis', item_img: AnalyticsImg},
-        { item_name: 'Chatbox', item_img: RobotImg,}
+        { item_name: 'Home', item_img: HomeImg ,navigate:"/teacher"},
+        { item_name: 'Dashboard', item_img: DashboardImg,navigate:"/dashboard"},
+        { item_name: 'Analysis', item_img: AnalyticsImg,navigate:"/analysis"},
+        { item_name: 'Chatbox', item_img: RobotImg,navigate:"/aichat"}
     ];
 
     return (
         <div className="w-75 p-4 flex flex-col min-h-screen ">
 
-            <div className="flex-grow">
+            <div className="flex-grow" >
                 {pageList.map((item) => (
                     <div
                         key={item.item_name}
                         onClick={() => handleItemSelection(item.item_name)}
+                        
                         className={`
                             flex items-center gap-5 p-3 rounded-[70px] cursor-pointer mb-2
                             transition-colors duration-200 ease-in-out
