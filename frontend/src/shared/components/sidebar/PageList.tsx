@@ -35,7 +35,7 @@ const PageList = () => {
         { item_name: 'Home', item_img: HomeImg },
         { item_name: 'Dashboard', item_img: DashboardImg},
         { item_name: 'Analysis', item_img: AnalyticsImg},
-        { item_name: 'Chatbox', item_img: RobotImg}
+        { item_name: 'Chatbox', item_img: RobotImg,}
     ];
 
     return (
@@ -65,7 +65,6 @@ const PageList = () => {
                 ))}
             </div>
                 
-
             <div 
                 className={`
                           flex items-center gap-5 p-3 rounded-[70px] cursor-pointer mb-2

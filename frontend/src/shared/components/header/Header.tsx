@@ -1,7 +1,8 @@
 // import MenuImg from '../../../assets/menu-icon.svg'
 import UserImg from '../../../assets/userlogo.svg'
 import LogoImg from '../../../assets/logo.svg'
-
+import HamburgerIcon from './HamburgerIcon';
+import { useState } from 'react';
 import { useSelector } from "react-redux";
 
 // import { useNavigate } from 'react-router-dom';
@@ -27,28 +28,30 @@ const Header = ()=>{
     const authStatus = useSelector((state: RootState) => state.auth.authStatus);
 
     return(
-        <div  className='flex relative border-gray-500'>
-            {/* <div onClick={handleLogoClick} className='cursor-pointer '>
-            <img src={MenuImg} className='w-[20px] m-4 cursor-pointer' alt="" onClick={handleLogoClick} />
-            </div> */}
+         <div className='flex relative border-gray-500 items-center py-6'>
+            {/* Hamburger Icon */}
+            <HamburgerIcon />
 
-            {/* <img src={LogoImg} className="w-50"alt="" /> */}
-            <div className="flex items-center p-4 ml-3"> 
-            <img src={LogoImg} className="w-8 h-8 " alt="Logo" />
-                <h1 className="text-2xl  ml-2">Classroom</h1> 
+            {/* Spacer between hamburger and logo */}
+            <div className="ml-4 flex items-center"> 
+                <img src={LogoImg} className="w-8 h-8" alt="Logo" />
+                <h1 className="text-2xl ml-2">Classroom</h1> 
             </div>
 
-            <div className='absolute right-15 m-2.5 margin-top-2 text-gray-800 font-semibold pt-2 '>
+            {/* Username greeting on right */}
+            <div className='absolute right-15 m-2.5 text-gray-800 font-semibold pt-0 '>
                 Hi! {authStatus.userData?.name || authStatus.user}
             </div>
 
-            <div className="absolute right-0 m-2.5">
+            {/* User profile image on far right */}
+            <div className="absolute right-2 m-2.5">
+                
                 {authStatus.userData?.picture ? (
                     <img 
                         src={authStatus.userData.picture} 
                         className="w-[30px] h-[30px] rounded-full object-cover"
                         alt="User profile"
-                        referrerPolicy="no-referrer" // Needed to prevent 403 errors with Google images
+                        referrerPolicy="no-referrer"
                     />
                 ) : (
                     <img 
