@@ -1,6 +1,4 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import SigninPage from './features/auth/signup/continer/SigninPage';
 import SingupPage from './features/auth/signup/continer/SignupPage'
 
@@ -14,6 +12,8 @@ import DashboardAssigmentCheck from './features/ClassTeacher/container/Dashboard
 import PageAssignmentView from "./features/student/containers/PageAssignmentView";
 import DashboardStudentClassPage from './features/student/containers/DashboardStudentClassPage';
 import DashboardPageStudent from './features/student/containers/DashboardPageStudent';
+
+import AIchatbot from "./features/AIChatbot/AIchatbot";
 function App() {
 
 
@@ -44,6 +44,8 @@ function App() {
         <Route path="/student" element={<DashboardPageStudent/>}></Route>
         <Route path="/student/class/:class_id" element={<DashboardStudentClassPage/>}></Route>
         <Route path="/student/class/:class_id/assignment/:assignment_id" element={<PageAssignmentView/>}></Route>
+
+        <Route path="/aichat" element={<AIchatbot/>}></Route>
       </Routes>
     </BrowserRouter>
   
