@@ -2,7 +2,6 @@
 import UserImg from '../../../assets/userlogo.svg'
 import LogoImg from '../../../assets/logo.svg'
 import HamburgerIcon from './HamburgerIcon';
-import { useState } from 'react';
 import { useSelector } from "react-redux";
 
 // import { useNavigate } from 'react-router-dom';
