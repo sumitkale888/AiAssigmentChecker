@@ -216,6 +216,7 @@ createGrade = async (evaluationData) => {
 
   try {
     const result = await pool.query(query, values);
+    console.log("resuasasalt", result.rows[0]);
     return result.rows[0];
   } catch (error) {
     console.error('Error creating evaluation:', error);

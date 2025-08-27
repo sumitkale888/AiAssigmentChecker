@@ -102,6 +102,10 @@ CREATE TABLE grades (
   obtained_grade INTEGER DEFAULT NULL,
   student_id INTEGER REFERENCES students(student_id) ON DELETE CASCADE,
   -- assignment_id INTEGER REFERENCES assignments(assignment_id) ON DELETE CASCADE,
-  feedback VARCHAR(2550000) DEFAULT NULL,
+feedback TEXT DEFAULT NULL,
+corrections TEXT DEFAULT NULL,
+suggestions TEXT DEFAULT NULL,
+weaknesses TEXT DEFAULT NULL,
+improvementAreas TEXT DEFAULT NULL,
   submission_id INTEGER REFERENCES submissions(submission_id) ON DELETE CASCADE
 );

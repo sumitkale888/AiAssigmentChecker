@@ -28,7 +28,8 @@ const allowedOrigins = [
   'http://localhost',
   'https://ai-assigment-checker-rho.vercel.app',
   'https://ai-assigment-checker-zrth.vercel.app',
-  'https://devaiassigmentchecker-c8bfdgd8h6bmdsad.canadacentral-01.azurewebsites.net'
+  'https://devaiassigmentchecker-c8bfdgd8h6bmdsad.canadacentral-01.azurewebsites.net',
+  'https://ai-assigment-checker-wy6o-fpkfkq84d-parthakadam2007s-projects.vercel.app'
 
 ];
 
