@@ -202,8 +202,8 @@ createGrade = async (evaluationData) => {
   const { obtained_grade, student_id, feedback, submission_id } = evaluationData;
   const query = `
     INSERT INTO grades (
-       obtained_grade, student_id, feedback, submission_id
-    ) VALUES ($1, $2, $3, $4)
+       obtained_grade, student_id, feedback,corrections,suggestions,weaknesses,improvementAreas, submission_id
+    ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
     RETURNING *
   `;
 
@@ -211,12 +211,15 @@ createGrade = async (evaluationData) => {
     obtained_grade,
     student_id,
     feedback,
+    corrections,
+    suggestions,
+    weaknesses,
+    improvementAreas,
     submission_id
   ];
 
   try {
     const result = await pool.query(query, values);
-    console.log("resuasasalt", result.rows[0]);
     return result.rows[0];
   } catch (error) {
     console.error('Error creating evaluation:', error);

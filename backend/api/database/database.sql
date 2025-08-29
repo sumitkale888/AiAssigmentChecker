@@ -101,7 +101,6 @@ CREATE TABLE grades (
   grade_id SERIAL PRIMARY KEY,
   obtained_grade INTEGER DEFAULT NULL,
   student_id INTEGER REFERENCES students(student_id) ON DELETE CASCADE,
-  -- assignment_id INTEGER REFERENCES assignments(assignment_id) ON DELETE CASCADE,
 feedback TEXT DEFAULT NULL,
 corrections TEXT DEFAULT NULL,
 suggestions TEXT DEFAULT NULL,

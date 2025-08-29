@@ -94,7 +94,11 @@ if (match) {
     await createGrade({
       obtained_grade: grade,
       student_id: data[0].student_id,
-      feedback: cleaned,
+      feedback: cleaned.feedback,
+      corrections:cleaned.corrections,
+      suggestions:cleaned.suggestions,
+      weaknesses:cleaned.weaknesses,
+      improvementAreas:cleaned.improvementAreas,
       submission_id: data[0].submission_id,
     });
   } catch (err) {
