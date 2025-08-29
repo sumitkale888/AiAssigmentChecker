@@ -3,7 +3,8 @@ import UserImg from '../../../assets/userlogo.svg'
 import LogoImg from '../../../assets/logo.svg'
 import HamburgerIcon from './HamburgerIcon';
 import { useSelector } from "react-redux";
-
+import {Link} from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 
 interface AuthStatus {
@@ -14,6 +15,7 @@ interface AuthStatus {
         name?: string;
     };
 }
+
 interface RootState {
     auth: { authStatus: AuthStatus };
 }
@@ -24,6 +26,8 @@ const Header = ()=>{
     //     console.log("to home")
     //     navigate("/")
     // }
+    const location = useLocation();
+    const isTeacherRoute = location.pathname.includes('/teacher');
     const authStatus = useSelector((state: RootState) => state.auth.authStatus);
 
     return(
@@ -43,8 +47,9 @@ const Header = ()=>{
             </div>
 
             {/* User profile image on far right */}
-            <div className="absolute right-2 m-2.5">
-                
+            <div className="absolute right-4 m-2.5">
+            <Link to={isTeacherRoute ? "/teacherprofile" : "/studentprofile"}>
+
                 {authStatus.userData?.picture ? (
                     <img 
                         src={authStatus.userData.picture} 
@@ -59,6 +64,8 @@ const Header = ()=>{
                         alt="Default user" 
                     />
                 )}
+               
+            </Link>
             </div>
         </div>
     )
