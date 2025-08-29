@@ -39,7 +39,19 @@ services:
       - ./api:/app
       - /app/node_modules
 
-
+  python-api:
+    build: ./python-api
+    env_file:
+      - .env
+    depends_on:
+      - nginx
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./python-api:/code/app/
+      - /code/app/venv
+    
+     
   nginx:
     image: nginx:latest
     ports:
