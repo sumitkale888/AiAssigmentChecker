@@ -13,6 +13,7 @@ interface RootState {
     shared: {
         sidebarStatus: {
             activePage: string;
+            isOpen: boolean;
         };
     };
 }
@@ -20,6 +21,7 @@ interface RootState {
 const PageList = () => {
     const dispatch = useDispatch();
     const activePage = useSelector((state: RootState) => state.shared.sidebarStatus.activePage);
+    const isOpen = useSelector((state: RootState) => state.shared.sidebarStatus.isOpen);
     const navigate = useNavigate();
     const handleLogoClick = () => {
         console.log("to home")
@@ -44,7 +46,7 @@ const PageList = () => {
     ];
 
     return (
-        <div className="w-75 p-4 flex flex-col min-h-screen ">
+        <div className="w-75 p-4 flex flex-col min-h-screen" style={{ width: isOpen ? '300px' : '75px', transition: 'width 0.2s'}}>
 
             <div className="flex-grow" >
                 {pageList.map((item) => (
@@ -66,7 +68,7 @@ const PageList = () => {
                             className={`w-7 h-7 ${activePage === item.item_name ? 'filter brightness-0 invert' : ''}`}
                             alt={item.item_name}
                         />
-                        <span className="text-sm md:text-base">{item.item_name}</span>
+                        <span className="text-sm md:text-base">{isOpen  ? item.item_name : ''}</span>
                     </div>
                 ))}
             </div>
@@ -80,7 +82,7 @@ const PageList = () => {
                             src={SettingImg}
                             className={`w-7 h-7`}
                         />
-                        <span className="text-sm md:text-base hover:text-blue-700 ">Settings</span>
+                        <span className="text-sm md:text-base hover:text-blue-700">{isOpen ? 'Settings' : ''}</span>
                     </div>
               
             {/* Logout button positioned 200px from bottom */}
@@ -89,7 +91,7 @@ const PageList = () => {
                     onClick={handleLogoClick} 
                     className='cursor-pointer flex items-center gap-3 p-3 rounded-[70px] transition-colors duration-200 ease-in-out hover:bg-red-50 hover:text-red-700'
                 >
-                    <h1 className='text-red-500 font-semibold text-xl px-8'>Logout</h1>
+                    <h1 className='text-red-500 font-semibold text-xl px-8'>{isOpen ? 'Logout' : ''}</h1>
                     <img src={MenuImg} className='w-6 h-6' alt="Logout" />
                 </div>
             </div>

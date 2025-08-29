@@ -1,30 +1,40 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleSidebar } from '../../slices/sharedSlice';
+
+interface RootState {
+    shared: {
+        sidebarStatus: {
+            isOpen: boolean;
+        };
+    };
+}
 
 const HamburgerIcon: React.FC = () => {
-  const [open, setOpen] = useState(false);
-
+    const dispatch = useDispatch();
+    const isOpen = useSelector((state: RootState) => state.shared.sidebarStatus.isOpen);
   return (
     <div
       className="w-8 h-8 flex flex-col justify-around cursor-pointer ml-4"
-      onClick={() => setOpen(!open)}
+      onClick={() => dispatch(toggleSidebar())}
       aria-label="Toggle menu"
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => e.key === "Enter" && setOpen(!open)}
+      onKeyDown={(e) => e.key === "Enter" && dispatch(toggleSidebar())}
     >
       <span
-        className={`block h-1 w-full bg-gray-500 rounded transform transition duration-300 ease-in-out origin-left ${
-          open ? "rotate-45 translate-y-3" : ""
+        className={`block h-1 w-full bg-gray-400 rounded transform transition duration-300 ease-in-out origin-left ${
+          isOpen ? "rotate-45 translate-y-3" : ""
         }`}
       />
       <span
-        className={`block h-1 w-full bg-gray-500 rounded transition-opacity duration-300 ease-in-out ${
-          open ? "opacity-0" : "opacity-100"
+        className={`block h-1 w-full bg-gray-400 rounded transition-opacity duration-300 ease-in-out ${
+          isOpen ? "opacity-0" : "opacity-100"
         }`}
       />
       <span
-        className={`block h-1 w-full bg-gray-500 rounded transform transition duration-300 ease-in-out origin-left ${
-          open ? "-rotate-45 -translate-y-3" : ""
+        className={`block h-1 w-full bg-gray-400 rounded transform transition duration-300 ease-in-out origin-left ${
+          isOpen ? "-rotate-45 -translate-y-3" : ""
         }`}
       />
     </div>
