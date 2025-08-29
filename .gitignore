@@ -33,7 +33,7 @@ node_modules/
 *.tmp
 
 *.pdf
-*.txt
+
 
 *tempCodeRunnerFile.py
 # IDE and system files
