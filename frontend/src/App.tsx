@@ -14,6 +14,8 @@ import DashboardStudentClassPage from './features/student/containers/DashboardSt
 import DashboardPageStudent from './features/student/containers/DashboardPageStudent';
 
 import AIchatbot from "./features/AIChatbot/AIchatbot";
+import TeacherProfilePage from "./features/ClassTeacher/profile-teacher/components/TeacherProfile";
+import StudentProfilePage from "./features/student/profile-student/components/StudentProfile";
 function App() {
 
 
@@ -46,6 +48,8 @@ function App() {
         <Route path="/student/class/:class_id/assignment/:assignment_id" element={<PageAssignmentView/>}></Route>
 
         <Route path="/aichat" element={<AIchatbot/>}></Route>
+        <Route path="/teacherprofile" element={<TeacherProfilePage/>}></Route> {/* Teacher Profile */}
+        <Route path="/studentprofile" element={<StudentProfilePage/>}></Route> {/* Student Profile */}
       </Routes>
     </BrowserRouter>
   

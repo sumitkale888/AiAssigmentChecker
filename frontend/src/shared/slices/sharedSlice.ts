@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const initialState = {
     sidebarStatus: {
-        activePage: 'Home'
+        activePage: 'Home',
+        isOpen: false,
     },
     classesStatus: {
         classesData: ''
@@ -32,10 +32,17 @@ export const sharedSlice = createSlice({
     initialState,
     reducers: {
         updatesidebarStatus: (state, action) => {
-            state.sidebarStatus = {
-                activePage: action.payload.activePage
-            }
+            state.sidebarStatus.activePage= action.payload.activePage;
         },
+         toggleSidebar: (state) => {
+         state.sidebarStatus.isOpen = !state.sidebarStatus.isOpen;
+        },
+         openSidebar: (state) => {
+        state.sidebarStatus.isOpen = true;
+         },
+         closeSidebar: (state) => {
+         state.sidebarStatus.isOpen = false;
+         },
         updateClassesStatus: (state, action) => {
             state.classesStatus = {
                 classesData: action.payload.classesData
@@ -72,6 +79,9 @@ export const sharedSlice = createSlice({
 
 export const {
     updatesidebarStatus,
+     toggleSidebar,
+    openSidebar,
+    closeSidebar,
     updateClassesStatus, updateTabStatus,
     updateCurrentClass,
     updateAssignmentCreateStatus,
