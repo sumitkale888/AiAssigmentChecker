@@ -29,10 +29,8 @@ const PageList = () => {
     const handleItemSelection = (itemName: string) => {
         const selectedItem = pageList.find(item => item.item_name === itemName);
         if (selectedItem) {
-            console.log(`Navigating to ${selectedItem.navigate}`);
             navigate(selectedItem.navigate);
         }
-        console.log('state update');
         dispatch(updatesidebarStatus({ activePage: itemName }));
     };
 
