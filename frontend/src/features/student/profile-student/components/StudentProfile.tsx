@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Link } from "react-router-dom";
-import { FaEdit } from "react-icons/fa"
+import { FaEdit, FaCamera } from "react-icons/fa"
 
 export default function StudentProfilePage() {
   const [isEditing, setIsEditing] = useState(false)
@@ -15,6 +15,36 @@ export default function StudentProfilePage() {
     profilePhoto: "https://randomuser.me/api/portraits/men/46.jpg",
   })
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Load saved profile from localStorage
+  useEffect(() => {
+    const storedData = localStorage.getItem("studentProfile");
+    if (storedData) {
+      setProfileData(JSON.parse(storedData));
+    }
+  }, []);
+
+  // Save to localStorage whenever changes are saved
+  const handleSave = () => {
+    localStorage.setItem("studentProfile", JSON.stringify(profileData));
+    setIsEditing(false);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileData((prev) => ({
+          ...prev,
+          profilePhoto: reader.result as string,
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 p-8 relative w-full rounded-4xl items-end justify-center ">
       <div className="relative w-full rounded-4xl bg-gray-100 flex items-end justify-center"></div>
@@ -22,7 +52,7 @@ export default function StudentProfilePage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <Link
-            to="/"
+            to="/student"
             className="inline-flex items-center gap-2 text-gray-700 hover:text-blue-600 rounded-4xl px-3 py-2 hover:bg-blue-100 transition"
           >
             <svg
@@ -38,7 +68,13 @@ export default function StudentProfilePage() {
             Back to Home
           </Link>
           <button
-            onClick={() => setIsEditing((prev) => !prev)}
+            onClick={() => {
+              if (isEditing) {
+                handleSave();
+              } else {
+                setIsEditing(true);
+              }
+            }}
             className="bg-blue-600 text-white px-4 py-2 rounded-4xl hover:bg-blue-700 flex items-center gap-2"
           >
             <FaEdit size={16} />
@@ -54,18 +90,31 @@ export default function StudentProfilePage() {
             <p className="text-sm text-gray-500 mb-6">
               Upload your photo for the face attendance system
             </p>
-            <img
-              src={profileData.profilePhoto}
-              alt="Profile"
-              className="rounded-full w-40 h-40 object-cover mb-6"
-            />
-            <p className="text-xs text-gray-500 mb-1">
-              Supported formats: JPEG, PNG, WebP
-            </p>
-            <p className="text-xs text-gray-500 mb-1">Maximum file size: 5MB</p>
-            <p className="text-xs text-gray-500 mb-6">
-              Recommended: Square image, 400x400px or larger
-            </p>
+            <div className="relative">
+              <img
+                src={profileData.profilePhoto}
+                alt="Profile"
+                className="rounded-full w-40 h-40 object-cover mb-6"
+              />
+              {isEditing && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="absolute bottom-8 right-6 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-700"
+                  >
+                    <FaCamera size={16} />
+                  </button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </>
+              )}
+            </div>
             <div>
               <h4 className="font-semibold">{profileData.fullName}</h4>
               <p className="text-sm text-gray-600">{profileData.rollNumber}</p>
@@ -73,12 +122,8 @@ export default function StudentProfilePage() {
             </div>
           </section>
 
-         
           <section className="bg-white rounded-3xl p-6 col-span-2 shadow-xl ">
             <h3 className="text-2xl font-semibold mb-4">Personal Information</h3>
-            <p className="text-sm text-gray-500 mb-6">
-              Update your personal details and contact information
-            </p>
             <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="fullName" className="block text-sm font-semibold mb-1">
@@ -95,7 +140,7 @@ export default function StudentProfilePage() {
               </div>
               <div>
                 <label htmlFor="rollNumber" className="block text-sm font-semibold mb-1">
-                 Student/College ID
+                  Student/College ID
                 </label>
                 <input
                   type="text"
@@ -190,9 +235,6 @@ export default function StudentProfilePage() {
         {/* System Information Section */}
         <section className="bg-white rounded-3xl p-6 shadow-3xl ">
           <h3 className="text-2xl font-semibold mb-4">System Information</h3>
-          <p className="text-sm text-gray-500 mb-6">
-            Information related to attendance and system access
-          </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-sm">
             <div>
               <p className="font-semibold">Face Recognition Status</p>
@@ -200,7 +242,7 @@ export default function StudentProfilePage() {
             </div>
             <div>
               <p className="font-semibold">Last Profile Update</p>
-              <p>December 15, 2024</p>
+              <p>{new Date().toLocaleDateString()}</p>
             </div>
             <div>
               <p className="font-semibold">Account Status</p>
