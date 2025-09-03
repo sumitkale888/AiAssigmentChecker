@@ -21,7 +21,7 @@ const AIchatbot = () => {
     setInputMessage('');
 
     // fire request (but don’t handle response here)
-    await execute(`http://localhost:80/python-api/teacherChatBottest`, 'POST', {
+    await execute(`http://localhost:80/python_api/teacherChatBottest`, 'POST', {
       message: inputMessage,
     });
   };

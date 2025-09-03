@@ -39,8 +39,8 @@ services:
       - ./api:/app
       - /app/node_modules
 
-  python-api:
-    build: ./python-api
+  python_api:
+    build: ./python_api
     env_file:
       - .env
     depends_on:
@@ -48,7 +48,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./python-api:/code/app/
+      - ./python_api:/code/app/
       - /code/app/venv
     
      
