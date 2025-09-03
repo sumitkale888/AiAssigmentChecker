@@ -7,6 +7,16 @@ from fastapi import FastAPI, Request
 from jose import JWTError, jwt
 from services.teacherChatbot.TeacherChatBot import TeacherChatBot
 from middleware.auth import auth_middleware
+
+from app.models.database import SessionLocal
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
 app = FastAPI()
 
 origins = [
@@ -56,9 +66,8 @@ async def teacherChatBotHelpertest(request: Request,user=Depends(auth_middleware
     response = await TeacherChatBot(str(user["teacher_id"]),body_as_dict["message"])
     
     return {"status": "success", "response": response,"user":user["teacher_id"]}
-    # return {"status": "success","user":user["teacher_id"]}
 
 
-@app.post("/protected")
-async def protected_route(user=Depends(auth_middleware("teacher"))):
-    return {"message": "Welcome!", "user": user}
+# @app.post("/protected")
+# async def protected_route(user=Depends(auth_middleware("teacher"))):
+#     return {"message": "Welcome!", "user": user}

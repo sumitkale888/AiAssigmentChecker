@@ -4,7 +4,9 @@ load_dotenv("../../../.env")
 import getpass
 import os
 
-import os
+from app.models.database import SessionLocal
+from app.models.teacherModels import create_assignment
+
 from langchain.chat_models import init_chat_model
 
 os.environ["GOOGLE_API_KEY"] = "AIzaSyBlsFtw9xAk0NIb5exaijDGR7-Q8In6fSA"
@@ -71,9 +73,21 @@ def get_user_info_by_user_id(user_id:str)->str:
 
      return "phone number is 7028874211 address is Newyork"
 
+@tool
+def create_assignment_by_class_id(class_id:str,title:str)->None:
+    """creates assignment for class 
+    title: the title of assignment
+    class_id: is unique code
+    return :void
+    """
+
+    create_assignment(class_id,title)
 
 
-tools = [ human_assistance,get_user_info_by_user_id]
+
+
+
+tools = [ human_assistance,get_user_info_by_user_id,create_assignment_by_class_id]
 llm_with_tools = llm.bind_tools(tools)
 
 def chatbot(
@@ -94,7 +108,7 @@ def chatbot(
             memory = "User name is partha"
             store.put(namespace, str(uuid.uuid4()), {"data": memory})
 
-        response = llm.invoke(
+        response = llm_with_tools.invoke(
             [{"role": "system", "content": system_msg}] + state["messages"]
         )
         return {"messages": [response]}

@@ -8,8 +8,16 @@ interface Message {
   sender: 'user' | 'bot';
 }
 
+interface BotApiResponse {
+  response?: {
+    content?: string;
+    [key: string]: any;
+  };
+  [key: string]: any;
+}
+
 const AIchatbot = () => {
-  const { execute, data, status, error } = useManualFetch();
+  const { execute, data, status, error } = useManualFetch<BotApiResponse>();
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
 
