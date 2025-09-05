@@ -9,7 +9,7 @@ const DashboardStudentClassPage: React.FC = () => {
         <div>
             <Header />
             <div className="flex">
-                <PageList />
+                <PageList userType="student"/>
                 <PageClassStudent class_id={String(class_id)} />
             </div>
         </div>

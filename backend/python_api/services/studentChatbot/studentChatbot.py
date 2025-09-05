@@ -1,11 +1,10 @@
 
-from dotenv import load_dotenv
-load_dotenv("../../../.env")
 import getpass
 import os
 
 from app.models.database import SessionLocal
-from app.models.teacherModels import create_assignment
+# from app.models.teacherModels import create_assignment
+from app.models.studentModels import get_grades_student_id
 
 from langchain.chat_models import init_chat_model
 
@@ -34,6 +33,7 @@ from langgraph.types import Command, interrupt
 
 class State(TypedDict):
     messages: Annotated[list, add_messages]
+    user_id:str
 
 
 
@@ -66,27 +66,20 @@ def human_assistance(
     return Command(update=state_update)
 
 @tool
-def get_user_info_by_user_id(user_id:str)->str:
-     """get user info by user_id like address and phone number"""
-   
+def get_grades_student_id_tool(user_id:str):
+    """returns student grades of all class and assignment"""
+    # user_id = config["configurable"]["user_id"] 
+    # print(user_id)
+    # print("user_id")
 
-     return "phone number is 7028874211 address is Newyork"
-
-@tool
-def create_assignment_by_class_id(class_id:str,title:str)->None:
-    """creates assignment for class 
-    title: the title of assignment
-    class_id: is unique code
-    return :void
-    """
-
-    create_assignment(class_id,title)
+    # result = get_grades_student_id(user_id)
+    return 100
 
 
 
 
 
-tools = [ human_assistance,get_user_info_by_user_id,create_assignment_by_class_id]
+tools = [ human_assistance,get_grades_student_id_tool]
 llm_with_tools = llm.bind_tools(tools)
 
 def chatbot(
@@ -116,7 +109,7 @@ def chatbot(
 
 DB_URI = "postgresql://postgres.uomfykaurszamahxdwhy:Edding.5000208@aws-0-us-east-2.pooler.supabase.com:5432/postgres"
 
-async def TeacherChatBot(user_id:str,query:str)->str:
+async def StudentChatBot(user_id:str,query:str)->str:
  with (
     PostgresStore.from_conn_string(DB_URI) as store,
     PostgresSaver.from_conn_string(DB_URI) as checkpointer,
@@ -145,7 +138,10 @@ async def TeacherChatBot(user_id:str,query:str)->str:
     
 
     for chunk in graph.stream(
-        {"messages": [{"role": "user", "content": query}]},
+        {
+            "messages": [{"role": "user", "content": query}],
+            "user_id": str(user_id),
+            },
         config,
         stream_mode="values",
         store=store

@@ -7,7 +7,7 @@ const PageAssignmentView = () => {
         <div>
             <Header />
             <div className='flex'>
-                    <PageList />
+                    <PageList userType="student"/>
                 <div className='flex'>
                     <ContentAssignment />
                     <SubmissionUpload />

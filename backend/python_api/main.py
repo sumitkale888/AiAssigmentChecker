@@ -6,7 +6,9 @@ from fastapi import FastAPI, Request
 
 from jose import JWTError, jwt
 from services.teacherChatbot.TeacherChatBot import TeacherChatBot
+from services.studentChatbot.studentChatbot import StudentChatBot
 from middleware.auth import auth_middleware
+
 
 from app.models.database import SessionLocal
 
@@ -66,6 +68,16 @@ async def teacherChatBotHelpertest(request: Request,user=Depends(auth_middleware
     response = await TeacherChatBot(str(user["teacher_id"]),body_as_dict["message"])
     
     return {"status": "success", "response": response,"user":user["teacher_id"]}
+
+@app.post("/studentChatBottest",)
+async def teacherChatBotHelpertest(request: Request,user=Depends(auth_middleware("student"))):
+    body_as_dict = await request.json()
+    print("student_id")
+    print(str(user["student_id"]))
+
+    response = await StudentChatBot(str(user["student_id"]),body_as_dict["message"])
+    
+    return {"status": "success", "response": response,"user":user["student_id"]}
 
 
 # @app.post("/protected")

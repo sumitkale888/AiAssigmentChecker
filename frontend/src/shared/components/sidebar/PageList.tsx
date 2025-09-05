@@ -18,7 +18,11 @@ interface RootState {
     };
 }
 
-const PageList = () => {
+interface PageListProps {
+    userType?: 'teacher' | 'student';
+}
+
+const PageList = ({ userType = 'teacher' }: PageListProps) => {
     const dispatch = useDispatch();
     const activePage = useSelector((state: RootState) => state.shared.sidebarStatus.activePage);
     const isOpen = useSelector((state: RootState) => state.shared.sidebarStatus.isOpen);
@@ -37,10 +41,10 @@ const PageList = () => {
     };
 
     const pageList = [
-        { item_name: 'Home', item_img: HomeImg ,navigate:"/teacher"},
+        { item_name: 'Home', item_img: HomeImg ,navigate:`/${userType}`},
         { item_name: 'Dashboard', item_img: DashboardImg,navigate:"/dashboard"},
         { item_name: 'Analysis', item_img: AnalyticsImg,navigate:"/analysis"},
-        { item_name: 'Chatbox', item_img: RobotImg,navigate:"/aichat"}
+        { item_name: 'Chatbox', item_img: RobotImg,navigate:`/aichat${userType === 'student' ? 'Student' : ''}`},
     ];
 
     return (

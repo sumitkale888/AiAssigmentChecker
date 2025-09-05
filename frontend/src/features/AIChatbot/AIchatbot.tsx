@@ -16,7 +16,7 @@ interface BotApiResponse {
   [key: string]: any;
 }
 
-const AIchatbot = () => {
+const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userType: userType }) => {
   const { execute, data, status, error } = useManualFetch<BotApiResponse>();
   const [inputMessage, setInputMessage] = useState('');
   const [messages, setMessages] = useState<Message[]>([]);
@@ -29,7 +29,7 @@ const AIchatbot = () => {
     setInputMessage('');
 
     // fire request (but don’t handle response here)
-    await execute(`http://localhost:80/python_api/teacherChatBottest`, 'POST', {
+    await execute(`http://localhost:80/python_api/${userType}ChatBottest`, 'POST', {
       message: inputMessage,
     });
   };
@@ -57,7 +57,7 @@ const AIchatbot = () => {
     <div>
       <Header />
       <div className="flex">
-        <PageList />
+        <PageList userType="student"/>
         <div className="relative w-full bg-gray-100 flex flex-col items-center justify-between">
           {/* Chat messages */}
           <div className="flex-grow w-full max-w-4xl mx-auto p-4 overflow-y-scroll h-[500px] ">

@@ -1,8 +1,9 @@
 # from sqlalchemy import Column, Integer, String
 # from database import Base
 from sqlalchemy import text
-
 from app.models.database import SessionLocal
+
+
 def create_assignment(class_id: str, title: str) -> None:
     db = SessionLocal()
     try:

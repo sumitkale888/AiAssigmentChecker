@@ -37,6 +37,7 @@ function App() {
         <Route  path="/teacher/class/:class_id/student/:student_id" element={<DashboardStudentSubmission/>}></Route>
         {/*  */}
         <Route path="/teacher/student/:student_id/submission/:submission_id" element={<DashboardAssigmentCheck/>}></Route>
+        <Route path="/aichat" element={<AIchatbot userType="teacher"/>}></Route>
         {/* --------------STUDENTS ROUTES --------------------*/}
         {/* <Route path="/student" element={<DashboardPageStudent/>}></Route> */}
         {/* <Route path="/student" element={<DashboardPage/>}></Route> */}
@@ -46,8 +47,7 @@ function App() {
         <Route path="/student" element={<DashboardPageStudent/>}></Route>
         <Route path="/student/class/:class_id" element={<DashboardStudentClassPage/>}></Route>
         <Route path="/student/class/:class_id/assignment/:assignment_id" element={<PageAssignmentView/>}></Route>
-
-        <Route path="/aichat" element={<AIchatbot/>}></Route>
+        <Route path="/aichatStudent" element={<AIchatbot userType="student"/>}></Route>
         <Route path="/teacherprofile" element={<TeacherProfilePage/>}></Route> {/* Teacher Profile */}
         <Route path="/studentprofile" element={<StudentProfilePage/>}></Route> {/* Student Profile */}
       </Routes>
