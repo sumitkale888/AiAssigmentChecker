@@ -91,10 +91,10 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
             <div className="mt-auto mb-[70px]">
                 <div 
                     onClick={handleLogoClick} 
-                    className='cursor-pointer flex items-center gap-3 p-3 rounded-[70px] transition-colors duration-200 ease-in-out hover:bg-red-50 hover:text-red-700'
+                    className='cursor-pointer flex items-center gap-3 p-3 rounded-[70px] transition-colors duration-200 ease-in-out hover:bg-red-50 hover:text-red-700 position-relative'
                 >
-                    <h1 className='text-red-500 font-semibold text-xl px-8'>{isOpen ? 'Logout' : ''}</h1>
-                    <img src={MenuImg} className='w-6 h-6' alt="Logout" />
+                    <h1 className={`text-red-500 font-semibold text-xl px-8 `}>{isOpen ? '   Logout' : ''}</h1>
+                    <img src={MenuImg} className={`w-6 h-6  position-absolute ${isOpen ? 'ml-[-140px]' : 'ml-[-75px]'}`} alt="Logout" />
                 </div>
             </div>
         </div>

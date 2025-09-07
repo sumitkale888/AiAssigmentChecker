@@ -5,14 +5,16 @@ import StudentClassCard from "./StudentClassCard"
 import useFetch from '../../../shared/hooks/UseFetch';
 import JoinClass from './JoinClass';
 import { useState } from 'react';
+import AnimatedLoader from '../../../shared/components/loaders/DefaultLoader';
 
 const HomeStudent = () => {
-  const { data, refetch } = useFetch<any>({
+  const { data, refetch , status } = useFetch<any>({
     method: "GET",
     url: `${import.meta.env.VITE_BACKEND_URL}/student/class`,
   });
 
   const [showModal, setShowModal] = useState(false);
+  
 
   return (
     <div>
@@ -31,7 +33,9 @@ const HomeStudent = () => {
               <StudentClassCard key={item.class_id} {...item} />
             ))}
         </div>
-
+        
+        
+        
         {showModal && (
           <JoinClass
             onClose={() => setShowModal(false)}
@@ -41,6 +45,14 @@ const HomeStudent = () => {
             }}
           />
         )}
+
+        {
+          status === "loading" && (
+            <div className=" mt-[300px] ">
+              <AnimatedLoader />
+            </div>
+          )
+        }
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const HamburgerIcon: React.FC = () => {
     const isOpen = useSelector((state: RootState) => state.shared.sidebarStatus.isOpen);
   return (
     <div
-      className="w-8 h-8 flex flex-col justify-around cursor-pointer ml-4"
+      className="w-8 h-4 flex flex-col justify-around cursor-pointer ml-7"
       onClick={() => dispatch(toggleSidebar())}
       aria-label="Toggle menu"
       role="button"
@@ -23,18 +23,18 @@ const HamburgerIcon: React.FC = () => {
       onKeyDown={(e) => e.key === "Enter" && dispatch(toggleSidebar())}
     >
       <span
-        className={`block h-1 w-full bg-gray-400 rounded transform transition duration-300 ease-in-out origin-left ${
-          isOpen ? "rotate-45 translate-y-3" : ""
+        className={`block h-0.5 w-2/3 bg-gray-400 rounded transform transition duration-300 ease-in-out origin-left ${
+          isOpen ? "rotate-30 translate-y-2.5" : ""
         }`}
       />
       <span
-        className={`block h-1 w-full bg-gray-400 rounded transition-opacity duration-300 ease-in-out ${
+        className={`block h-0.5 w-2/3 bg-gray-400 rounded transition-opacity duration-300 ease-in-out ${
           isOpen ? "opacity-0" : "opacity-100"
         }`}
       />
       <span
-        className={`block h-1 w-full bg-gray-400 rounded transform transition duration-300 ease-in-out origin-left ${
-          isOpen ? "-rotate-45 -translate-y-3" : ""
+        className={`block h-0.5 w-2/3 bg-gray-400 rounded transform transition duration-300 ease-in-out origin-left ${
+          isOpen ? "-rotate-30 -translate-y-0" : ""
         }`}
       />
     </div>

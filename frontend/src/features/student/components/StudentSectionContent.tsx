@@ -4,10 +4,11 @@ import React from 'react';
 import AssignmentPost from './AssigmentPost';
 import useFetch from '../../../shared/hooks/UseFetch';
 import { useNavigate } from 'react-router-dom';
+import CircularLoader from '../../../shared/components/loaders/CircularLoader';
 const StudentSectionContent: React.FC<{ class_id: string | undefined }> = ({ class_id }) => {
 
     const navigate = useNavigate();
-    const { data, } = useFetch<any>({ method: "GET", url: `${import.meta.env.VITE_BACKEND_URL}/student/class/assignments/${class_id}` })
+    const { data,status } = useFetch<any>({ method: "GET", url: `${import.meta.env.VITE_BACKEND_URL}/student/class/assignments/${class_id}` })
     const { data: classData} = useFetch<any>({ method: "GET", url: `${import.meta.env.VITE_BACKEND_URL}/student/class/${class_id}` })
 
     return (
@@ -37,6 +38,9 @@ const StudentSectionContent: React.FC<{ class_id: string | undefined }> = ({ cla
                     {/* Main Stream Content */}
                 <div className="w-full md:w-2/3">
                     <div>
+                        {
+
+                        }
                         {data && data.length > 0 ? (
                             data.map((assignment: any) => (
                                 <div className='mb-4 cursor-pointer' key={assignment.assignment_id} onClick={() => navigate(`/student/class/${class_id}/assignment/${assignment.assignment_id}`)}>
@@ -44,7 +48,9 @@ const StudentSectionContent: React.FC<{ class_id: string | undefined }> = ({ cla
                                 </div>
                             ))
                         ) : (
-                            <p className="text-gray-500">No assignments found.</p>
+                                                       <div className='text-center text-gray-500 '>
+                                {status === 'loading' ? <div className='mt-[50px] ml-[50px]'><CircularLoader /> </div>: 'No assignments available.'}
+                            </div>
                         )}
                     </div>
                     {/* 
