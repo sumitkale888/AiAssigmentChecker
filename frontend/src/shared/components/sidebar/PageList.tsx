@@ -48,7 +48,6 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
         { item_name: 'Dashboard', item_img: DashboardImg,navigate:"/dashboard"},
         { item_name: 'Analysis', item_img: AnalyticsImg,navigate:"/analysis"},
         { item_name: 'Chatbox', item_img: RobotImg,navigate:`/aichat${userType === 'student' ? 'Student' : ''}`},
-          // ✅ New Attendance item
         { item_name: 'Attendance', item_img: CalenderImg, navigate:"/student/attendance"},
 
     ];
