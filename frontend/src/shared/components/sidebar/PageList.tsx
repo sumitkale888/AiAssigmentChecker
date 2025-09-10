@@ -2,7 +2,7 @@ import HomeImg from '../../../assets/home.svg';
 import MenuImg from '../../../assets/logout.svg';
 import SettingImg from '../../../assets/settings.svg';
 
-import CalenderImg from '../../../assets/calendar.png';
+import CalenderImg from '../../../assets/Calendar.png';
 
 import DashboardImg from '../../../assets/dashboardImg.svg';
 import AnalyticsImg from '../../../assets/Analytics.svg';
