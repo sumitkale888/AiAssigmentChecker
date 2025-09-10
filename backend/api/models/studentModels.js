@@ -121,7 +121,50 @@ getStudentByStudent_id = async (student_id) => {
   }
 };
 
+//shaivi first sample
 
+// Get classes + overall attendance for a student
+// 1. Get summary: all classes + attendance %
+const getClassesWithAttendanceByStudentId = async (student_id) => {
+  const query = `
+    SELECT 
+      c.class_id,
+      c.class_name,
+      COUNT(a.attendance_id) AS total_classes,
+      COUNT(a.attendance_id) FILTER (WHERE a.status = 'Present') AS present_count
+    FROM classes c
+    JOIN class_students cs ON cs.class_id = c.class_id
+    LEFT JOIN attendance a 
+      ON a.class_id = c.class_id AND a.student_id = cs.student_id
+    WHERE cs.student_id = $1
+    GROUP BY c.class_id, c.class_name
+  `;
+  const { rows } = await pool.query(query, [student_id]);
+  return rows.map(r => ({
+    class_id: r.class_id,
+    class_name: r.class_name,
+    total_classes: r.total_classes,
+    present: r.present_count,
+    attendance_percentage: r.total_classes > 0
+      ? ((r.present_count / r.total_classes) * 100).toFixed(1)
+      : 0
+  }));
+};
+
+// 2. Get detail: date-wise attendance for one class
+const getAttendanceByStudentAndClass = async (student_id, class_id) => {
+  const query = `
+    SELECT a.date, a.status
+    FROM attendance a
+    WHERE a.student_id = $1 AND a.class_id = $2
+    ORDER BY a.date DESC
+  `;
+  const { rows } = await pool.query(query, [student_id, class_id]);
+  return rows;
+};
+
+
+// end shaivi first sample
 
 
 module.exports = {
@@ -131,8 +174,11 @@ module.exports = {
   getStudentsByClass_id,
   getClassInfoByStudentId,
   getSubmissionsByAssigment_idAndStudent_id,
-  getStudentByStudent_id
+  getStudentByStudent_id,
 
+  // NEW-shaivi
+  getClassesWithAttendanceByStudentId,
+  getAttendanceByStudentAndClass
 
-}
+};
 
