@@ -11,7 +11,7 @@ interface ClassSummary {
 }
 
 const PageAttendanceDashboard = () => {
-  const { data, error, status } = useFetch<ClassSummary[]>({
+  const { data,  status } = useFetch<ClassSummary[]>({
     method: "GET",
     url: `${import.meta.env.VITE_BACKEND_URL}/student/attendance/summary`,
   });
