@@ -16,6 +16,13 @@ import DashboardPageStudent from './features/student/containers/DashboardPageStu
 import AIchatbot from "./features/AIChatbot/AIchatbot";
 import TeacherProfilePage from "./features/ClassTeacher/profile-teacher/components/TeacherProfile";
 import StudentProfilePage from "./features/student/profile-student/components/StudentProfile";
+
+//new
+import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";
+import PageAttendanceDetail from "./features/student/containers/PageAttendanceDetail";
+
+//new end
+
 function App() {
 
 
@@ -50,6 +57,12 @@ function App() {
         <Route path="/aichatStudent" element={<AIchatbot userType="student"/>}></Route>
         <Route path="/teacherprofile" element={<TeacherProfilePage/>}></Route> {/* Teacher Profile */}
         <Route path="/studentprofile" element={<StudentProfilePage/>}></Route> {/* Student Profile */}
+
+      {/* NEW ATTENDANCE ROUTES */}
+      <Route path="/student/attendance" element={<PageAttendanceDashboard />} />
+      <Route path="/student/attendance/:class_id" element={<PageAttendanceDetail />} />
+
+      {/* NEW ATTENDANCE ROUTES END */}
       </Routes>
     </BrowserRouter>
   

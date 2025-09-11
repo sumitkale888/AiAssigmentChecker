@@ -5,6 +5,8 @@ const {
     handleGetClassInfoByStudentID,
     handleGetAssignmentsByAssignment_id,
     handleGetSubmissionsByAssigment_idAndStudent_id,
+    handleGetClassesWithAttendanceByStudentId,
+    handleGetAttendanceByStudentAndClass,
 } = require("../controller/studentController")
 
 const {
@@ -33,4 +35,10 @@ const {handleJointClassByJoiningID} =require("../controller/studentController")
 router.post("/class/join",handleJointClassByJoiningID)
 router.post("/class/assignment/:assignment_id/submissions", uploadMiddleware.array('files', 10),handleSubmissionUpload)
 
+//new
+// NEW ATTENDANCE ROUTES
+router.get("/attendance/summary", handleGetClassesWithAttendanceByStudentId);
+router.get("/attendance/detail/:class_id", handleGetAttendanceByStudentAndClass);
+
+//new end
 module.exports = router;
