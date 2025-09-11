@@ -32,7 +32,7 @@ const allowedOrigins = [
   'https://ai-assigment-checker-zrth.vercel.app',
   'https://devaiassigmentchecker-c8bfdgd8h6bmdsad.canadacentral-01.azurewebsites.net',
   'https://ai-assigment-checker-wy6o-fpkfkq84d-parthakadam2007s-projects.vercel.app',
-  'http://ec2-user@ec2-65-0-205-222.ap-south-1.compute.amazonaws.com'
+  'http://ec2-65-0-205-222.ap-south-1.compute.amazonaws.com'
 ];
 
 app.use(cors({
