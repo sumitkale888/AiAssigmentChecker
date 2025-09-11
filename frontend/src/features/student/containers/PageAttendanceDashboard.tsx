@@ -11,7 +11,7 @@ interface ClassSummary {
 }
 
 const PageAttendanceDashboard = () => {
-  const { data,  status } = useFetch<ClassSummary[]>({
+  const { data, status } = useFetch<ClassSummary[]>({
     method: "GET",
     url: `${import.meta.env.VITE_BACKEND_URL}/student/attendance/summary`,
   });
@@ -50,6 +50,14 @@ const PageAttendanceDashboard = () => {
           {status === "success" && classes.length === 0 && (
             <p>No classes found.</p>
           )}
+
+          {/* ⚠️ Error state */}
+          {status === "error" && (
+            <p className="text-red-500 text-center">
+              Failed to load attendance data.
+            </p>
+          )}
+
         </div>
       </div>
     </div>
