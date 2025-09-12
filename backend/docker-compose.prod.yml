@@ -2,38 +2,87 @@ version: '3.8'
 
 services:
   redis:
-    image: aiassigmentcheckerregistry.azurecr.io/samples/redis
+    image: redis:latest
     ports:
       - "6379:6379"
 
   api:
-    image: aiassigmentcheckerregistry.azurecr.io/samples/backend-api
-    # env_file:
-    #   - .env.production
+    build: ./api
+    env_file:
+      - .env
     depends_on:
       - redis
     ports:
       - "3000:3000"
-
+    volumes:
+      - ./api:/app  # 👈 Mount your local code inside the container  
+      - /app/node_modules
   worker-1:
-    image: aiassigmentcheckerregistry.azurecr.io/samples/backend-worker-1
-    # env_file:
-    #   - .env.production
+    build: ./api
+    env_file:
+      - .env
     depends_on:
       - redis
     command: ["npm", "run", "workerdev"]
+    volumes:
+      - ./api:/app
+      - /app/node_modules
 
   worker-2:
-    image: aiassigmentcheckerregistry.azurecr.io/samples/backend-worker-2
-    # env_file:
-    #   - .env.production
+    build: ./api
+    env_file:
+      - .env
     depends_on:
       - redis
     command: ["npm", "run", "workerdev"]
+    volumes:
+      - ./api:/app
+      - /app/node_modules
 
+  python_api:
+    build: ./python_api
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./python_api:/code/app/
+      - /code/app/venv
+    
+     
   nginx:
-    image: aiassigmentcheckerregistry.azurecr.io/samples/nginx
+    image: nginx:latest
+    container_name: nginx_prod
+    restart: unless-stopped
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      # ✅ Production NGINX config
+      - ./nginx/prod.conf:/etc/nginx/nginx.conf:ro
+
+      # ✅ ACME challenge + Certbot persistence
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+
     depends_on:
       - api
+      - python_api
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/www:/var/www/certbot
+      - ./certbot/conf:/etc/letsencrypt
+    entrypoint: >
+      sh -c "trap exit TERM;
+      while :; do
+        certbot renew --webroot -w /var/www/certbot --quiet --agree-tos &&
+        nginx -s reload;
+        sleep 12h;
+      done"
