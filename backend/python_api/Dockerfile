@@ -14,4 +14,4 @@ RUN pip install -r /code/requirements.txt
 COPY ./ /code/app
 ENV PYTHONPATH=/code/app
 
-CMD ["fastapi", "dev", "/code/app/main.py", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -16,6 +16,13 @@ import DashboardPageStudent from './features/student/containers/DashboardPageStu
 import AIchatbot from "./features/AIChatbot/AIchatbot";
 import TeacherProfilePage from "./features/ClassTeacher/profile-teacher/components/TeacherProfile";
 import StudentProfilePage from "./features/student/profile-student/components/StudentProfile";
+
+import StudentDashboardPage from "./features/student/student-dashboard/Studentdashboard";
+import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
+import Attendance from "./features/student/student-analysis/attendance/Attendance";
+import Performance from "./features/student/student-analysis/overall-performance/Performance";
+import Progress from "./features/student/student-analysis/progress-report/Progress";
+
 function App() {
 
 
@@ -50,6 +57,12 @@ function App() {
         <Route path="/aichatStudent" element={<AIchatbot userType="student"/>}></Route>
         <Route path="/teacherprofile" element={<TeacherProfilePage/>}></Route> {/* Teacher Profile */}
         <Route path="/studentprofile" element={<StudentProfilePage/>}></Route> {/* Student Profile */}
+
+        <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> {/* Student Dashboard */}
+        <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> {/* Student Analysis */}
+        <Route path="/attendance" element={<Attendance/>}></Route>
+        <Route path="/performance" element={<Performance/>}></Route>
+        <Route path="/progress" element={<Progress />}></Route>
       </Routes>
     </BrowserRouter>
   

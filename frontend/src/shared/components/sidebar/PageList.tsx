@@ -42,8 +42,8 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
 
     const pageList = [
         { item_name: 'Home', item_img: HomeImg ,navigate:`/${userType}`},
-        { item_name: 'Dashboard', item_img: DashboardImg,navigate:"/dashboard"},
-        { item_name: 'Analysis', item_img: AnalyticsImg,navigate:"/analysis"},
+        { item_name: 'Dashboard', item_img: DashboardImg,navigate:"/studentdashboard"},
+        { item_name: 'Analysis', item_img: AnalyticsImg,navigate:"/studentanalysis"},
         { item_name: 'Chatbox', item_img: RobotImg,navigate:`/aichat${userType === 'student' ? 'Student' : ''}`},
     ];
 

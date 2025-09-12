@@ -29,9 +29,10 @@ const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userT
     setInputMessage('');
 
     // fire request (but don’t handle response here)
-    await execute(`http://localhost:80/python_api/${userType}ChatBottest`, 'POST', {
-      message: inputMessage,
-    });
+    await execute(`http://localhost:80/python_api/${userType}ChatBottest`, 'POST',
+      {message: inputMessage} ,
+      
+    );
   };
 
   // 🔥 Whenever status/data changes, add bot message
@@ -53,14 +54,15 @@ const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userT
     }
   }, [status, data, error]);
 
+  // overflow-y-scroll
   return (
     <div>
       <Header />
       <div className="flex">
         <PageList userType="student"/>
-        <div className="relative w-full bg-gray-100 flex flex-col items-center justify-between">
+        <div className="relative w-full bg-gray-100 flex flex-col items-center justify-between rounded-[30px]">
           {/* Chat messages */}
-          <div className="flex-grow w-full max-w-4xl mx-auto p-4 overflow-y-scroll h-[500px] ">
+          <div className="flex-grow w-full max-w-4xl mx-auto p-4 overflow-y-scroll h-[500px]"> 
             {messages.map((msg, index) => (
               <div
                 key={index}

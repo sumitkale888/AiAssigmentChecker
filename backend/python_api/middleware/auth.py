@@ -10,7 +10,6 @@ def auth_middleware(cookie_name: str):
         token = request.cookies.get(cookie_name)
         if not token:
             raise HTTPException(status_code=402, detail="Unauthorized")
-
         try:
             # ✅ FIXED: pass token first, then secret
             payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
