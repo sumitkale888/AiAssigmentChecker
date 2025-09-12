@@ -44,7 +44,7 @@ const StudentAnalysis: React.FC = () => {
             {students.map((student, index) => (
               <div
                 key={index}
-                onClick={() => navigate(student.route)}
+                onClick={() => navigate(student.route!)}
                 className="w-72 border bg-white rounded-3xl overflow-hidden cursor-pointer border-gray-300 font-inter shadow-md text-black hover:shadow-lg transition-shadow duration-200"
               >
                 <div
