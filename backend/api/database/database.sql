@@ -108,3 +108,16 @@ weaknesses TEXT DEFAULT NULL,
 improvementAreas TEXT DEFAULT NULL,
   submission_id INTEGER REFERENCES submissions(submission_id) ON DELETE CASCADE
 );
+
+
+-- ================================
+-- Attendance table
+-- ================================
+CREATE TABLE attendance (
+  attendance_id SERIAL PRIMARY KEY,
+  class_id INTEGER REFERENCES classes(class_id) ON DELETE CASCADE,
+  student_id INTEGER REFERENCES students(student_id) ON DELETE CASCADE,
+  date DATE DEFAULT CURRENT_DATE,       -- which lecture/day
+  status VARCHAR(20) DEFAULT 'Absent',  -- 'Present' or 'Absent'
+  UNIQUE (class_id, student_id, date)   -- avoid duplicates
+);
