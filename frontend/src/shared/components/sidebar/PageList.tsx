@@ -2,8 +2,7 @@ import HomeImg from '../../../assets/home.svg';
 import MenuImg from '../../../assets/logout.svg';
 import SettingImg from '../../../assets/settings.svg';
 
-import CalenderImg from '../../../assets/Calendar.png';
-
+import CalenderImg from '../../../assets/calendar.svg'
 import DashboardImg from '../../../assets/dashboardImg.svg';
 import AnalyticsImg from '../../../assets/Analytics.svg';
 import RobotImg from '../../../assets/Robot_2.svg';
@@ -45,8 +44,8 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
 
     const pageList = [
         { item_name: 'Home', item_img: HomeImg ,navigate:`/${userType}`},
-        { item_name: 'Dashboard', item_img: DashboardImg,navigate:"/dashboard"},
-        { item_name: 'Analysis', item_img: AnalyticsImg,navigate:"/analysis"},
+        { item_name: 'Dashboard', item_img: DashboardImg,navigate:"/studentdashboard"},
+        { item_name: 'Analysis', item_img: AnalyticsImg,navigate:"/studentanalysis"},
         { item_name: 'Chatbox', item_img: RobotImg,navigate:`/aichat${userType === 'student' ? 'Student' : ''}`},
         { item_name: 'Attendance', item_img: CalenderImg, navigate:"/student/attendance"},
 
