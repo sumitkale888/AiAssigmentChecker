@@ -29,16 +29,22 @@ const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userT
     setInputMessage('');
 
     // fire request (but don’t handle response here)
+
     await execute(`http://localhost:80/python_api/${userType}ChatBottest`, 'POST',
       {message: inputMessage} ,
       
     );
+
+    await execute(`${import.meta.env.VITE_BACKEND_URL_BASE}/python_api/${userType}ChatBottest`, 'POST', {
+      message: inputMessage,
+    });
+
   };
 
   // 🔥 Whenever status/data changes, add bot message
   useEffect(() => {
     if (status === 'success' && data) {
-      console.log('API Response:', data);
+      console.log('API Responsewee:', data);
       const botContent =
         data.response?.content ??
         "error displaying response";

@@ -28,6 +28,7 @@ const allowedOrigins = [
   'http://localhost:80',
   'http://localhost:8000',
   'http://localhost',
+  'http://localhost:443',
   'https://ai-assigment-checker-rho.vercel.app',
   'https://ai-assigment-checker-zrth.vercel.app',
   'https://devaiassigmentchecker-c8bfdgd8h6bmdsad.canadacentral-01.azurewebsites.net',
