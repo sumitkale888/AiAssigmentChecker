@@ -41,7 +41,7 @@ const PageAttendanceDetail: React.FC = () => {
         <PageList />
 
         {/* Main Content */}
-        <div className="flex-1 p-6 sm:p-8 lg:p-10 bg-gray-100 min-h-screen font-sans rounded-tl-4xl">
+        <div className="flex-1 p-6 sm:p-8 lg:p-10 bg-gray-300 min-h-screen font-sans rounded-l-3xl">
           <div className="max-w-5xl mx-auto bg-white rounded-[30px] shadow-md overflow-hidden">
             <div className="p-6 sm:p-8 lg:p-10">
               <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-6">
