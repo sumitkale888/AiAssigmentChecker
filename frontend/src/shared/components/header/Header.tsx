@@ -42,8 +42,9 @@ const Header = ()=>{
             </div>
 
             {/* Username greeting on right */}
-            <div className='absolute right-15 m-2.5 text-gray-800 font-semibold pt-0 '>
+            <div className='absolute right-15 m-2.5 text-gray-500 font-semibold pt-0 '>
                 Hi! {authStatus.userData?.name || authStatus.user}
+                {/* {localStorage} */}
             </div>
 
             {/* User profile image on far right */}
