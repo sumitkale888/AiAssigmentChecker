@@ -10,7 +10,7 @@ const DashboardStudentSubmission: React.FC = () => {
         <div>
             <Header />
             <div className="flex ">
-                <PageList />
+                <PageList userType="student"/>
                 <StudentSubmission class_id={class_id } student_id={student_id} />
             </div>
         </div>

@@ -38,7 +38,7 @@ const PageAttendanceDetail: React.FC = () => {
       <Header />
       <div className="flex">
         {/* Sidebar */}
-        <PageList />
+        <PageList userType="student" />
 
         {/* Main Content */}
         <div className="flex-1 p-6 sm:p-8 lg:p-10 bg-gray-300 min-h-screen font-sans rounded-l-3xl">
