@@ -18,11 +18,11 @@ import TeacherProfilePage from "./features/ClassTeacher/profile-teacher/componen
 import StudentProfilePage from "./features/student/profile-student/components/StudentProfile";
 
 
-// import StudentDashboardPage from "./features/student/student-dashboard/Studentdashboard";
-// import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
-// import Attendance from "./features/student/student-analysis/attendance/Attendance";
-// import Performance from "./features/student/student-analysis/overall-performance/Performance";
-// import Progress from "./features/student/student-analysis/progress-report/Progress";
+import StudentDashboardPage from "./features/student/student-dashboard/Studentdashboard";
+import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
+import Attendance from "./features/student/student-analysis/attendance/Attendance";
+import Performance from "./features/student/student-analysis/overall-performance/Performance";
+import Progress from "./features/student/student-analysis/progress-report/Progress";
 
 //new
 import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";
@@ -67,17 +67,17 @@ function App() {
         <Route path="/studentprofile" element={<StudentProfilePage/>}></Route> {/* Student Profile */}
 
 
-        {/* <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard */}
-        {/* <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> Student Analysis */}
-        {/* <Route path="/attendance" element={<Attendance/>}></Route>
+        <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard
+        <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> Student Analysis
+        <Route path="/attendance" element={<Attendance/>}></Route>
         <Route path="/performance" element={<Performance/>}></Route>
-        <Route path="/progress" element={<Progress />}></Route> */}
+        <Route path="/progress" element={<Progress />}></Route>
 
-      {/* NEW ATTENDANCE ROUTES */}
+     
       <Route path="/student/attendance" element={<PageAttendanceDashboard />} />
       <Route path="/student/attendance/:class_id" element={<PageAttendanceDetail />} />
 
-      {/* NEW ATTENDANCE ROUTES END */}
+      
 
       </Routes>
     </BrowserRouter>

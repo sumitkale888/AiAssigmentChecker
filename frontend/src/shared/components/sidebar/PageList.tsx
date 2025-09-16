@@ -52,7 +52,7 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
     ];
 
     return (
-        <div className="w-75 p-4 flex flex-col min-h-screen" style={{ width: isOpen ? '300px' : '75px', transition: 'width 0.2s'}}>
+        <div className="w-75 p-4 flex flex-col h-[90%]" style={{ width: isOpen ? '300px' : '75px', transition: 'width 0.2s'}}>
 
             <div className="flex-grow" >
                 {pageList.map((item) => (
