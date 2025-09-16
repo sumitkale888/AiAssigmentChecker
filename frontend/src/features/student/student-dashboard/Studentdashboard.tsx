@@ -8,7 +8,7 @@ const StudentDashboardPage: React.FC = () => {
 
             <Header/>
             <div className='flex'>
-            <PageList />
+            <PageList userType='student' />
              <div className="relative w-full bg-gray-100 flex flex-col items-center justify-between rounded-[30px]">
                 <h1 className="text-3xl font-bold text-gray-700 mt-8">Student Dashboard Page</h1>
             </div>    
