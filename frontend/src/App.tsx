@@ -18,7 +18,7 @@ import TeacherProfilePage from "./features/ClassTeacher/profile-teacher/componen
 import StudentProfilePage from "./features/student/profile-student/components/StudentProfile";
 
 
-import StudentDashboardPage from "./features/student/student-dashboard/Studentdashboard";
+import StudentDashboardPage from "./features/student/student-analysis/StudentAnalysis";
 import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
 import Attendance from "./features/student/student-analysis/attendance/Attendance";
 import Performance from "./features/student/student-analysis/overall-performance/Performance";
@@ -27,6 +27,7 @@ import Progress from "./features/student/student-analysis/progress-report/Progre
 //new
 import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";
 import PageAttendanceDetail from "./features/student/containers/PageAttendanceDetail";
+import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 
 //new end
 
@@ -72,6 +73,9 @@ function App() {
         <Route path="/attendance" element={<Attendance/>}></Route>
         <Route path="/performance" element={<Performance/>}></Route>
         <Route path="/progress" element={<Progress />}></Route>
+
+        {/* Student Analysis Route */}
+        <Route path="/studentanalysis" element={<DashboardStudentAnalysis/>}></Route>
 
      
       <Route path="/student/attendance" element={<PageAttendanceDashboard />} />
