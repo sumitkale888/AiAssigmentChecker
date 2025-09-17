@@ -199,7 +199,7 @@ createAssignments_attachments = async (attachmentData) => {
 // -- api-1       | ]
 
 createGrade = async (evaluationData) => {
-  const { obtained_grade, student_id, feedback, submission_id } = evaluationData;
+  const { obtained_grade, student_id, feedback,corrections,suggestions,weaknesses,improvementAreas, submission_id } = evaluationData;
   const query = `
     INSERT INTO grades (
        obtained_grade, student_id, feedback,corrections,suggestions,weaknesses,improvementAreas, submission_id
@@ -217,6 +217,7 @@ createGrade = async (evaluationData) => {
     improvementAreas,
     submission_id
   ];
+  console.log("values--",values)
 
   try {
     const result = await pool.query(query, values);

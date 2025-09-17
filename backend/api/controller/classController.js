@@ -41,22 +41,31 @@ handleJoinClasses = async (req, res) => {
   }
 }
 
-// Redis connectioned
-const connection = new Redis({
-  host: process.env.REDIS_HOST,
-  port: process.env.REDIS_PORT,
-  maxRetriesPerRequest: null,
-});
-// Create BullMQ queue
+// ===============================
+// 1️ Imports and Setup
+// ===============================
+const { createClient } = require('@supabase/supabase-js');
+
+// --- Supabase Setup ---
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+const bucketName = 'test-bucket'; // Make sure this bucket exists in Supabase
+
+// --- BullMQ Queue Setup ---
+const connection = {
+  host: process.env.REDIS_HOST || 'localhost',
+  port: process.env.REDIS_PORT || 6379
+};
 const assignmentQueue = new Queue('assignments', { connection });
 
-const { BlobServiceClient } = require('@azure/storage-blob');
-const AZURE_STORAGE_CONNECTION_STRING = process.env.AZURE_STORAGE_CONNECTION_STRING;
-const containerName = 'uplodeaiassignemntchecker'; // Replace this
 
-const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
-const containerClient = blobServiceClient.getContainerClient(containerName);
-handleSubmissionUpload = async (req, res) => {
+
+// ===============================
+// 2️ Controller Function
+// ===============================
+const handleSubmissionUpload = async (req, res) => {
   const files = req.files;
 
   if (!files || files.length === 0) {
@@ -64,43 +73,64 @@ handleSubmissionUpload = async (req, res) => {
   }
 
   try {
+    let uploadedFiles = [];
+
     for (const file of files) {
-      const blobName = `${Date.now()}-${file.originalname}`;
-      const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+      const fileName = `${Date.now()}-${file.originalname}`;
 
-      // Upload the file buffer to Azure
-      await blockBlobClient.uploadData(file.buffer, {
-        blobHTTPHeaders: {
-          blobContentType: file.mimetype
-        }
-      });
+      // 1️ Upload file buffer to Supabase Storage
+      const { data, error } = await supabase
+        .storage
+        .from(bucketName)
+        .upload(fileName, file.buffer, {
+          contentType: file.mimetype,
+          upsert: false // prevent overwriting
+        });
 
-      const azureBlobUrl = blockBlobClient.url;
+      if (error) throw error;
 
-      // Save metadata in your DB
+      // 2️ Generate a signed URL (private & time-limited)
+      const { data: signedUrlData, error: signedUrlError } =
+        await supabase
+          .storage
+          .from(bucketName)
+          .createSignedUrl(fileName, 60 * 60); // 1 hour expiry
+
+      if (signedUrlError) throw signedUrlError;
+
+      const fileUrl = signedUrlData.signedUrl;
+
+      // 3️ Save metadata in your database
       const response = await submissionUpload({
-        file_link: azureBlobUrl,
+        file_link: fileUrl,
         file_original_name: file.originalname,
         student_id: req.user.student_id,
         assignment_id: req.params.assignment_id
       });
-      
+
+      // 4️ Fetch submission + evaluation data
       const submissionEvaluation = await getSubmissionAndEvaluation(response.submission_id);
-      
-      console.log("submissionEvaluation",JSON.stringify(submissionEvaluation))
+
+      console.log("submissionEvaluation", JSON.stringify(submissionEvaluation));
+
+      // 5️ Add evaluation job to queue
       await assignmentQueue.add('evaluate', submissionEvaluation);
+
+      uploadedFiles.push(file.originalname);
     }
-     
+
+    // 6️ Send success response
     res.json({
-      message: 'Files uploaded and queued for evaluation!',
-      files: files.map(f => f.originalname)
+      message: 'Files uploaded to Supabase and queued for evaluation!',
+      files: uploadedFiles
     });
 
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('Supabase upload error:', error);
     res.status(500).json({ error: 'File upload failed' });
   }
 };
+
 
 handleCreateAssigment = async (req, res) => {
   const newAssignment = await createAssigment(req.body);
@@ -116,7 +146,7 @@ handleCreateAssigment = async (req, res) => {
 
 
 
-handleAssignments_attachments = async (req, res) => {
+const handleAssignments_attachments = async (req, res) => {
   const files = req.files;
 
   if (!files || files.length === 0) {
@@ -124,31 +154,47 @@ handleAssignments_attachments = async (req, res) => {
   }
 
   try {
+    const uploadedFiles = [];
+
     for (const file of files) {
-      // Unique blob name (can include folders if you want)
-      const blobName = `attachments/${Date.now()}-${file.originalname}`;
-      const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+      // Generate unique file name (in "attachments" folder)
+      const fileName = `attachments/${Date.now()}-${file.originalname}`;
 
-      // Upload buffer to Azure Blob
-      await blockBlobClient.uploadData(file.buffer, {
-        blobHTTPHeaders: {
-          blobContentType: file.mimetype,
-        },
-      });
+      // 1️⃣ Upload file to Supabase Storage
+      const { data, error } = await supabase
+        .storage
+        .from(bucketName)
+        .upload(fileName, file.buffer, {
+          contentType: file.mimetype,
+          upsert: false, // prevent overwriting existing files
+        });
 
-      const azureBlobUrl = blockBlobClient.url;
+      if (error) throw error;
 
-      // Save metadata to your database
+      // 2️⃣ Create signed URL (so attachments are private but accessible for a limited time)
+      const { data: signedUrlData, error: signedUrlError } =
+        await supabase.storage
+          .from(bucketName)
+          .createSignedUrl(fileName, 60 * 60); // 1 hour expiry
+
+      if (signedUrlError) throw signedUrlError;
+
+      const fileUrl = signedUrlData.signedUrl;
+
+      // 3️⃣ Save metadata in DB
       await createAssignments_attachments({
-        file_link: azureBlobUrl,
+        file_link: fileUrl,
         file_original_name: file.originalname,
         assignment_id: req.params.assignment_id,
       });
+
+      uploadedFiles.push(file.originalname);
     }
 
+    // ✅ Send response
     res.json({
-      message: 'Files uploaded successfully!',
-      files: files.map(f => f.originalname),
+      message: 'Files uploaded to Supabase successfully!',
+      files: uploadedFiles,
     });
 
   } catch (error) {
@@ -157,7 +203,7 @@ handleAssignments_attachments = async (req, res) => {
   }
 };
 
-/////////////////GET Endpoints///////////////////////////////
+/////////////////GET Endpointsc//////////////////////////////
 
 const { getClassByTeacher_id, getAssignmentsByClass_id, getAssignments_attachmentsByAssignment_id, getSubmissionsByAssignment_id, getGradesByAssignment_id, getGradesByStudent_id, getClassInfoByClass_id } = require('../models/classModels');
 
