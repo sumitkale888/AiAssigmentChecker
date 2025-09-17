@@ -79,31 +79,32 @@ if (match) {
   .replace(/=\s*/g, ": ");  // fix = instead of :
 
   try {
-    const jsonResponse = JSON.parse(cleaned);
+  const jsonResponse = JSON.parse(cleaned);
 
-    const feedback = jsonResponse.feedback || "No feedback provided";
+  const feedback = jsonResponse.feedback || "No feedback provided";
 
-    const rawGrade = jsonResponse.grade;
-    let grade = parseInt(rawGrade);
-    if (isNaN(grade)) grade = 0;
+  const rawGrade = jsonResponse.grade;
+  let grade = parseInt(rawGrade);
+  if (isNaN(grade)) grade = 0;
 
-    console.log(
-      `Feedback: ${feedback}, Grade: ${grade}, Submission ID: ${data[0].submission_id}`
-    );
+  console.log(
+    `Feedback: ${feedback}, Grade: ${grade}, Submission ID: ${data[0].submission_id}`
+  );
 
-    await createGrade({
-      obtained_grade: grade,
-      student_id: data[0].student_id,
-      feedback: cleaned.feedback,
-      corrections:cleaned.corrections,
-      suggestions:cleaned.suggestions,
-      weaknesses:cleaned.weaknesses,
-      improvementAreas:cleaned.improvementAreas,
-      submission_id: data[0].submission_id,
-    });
-  } catch (err) {
-    console.error("JSON parse failed:", err, "\nCleaned text:", cleaned);
-  }
+  await createGrade({
+    obtained_grade: grade,
+    student_id: data[0].student_id,
+    feedback: jsonResponse.feedback || null,
+    corrections: jsonResponse.corrections || null,
+    suggestions: jsonResponse.suggestions || null,
+    weaknesses: jsonResponse.weaknesses || null,
+    improvementAreas: jsonResponse.improvementAreas || null,
+    submission_id: data[0].submission_id,
+  });
+} catch (err) {
+  console.error("JSON parse failed:", err, "\nCleaned text:", cleaned);
+}
+
 } else {
   console.log("No JSON found in response!");
 }
