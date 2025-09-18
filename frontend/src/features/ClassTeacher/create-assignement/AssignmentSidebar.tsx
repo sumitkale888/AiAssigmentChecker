@@ -14,9 +14,9 @@ const AssignmentSidebar = () => {
             <div className="space-y-6">
                 {/* For Section */}
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">For</label>
+                    <label className="block text-sm font-medium text-gray-400">For</label>
                     <select 
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-white"
+                        className="w-full px-3 py-2  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm  bg-gray-50"
                         value="All students"
                     >
                         <option>All students</option>
@@ -26,7 +26,7 @@ const AssignmentSidebar = () => {
 
                 {/* Points Section */}
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Points</label>
+                    <label className="block text-sm font-medium text-gray-400 ">Points</label>
                     <input
                         type="number"
                         value={points}
@@ -37,13 +37,13 @@ const AssignmentSidebar = () => {
                                 points: e.target.value
                             }));
                         }}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        className="w-20 h-10 px-3 py-2   shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-gray-100"
                     />
                 </div>
 
                 {/* Due Date Section */}
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Due</label>
+                    <label className="block text-sm font-medium text-gray-400">Due</label>
                     <input
                         type="date"
                         value={dueDate}
@@ -54,17 +54,17 @@ const AssignmentSidebar = () => {
                                 deadline: e.target.value
                             }));
                         }}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        className="w-35 px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-gray-100"
                     />
                 </div>
 
                 {/* Topic Section */}
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Topic</label>
+                    <label className="block text-sm font-medium text-gray-400">Topic</label>
                     <select
                         value={topic}
                         onChange={(e) => setTopic(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm bg-white"
+                        className="w-full px-3 py-2  rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm  bg-gray-100"
                     >
                         <option>No topic</option>
                         <option>Topic 1</option>
@@ -76,10 +76,10 @@ const AssignmentSidebar = () => {
 
                 {/* Evaluation Guidelines Section */}
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">Evaluation Guidelines</label>
+                    <label className="block text-sm font-medium text-gray-400">Evaluation Guidelines</label>
                     <textarea
                         placeholder="Enter evaluation guidelines"
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm h-32"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm h-32  bg-gray-100"
                         value={assignmentCreateStatus.evaluation_guideline || ''}
                         onChange={(e) => {
                             dispatch(updateAssignmentCreateStatus({

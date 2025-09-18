@@ -17,7 +17,7 @@ interface SectionContent {
 const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) => {
      const { data,status } = useFetch<any>({ method: "GET", url: `${import.meta.env.VITE_BACKEND_URL}/class/assignments/${classInfo.class_id}` })
     return (
-        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden w-full max-w-4xl ml-[15px]">
+        <div className="bg-white rounded-xl  overflow-hidden border border-gray-200 w-6xl ml-[15px] ">
 
             {/* Class Banner */}
             <div className="relative h-48 bg-blue-600 flex items-end justify-between p-6 rounded-t-[10px]"
@@ -34,10 +34,10 @@ const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) 
             </div>
 
             {/* Main Content Area */}
-            <div className="flex flex-col md:flex-row p-6">
+            <div className="flex flex-col md:flex-row p-6 border border-white mt-10">
                 {/* Left Sidebar */}
                 <div className="w-full md:w-1/3 pr-0 md:pr-6 mb-6 md:mb-0">
-                    <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4">
+                    <div className="bg-white p-4 rounded-lg shadow-sm mb-4">
                         <div className="flex justify-between items-center mb-2">
                             <h3 className="text-gray-700 font-semibold">Class code</h3>
                             <button className="text-gray-500 hover:text-gray-700">
@@ -71,7 +71,7 @@ const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) 
                         </div>
                     </div>
 
-                    <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                    <div className="bg-white p-4 rounded-lg shadow-sm">
                         <h3 className="text-gray-700 font-semibold mb-2">Upcoming</h3>
                         <p className="text-gray-500 text-sm mb-4">No work due soon</p>
                         <button className="text-blue-600 hover:underline text-sm font-medium">View all</button>
@@ -81,7 +81,7 @@ const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) 
                 {/* Main Stream Content */}
                 <div className="w-full md:w-2/3">
                     {/* Announce something section */}
-                    <div className="bg-gray-50 p-4 rounded-lg shadow-sm flex items-center mb-4">
+                    <div className="bg-white     p-4 rounded-lg shadow-sm flex items-center mb-4">
                         <div className="w-10 h-10 bg-purple-500 text-white flex items-center justify-center rounded-full font-bold text-lg mr-4">
                             P
                         </div>

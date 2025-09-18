@@ -18,7 +18,7 @@ const connection = new Redis({
   port: process.env.REDIS_PORT,
   maxRetriesPerRequest: null, 
 });
-
+//
 
 const allowedOrigins = [
   'http://localhost',
@@ -29,6 +29,7 @@ const allowedOrigins = [
   'http://localhost:8000',
   'http://localhost',
   'http://localhost:443',
+  'https://localhost',
   'https://ai-assigment-checker-rho.vercel.app',
   'https://ai-assigment-checker-zrth.vercel.app',
   'https://devaiassigmentchecker-c8bfdgd8h6bmdsad.canadacentral-01.azurewebsites.net',
