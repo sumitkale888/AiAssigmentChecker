@@ -3,7 +3,7 @@ import useFetch from "../../../../shared/hooks/UseFetch";
 // import AnimatedLoader from "../../../../shared/components/loaders/DefaultLoader";
 import { useParams } from "react-router-dom";
 import useManualFetch from "../../../../shared/hooks/useManualFetch";
-
+import AnimatedLoader from "../../../../shared/components/loaders/DefaultLoader";
 interface Student {
   student_id: number;
   first_name: string;
@@ -59,8 +59,7 @@ const PageAttendance: React.FC = () => {
     setStatusMap(newStatusMap);
   };
 
-  // const { execute, status: saveStatus, error: saveError } = useManualFetch();
-  const { execute, error: saveError } = useManualFetch();
+  const { execute, status: saveStatus, error: saveError } = useManualFetch();
 
   const handleSave = async () => {
     const students_id = Object.keys(statusMap).map(Number);
@@ -77,6 +76,7 @@ const PageAttendance: React.FC = () => {
       "POST",
       payload
     );
+    console.log("Save result:", result);
 
     
   };
