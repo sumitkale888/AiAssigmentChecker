@@ -19,15 +19,16 @@ import StudentProfilePage from "./features/student/profile-student/components/St
 
 import PageAttendance from "./features/ClassTeacher/components/attendance/PageAttendance";
 
-// import StudentDashboardPage from "./features/student/student-dashboard/Studentdashboard";
-// import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
+import StudentDashboardPage from "./features/student/student-analysis/StudentAnalysis";
+import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
 // import Attendance from "./features/student/student-analysis/attendance/Attendance";
-// import Performance from "./features/student/student-analysis/overall-performance/Performance";
-// import Progress from "./features/student/student-analysis/progress-report/Progress";
+import Performance from "./features/student/student-analysis/overall-performance/Performance";
+import Progress from "./features/student/student-analysis/progress-report/Progress";
 
 //new
 import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";
 import PageAttendanceDetail from "./features/student/containers/PageAttendanceDetail";
+import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 
 //new end
 
@@ -71,19 +72,19 @@ function App() {
         <Route path="/studentprofile" element={<StudentProfilePage/>}></Route> {/* Student Profile */}
 
 
-        {/* <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard */}
-        {/* <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> Student Analysis */}
-        {/* <Route path="/attendance" element={<Attendance/>}></Route>
+        <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard
+        <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> Student Analysis
         <Route path="/performance" element={<Performance/>}></Route>
-        <Route path="/progress" element={<Progress />}></Route> */}
+        <Route path="/progress" element={<Progress />}></Route>
 
-      {/* ATTENDANCE ROUTES */}
+        {/* Student Analysis Route */}
+        <Route path="/studentanalysis" element={<DashboardStudentAnalysis/>}></Route>
+
+     
       <Route path="/student/attendance" element={<PageAttendanceDashboard />} />
       <Route path="/student/attendance/:class_id" element={<PageAttendanceDetail />} />
 
-      {/* add attendance routes here */}
-
-
+      
 
       </Routes>
     </BrowserRouter>

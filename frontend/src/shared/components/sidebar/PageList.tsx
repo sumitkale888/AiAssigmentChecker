@@ -1,9 +1,9 @@
-import HomeImg from '../../../assets/home.svg';
+import HomeImg from '../../../assets/home.svg'
 import MenuImg from '../../../assets/logout.svg';
 import SettingImg from '../../../assets/settings.svg';
 
 import CalenderImg from '../../../assets/calendar.svg'
-import DashboardImg from '../../../assets/dashboardImg.svg';
+// import DashboardImg from '../../../assets/dashboardImg.svg';
 import AnalyticsImg from '../../../assets/Analytics.svg';
 import RobotImg from '../../../assets/Robot_2.svg';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,7 +44,7 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
 
     const pageList = [
         { item_name: 'Home', item_img: HomeImg ,navigate:`/${userType}`},
-        { item_name: 'Dashboard', item_img: DashboardImg,navigate:"/studentdashboard"},
+        // { item_name: 'Dashboard', item_img: DashboardImg,navigate:`/${userType}`},
         { item_name: 'Analysis', item_img: AnalyticsImg,navigate:"/studentanalysis"},
         { item_name: 'Chatbox', item_img: RobotImg,navigate:`/aichat${userType === 'student' ? 'Student' : ''}`},
         { item_name: 'Attendance', item_img: CalenderImg, navigate:"/student/attendance"},
@@ -52,19 +52,18 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
     ];
 
     return (
-        <div className="w-75 p-4 flex flex-col min-h-screen" style={{ width: isOpen ? '300px' : '75px', transition: 'width 0.2s'}}>
+        <div className="w-75 p-2 flex flex-col min-h-screen" style={{ width: isOpen ? '300px' : '80px', transition: 'width 0.1s'}}>
 
             <div className="flex-grow" >
                 {pageList.map((item) => (
                     <div
                         key={item.item_name}
                         onClick={() => handleItemSelection(item.item_name)}
-                        
                         className={`
-                            flex items-center gap-5 p-3 rounded-[70px] cursor-pointer mb-2
+                            flex items-center gap-4 p-4 rounded-[70px] cursor-pointer mb-2
                             transition-colors duration-200 ease-in-out
                             ${activePage === item.item_name
-                                ? 'bg-blue-400 text-blue-100 font-semibold shadow-inner'
+                                ? 'bg-blue-500 text-blue-50 font-bold shadow-inner'
                                 : 'text-gray-700 hover:bg-blue-50 hover:text-gray-700'
                             }
                         `}
@@ -81,7 +80,7 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
                 
             <div 
                 className={`
-                          flex items-center gap-5 p-3 rounded-[70px] cursor-pointer mb-2
+                          flex items-center gap-5 p-4 rounded-[70px] cursor-pointer mb-2
                            transition-colors duration-200 ease-in-out hover:bg-blue-100 `}
                         >
                         <img
@@ -95,7 +94,7 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
             <div className="mt-auto mb-[70px]">
                 <div 
                     onClick={handleLogoClick} 
-                    className='cursor-pointer flex items-center gap-3 p-3 rounded-[70px] transition-colors duration-200 ease-in-out hover:bg-red-50 hover:text-red-700 position-relative'
+                    className='cursor-pointer flex items-center gap-3 p-4 rounded-[70px] transition-colors duration-200 ease-in-out hover:bg-red-50 hover:text-red-700 position-relative'
                 >
                     <h1 className={`text-red-500 font-semibold text-xl px-8 `}>{isOpen ? '   Logout' : ''}</h1>
                     <img src={MenuImg} className={`w-6 h-6  position-absolute ${isOpen ? 'ml-[-140px]' : 'ml-[-75px]'}`} alt="Logout" />
