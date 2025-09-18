@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useFetch from "../../../../shared/hooks/UseFetch";
-import AnimatedLoader from "../../../../shared/components/loaders/DefaultLoader";
+// import AnimatedLoader from "../../../../shared/components/loaders/DefaultLoader";
 import { useParams } from "react-router-dom";
 import useManualFetch from "../../../../shared/hooks/useManualFetch";
 
@@ -38,7 +38,6 @@ const PageAttendance: React.FC = () => {
       const initialStatus: Record<number, string> = {};
       students.forEach((s) => (initialStatus[s.student_id] = "Present"));
       setStatusMap(initialStatus);
-      setSelectAll(true);
     }
   }, [students]);
 
@@ -60,7 +59,8 @@ const PageAttendance: React.FC = () => {
     setStatusMap(newStatusMap);
   };
 
-  const { execute, status: saveStatus, error: saveError } = useManualFetch();
+  // const { execute, status: saveStatus, error: saveError } = useManualFetch();
+  const { execute, error: saveError } = useManualFetch();
 
   const handleSave = async () => {
     const students_id = Object.keys(statusMap).map(Number);
