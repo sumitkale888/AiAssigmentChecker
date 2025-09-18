@@ -228,6 +228,9 @@ createGrade = async (evaluationData) => {
   }
 }
 
+//ATTENDENCE
+
+
 
 ///////////////////////////GET MODLELS///////////////////////////
 
@@ -393,7 +396,7 @@ grade_data AS (
     ON g.submission_id = sub.submission_id
 )
 
--- 🧾 Final JSON Structure
+-- Final JSON Structure
 SELECT json_build_object(
   'students', (SELECT json_agg(student_list) FROM student_list),
   'assignments', (SELECT json_agg(assignment_list) FROM assignment_list),
@@ -514,6 +517,8 @@ getJsonAssignmentCheckInfo = async (student_id, submission_id) => {
     throw error;
   }
 };
+
+
 
 
 module.exports = {

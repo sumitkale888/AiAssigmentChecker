@@ -77,9 +77,10 @@ getClass_idByStudent_id = async (student_id) => {
 
 getStudentsByClass_id = async (class_id) => {
   const query = `
-    SELECT first_name, last_name, email, url_dp
+    SELECT students.student_id, first_name, last_name, email, url_dp
     FROM students
-    INNER JOIN class_students ON students.student_id = class_students.student_id
+    INNER JOIN class_students 
+      ON students.student_id = class_students.student_id
     WHERE class_students.class_id = $1
   `;
 

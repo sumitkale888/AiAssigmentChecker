@@ -17,6 +17,29 @@ createTeacher = async (teacherData) => {
   }
 }
 
+//Attendence From teacher side
+
+createAttendance = async(class_id , student_id  , status )=>{
+  const query = `
+    INSERT INTO attendance(class_id, student_id, status)
+    VALUES ($1, $2, $3)
+    ON CONFLICT (class_id, student_id, date)
+    DO UPDATE SET status = EXCLUDED.status
+  `;
+
+  const values = [class_id, student_id, status];
+
+
+  try{
+    await pool.query(query,values);
+  }catch(error){
+    console.error('Error creating student Attendance:', error);
+    throw error;
+  }
+
+}
+
+
 //////////////////GET MODELS/////////////////
 
 getTeacherByEmail = async (email) => {
@@ -59,10 +82,63 @@ getContext =  async(assignment_id)=>{
   }
 
 }
+
+//Attendance
+
+getAttendanceOfClassByClassId = async (class_id) => {
+  // result = 
+//   [
+//   {
+//     "date": "2025-09-18",
+//     "class_id": 101,
+//     "lecture_number": 1,
+//     "first_marked_time": "09:00:00",
+//     "percentage_present": 95.00
+//   },
+//   {
+//     "date": "2025-09-18",
+//     "class_id": 101,
+//     "lecture_number": 2,
+//     "first_marked_time": "14:00:00",
+//     "percentage_present": 88.00
+//   }
+// ]
+
+  const query  =`
+SELECT
+  class_id,
+  date,
+  lecture_number,
+  MIN(time_marked) AS first_marked_time,
+  ROUND(
+    (SUM(CASE WHEN status = 'Present' THEN 1 ELSE 0 END)::decimal 
+     / COUNT(*)::decimal) * 100,
+    2
+  ) AS percentage_present
+FROM attendance
+WHERE class_id = $1
+GROUP BY class_id, date, lecture_number
+ORDER BY date, lecture_number;
+  `
+    try {
+    const result = await pool.query(query, [class_id]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error fetching getContext:', error);
+    throw error;
+  }
+
+
+}
+
+
  
 
 module.exports = {
   createTeacher,
+  createAttendance,
+
   getTeacherByEmail,
-  getContext
+  getContext,
+  getAttendanceOfClassByClassId
 }

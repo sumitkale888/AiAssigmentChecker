@@ -42,7 +42,7 @@ const StudentSubmission: React.FC<{ class_id: string|undefined; student_id: stri
   const isSuccess = status === 'success';
 
   return (
-    <div style={{ padding: '70px', width: '800px', marginLeft:' 180px' }}>
+    <div style={{ padding: '10px', width: '800px', marginLeft:' 50px' }}>
       {/* Header Section - Matches the photo */}
       <div className="mb-4">
         <div className="flex items-center mb-4">
