@@ -83,11 +83,10 @@ handleJointClassByJoiningID = async (req, res) => {
     }
 }
 
-//new attendance
 // Overall summary: all classes with attendance %
-const handleGetClassesWithAttendanceByStudentId = async (req, res) => {
+handleGetClassesWithAttendanceByStudentId = async (req, res) => {
   try {
-    const student_id = req.user.student_id; // comes from JWT or session
+    const student_id = req.user.student_id; 
     const result = await getClassesWithAttendanceByStudentId(student_id);
     res.status(200).json(result);
   } catch (err) {
@@ -97,7 +96,7 @@ const handleGetClassesWithAttendanceByStudentId = async (req, res) => {
 };
 
 // Detail: date-wise attendance for a single class
-const handleGetAttendanceByStudentAndClass = async (req, res) => {
+handleGetAttendanceByStudentAndClass = async (req, res) => {
   try {
     const student_id = req.user.student_id;
     const class_id = req.params.class_id;
@@ -115,10 +114,8 @@ module.exports = {
     handleGetClassInfoByStudentID,
     handleGetAssignmentsByAssignment_id,
     handleGetSubmissionsByAssigment_idAndStudent_id,
-//  new
     handleGetClassesWithAttendanceByStudentId,
     handleGetAttendanceByStudentAndClass,
-    //end new attendance
 
 
     handleJointClassByJoiningID

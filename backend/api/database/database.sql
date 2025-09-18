@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS classes CASCADE;
 DROP TABLE IF EXISTS students CASCADE;
 DROP TABLE IF EXISTS teachers CASCADE;
 DROP TABLE IF EXISTS assignments_attachments CASCADE;
-
+DROP TABLE IF EXISTS attendance;
 -- ================================
 -- Teachers table
 -- ================================
@@ -117,7 +117,32 @@ CREATE TABLE attendance (
   attendance_id SERIAL PRIMARY KEY,
   class_id INTEGER REFERENCES classes(class_id) ON DELETE CASCADE,
   student_id INTEGER REFERENCES students(student_id) ON DELETE CASCADE,
-  date DATE DEFAULT CURRENT_DATE,       -- which lecture/day
-  status VARCHAR(20) DEFAULT 'Absent',  -- 'Present' or 'Absent'
-  UNIQUE (class_id, student_id, date)   -- avoid duplicates
+  date DATE DEFAULT CURRENT_DATE,
+  lecture_number INTEGER,
+  time_marked TIME DEFAULT CURRENT_TIME,
+  status VARCHAR(20) DEFAULT 'Absent' CHECK (status IN ('Present', 'Absent')),
+  UNIQUE (class_id, student_id, date)
 );
+
+---
+
+CREATE OR REPLACE FUNCTION set_lecture_number()
+RETURNS TRIGGER AS $$
+BEGIN
+  -- Find max lecture_number for same class & date
+  SELECT COALESCE(MAX(lecture_number), 0) + 1
+  INTO NEW.lecture_number
+  FROM attendance
+  WHERE class_id = NEW.class_id
+    AND date = NEW.date;
+
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_set_lecture_number
+BEFORE INSERT ON attendance
+FOR EACH ROW
+WHEN (NEW.lecture_number IS NULL)
+EXECUTE FUNCTION set_lecture_number();
+---
