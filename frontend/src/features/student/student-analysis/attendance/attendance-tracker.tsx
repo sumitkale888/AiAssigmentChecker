@@ -8,7 +8,7 @@ export function AttendanceTracker() {
   const missedPercentage = attendanceData.missed
   
   return (
-    <div className="bg-white rounded-xl border shadow-sm">
+    <div className="bg-white rounded-3xl shadow-xl">
       <div className="flex flex-row items-center justify-between p-6">
         <h3 className="text-lg font-semibold text-gray-900">📅 Attendance Tracker</h3>
         <select className="w-40 px-3 py-2 border rounded-md" defaultValue="current-month">

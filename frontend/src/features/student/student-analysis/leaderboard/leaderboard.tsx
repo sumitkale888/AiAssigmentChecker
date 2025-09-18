@@ -33,7 +33,7 @@ const leaderboardData = [
 
 export function Leaderboard() {
   return (
-    <div className="bg-white rounded-xl border shadow-sm">
+    <div className="bg-white rounded-3xl shadow-xl">
       <div className="p-6">
         <h3 className="text-lg font-semibold mb-4 text-gray-900">🏆 Leaderboard</h3>
       </div>

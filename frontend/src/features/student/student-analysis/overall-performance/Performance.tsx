@@ -205,7 +205,7 @@ export function OverallPerformance() {
     }
   }, []);
   return (
-    <div className="bg-white rounded-xl border shadow-sm">
+    <div className="bg-white rounded-2xl shadow-xl">
       <div className="p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900">📈 Overall Performance</h3>

@@ -20,7 +20,7 @@ import StudentProfilePage from "./features/student/profile-student/components/St
 
 import StudentDashboardPage from "./features/student/student-analysis/StudentAnalysis";
 import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
-import Attendance from "./features/student/student-analysis/attendance/Attendance";
+// import Attendance from "./features/student/student-analysis/attendance/Attendance";
 import Performance from "./features/student/student-analysis/overall-performance/Performance";
 import Progress from "./features/student/student-analysis/progress-report/Progress";
 
@@ -70,7 +70,6 @@ function App() {
 
         <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard
         <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> Student Analysis
-        <Route path="/attendance" element={<Attendance/>}></Route>
         <Route path="/performance" element={<Performance/>}></Route>
         <Route path="/progress" element={<Progress />}></Route>
 
