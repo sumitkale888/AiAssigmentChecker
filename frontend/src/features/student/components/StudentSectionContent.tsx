@@ -12,23 +12,23 @@ const StudentSectionContent: React.FC<{ class_id: string | undefined }> = ({ cla
     const { data: classData} = useFetch<any>({ method: "GET", url: `${import.meta.env.VITE_BACKEND_URL}/student/class/${class_id}` })
 
     return (
-        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden w-full max-w-4xl ml-[15px]">
+        <div className="bg-white rounded-xl  overflow-hidden border border-gray-200 w-6xl ml-[15px] h-120">
 
             {/* Class Banner */}
             <div className="relative h-48 bg-blue-600 flex items-end justify-between p-6 rounded-t-lg"
             >
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50 rounded-t-lg"></div>
                 {/* <h1 className="text-white text-3xl font-bold relative z-10">{classInfo.class_name}</h1> */}
-                <div className='text-white font-semibold'>{classData && classData.class_name}</div>
+                <div className='text-white font-semibold text-4xl'>{classData && classData.class_name}</div>
             </div>
 
             {/* Main Content Area */}
-            <div className="flex flex-col md:flex-row p-6">
+            <div className="flex flex-col md:flex-row p-6 ">
                 {/* Left Sidebar */}
                 <div className="w-full md:w-1/3 pr-0 md:pr-6 mb-6 md:mb-0">
 
 
-                    <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
+                    <div className="bg-white p-4 rounded-lg shadow-sm">
                         <h3 className="text-gray-700 font-semibold mb-2">Upcoming</h3>
                         <p className="text-gray-500 text-sm mb-4">No work due soon</p>
                         <button className="text-blue-600 hover:underline text-sm font-medium">View all</button>
