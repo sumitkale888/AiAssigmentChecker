@@ -43,29 +43,28 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
     };
 
     const pageList = [
-        { item_name: 'Home', item_img: HomeImg ,navigate:`/${userType}`},
-        // { item_name: 'Dashboard', item_img: DashboardImg,navigate:`/${userType}`},
-        { item_name: 'Analysis', item_img: AnalyticsImg,navigate:"/studentanalysis"},
-        { item_name: 'Chatbox', item_img: RobotImg,navigate:`/aichat${userType === 'student' ? 'Student' : ''}`},
-        { item_name: 'Attendance', item_img: CalenderImg, navigate:"/student/attendance"},
-
+        { item_name: 'Home', item_img: HomeImg, navigate: `/${userType}` },
+        // { item_name: 'Dashboard', item_img: DashboardImg, navigate: `/${userType}` },
+        { item_name: 'Analysis', item_img: AnalyticsImg, navigate: `/${userType}/analysis` },
+        { item_name: 'Chatbox', item_img: RobotImg, navigate: `/aichat${userType === 'student' ? 'Student' : ''}` },
+        ...(userType === 'student'
+            ? [{ item_name: 'Attendance', item_img: CalenderImg, navigate: "/student/attendance" }]
+            : []),
     ];
+
 
     return (
         <div className="w-75 p-2 flex flex-col min-h-screen" style={{ width: isOpen ? '300px' : '80px', transition: 'width 0.1s'}}>
-
             <div className="flex-grow" >
                 {pageList.map((item) => (
                     <div
                         key={item.item_name}
-                        onClick={() => handleItemSelection(item.item_name)}
+                        onClick={() => item.item_name && handleItemSelection(item.item_name)}
                         className={`
                             flex items-center gap-4 p-4 rounded-[70px] cursor-pointer mb-2
                             transition-colors duration-200 ease-in-out
                             ${activePage === item.item_name
-                    
                                 ? 'bg-blue-500 text-blue-50 font-bold shadow-inner'
-
                                 : 'text-gray-700 hover:bg-blue-50 hover:text-gray-700'
                             }
                         `}
