@@ -3,6 +3,8 @@ import { AssignmentsTable } from "./assignments-table/assignments-table"
 import { AttendanceTracker } from "./attendance/attendance-tracker"
 import { OverallPerformance } from "./overall-performance/Performance"
 import { Leaderboard } from "./leaderboard/leaderboard"
+import Header from "../../../shared/components/header/Header"
+import PageList from "../../../shared/components/sidebar/PageList"
 
 interface ProfileData {
   fullName: string;
@@ -35,21 +37,26 @@ export default function StudentAnalysis() {
     }
   }, []);
 
+
   const getInitials = (name: string) => {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
 
   return (
-    <div className="w-full rounded-l-4xl bg-gray-100 min-h-screen p-6">
+    <>
+    <Header />
+    <div className="flex">
+    <PageList />
+    <div className="w-full rounded-l-4xl bg-gray-100 min-h-screen p-8">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Page Header */}
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Student Analysis</h1>
+          <h1 className="text-3xl text-gray-900 mb-2">Student Analysis</h1>
           <p className="text-gray-600">Track your academic progress and performance insights</p>
         </div>
 
         {/* Student Profile Header */}
-        <div className="bg-white rounded-xl border shadow-sm p-6">
+        <div className="bg-white rounded-3xl shadow-xl p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200 flex items-center justify-center border-2 border-blue-100">
@@ -94,5 +101,7 @@ export default function StudentAnalysis() {
         </div>
       </div>
     </div>
+    </div>
+    </>
   )
 }
