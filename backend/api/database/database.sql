@@ -121,7 +121,7 @@ CREATE TABLE attendance (
   lecture_number INTEGER,
   time_marked TIME DEFAULT CURRENT_TIME,
   status VARCHAR(20) DEFAULT 'Absent' CHECK (status IN ('Present', 'Absent')),
-  UNIQUE (class_id, student_id, date)
+  UNIQUE (class_id, student_id, date,lecture_number)
 );
 
 ---

@@ -23,7 +23,7 @@ createAttendance = async(class_id , student_id  , status )=>{
   const query = `
     INSERT INTO attendance(class_id, student_id, status)
     VALUES ($1, $2, $3)
-    ON CONFLICT (class_id, student_id, date)
+    ON CONFLICT (class_id, student_id, date, lecture_number)
     DO UPDATE SET status = EXCLUDED.status
   `;
 
