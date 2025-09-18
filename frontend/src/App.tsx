@@ -17,6 +17,7 @@ import AIchatbot from "./features/AIChatbot/AIchatbot";
 import TeacherProfilePage from "./features/ClassTeacher/profile-teacher/components/TeacherProfile";
 import StudentProfilePage from "./features/student/profile-student/components/StudentProfile";
 
+import PageAttendance from "./features/ClassTeacher/components/attendance/PageAttendance";
 
 // import StudentDashboardPage from "./features/student/student-dashboard/Studentdashboard";
 // import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
@@ -53,6 +54,9 @@ function App() {
         {/*  */}
         <Route path="/teacher/student/:student_id/submission/:submission_id" element={<DashboardAssigmentCheck/>}></Route>
         <Route path="/aichat" element={<AIchatbot userType="teacher"/>}></Route>
+
+        <Route path="/teacher/attendance/class/:class_id" element={<PageAttendance />} />
+
         {/* --------------STUDENTS ROUTES --------------------*/}
         {/* <Route path="/student" element={<DashboardPageStudent/>}></Route> */}
         {/* <Route path="/student" element={<DashboardPage/>}></Route> */}
@@ -73,11 +77,13 @@ function App() {
         <Route path="/performance" element={<Performance/>}></Route>
         <Route path="/progress" element={<Progress />}></Route> */}
 
-      {/* NEW ATTENDANCE ROUTES */}
+      {/* ATTENDANCE ROUTES */}
       <Route path="/student/attendance" element={<PageAttendanceDashboard />} />
       <Route path="/student/attendance/:class_id" element={<PageAttendanceDetail />} />
 
-      {/* NEW ATTENDANCE ROUTES END */}
+      {/* add attendance routes here */}
+
+
 
       </Routes>
     </BrowserRouter>
