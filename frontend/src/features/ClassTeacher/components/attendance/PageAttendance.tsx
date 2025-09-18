@@ -54,14 +54,7 @@ const PageAttendance: React.FC = () => {
     return <div className="text-center text-red-500">❌ Error loading students.</div>;
   }
 
-  // Initialize default status when data arrives
-  useEffect(() => {
-    if (students.length > 0) {
-      const initialStatus: Record<number, string> = {};
-      students.forEach((s) => (initialStatus[s.student_id] = "Present"));
-      setStatusMap(initialStatus);
-    }
-  }, [students]);
+
 
   const handleStatusChange = (studentId: number, newStatus: string) => {
     setStatusMap((prev) => ({ ...prev, [studentId]: newStatus }));
