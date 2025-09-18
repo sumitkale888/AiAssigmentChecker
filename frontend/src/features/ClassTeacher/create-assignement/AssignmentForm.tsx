@@ -53,23 +53,21 @@ const AssignmentForm: React.FC = () => {
   }, [uploadState]);
 
   return (
-    <div className="flex-1 p-6 bg-gray-200"> {/* Changed to bg-gray-50 for a light gray background */}
-      <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-sm"> {/* Added white container with shadow */}
-        <h1 className="text-2xl font-medium text-gray-800 mb-6">Assignment</h1>
+    <div className="flex-1 p-6 bg-gray-100 "> {/* Changed to bg-gray-50 for a light gray background */}
+      <div className="w-230 mx-auto bg-white p-6 rounded-lg shadow-sm mt-20 "> {/* Added white container with shadow */}
+        
         
         {/* Title Section */}
-        <div className="mb-6">
+        <div className="mb-3">
           <div className="flex items-center justify-between mb-1">
-            <label className="block text-sm font-medium text-gray-700">
-              Title<span className="text-red-500 ml-1">*</span>
-            </label>
-            <span className="text-xs text-gray-500">*Required</span>
+            
+            
           </div>
           <input
-            type="text"
+            type="text*"
             id="title"
             placeholder="Title"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2  rounded-md border-1 border-b-gray-500 border-amber-50 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-blue-50"
             value={title}
             required
             onChange={(e) => {
@@ -80,18 +78,16 @@ const AssignmentForm: React.FC = () => {
               }));
             }}
           />
+          <span className="text-xs text-gray-500">*Required</span>
         </div>
 
         {/* Instructions Section */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Instructions
-            <span className="text-xs text-gray-500 ml-2">(optional)</span>
-          </label>
+          
           <textarea
             id="description"
             placeholder="Instructions"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[150px]"
+            className="w-full px-3 py-2  border-1 border-b-gray-500 border-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 min-h-[150px] bg-gray-100"
             value={description}
             onChange={(e) => {
               setDescription(e.target.value);

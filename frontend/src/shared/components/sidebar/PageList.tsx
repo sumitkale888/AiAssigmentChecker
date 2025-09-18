@@ -63,7 +63,9 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
                             flex items-center gap-4 p-4 rounded-[70px] cursor-pointer mb-2
                             transition-colors duration-200 ease-in-out
                             ${activePage === item.item_name
+                    
                                 ? 'bg-blue-500 text-blue-50 font-bold shadow-inner'
+
                                 : 'text-gray-700 hover:bg-blue-50 hover:text-gray-700'
                             }
                         `}
