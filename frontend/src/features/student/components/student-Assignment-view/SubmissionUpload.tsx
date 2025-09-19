@@ -75,8 +75,8 @@ const SubmissionUpload: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 font-sans w-165">
-      <div className="max-w-md mx-auto bg-white rounded-[30px] shadow-md overflow-hidden p-6 w-500">
+    <div className=" p-4 sm:p-6 lg:p-6 font-sans w-165 ml-40 gap-3">
+      <div className="max-w-md mx-auto bg-white rounded-[30px] shadow-md overflow-hidden p-6 w-500 border border-gray-200">
         {/* Your Work Section */}
         <div className="bg-white rounded-lg shadow-sm p-5 border border-gray-200 mb-6 ">
           <div className="flex items-center justify-between mb-4">
