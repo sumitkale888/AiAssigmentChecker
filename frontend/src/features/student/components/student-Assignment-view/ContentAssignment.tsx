@@ -71,80 +71,80 @@ const ContentAssignment: React.FC = () => {
     : 'N/A';
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 sm:p-6 lg:p-8 font-sans w-150 rounded-tl-4xl">
-      <div className="max-w-4xl mx-auto bg-white rounded-[30px] shadow-md overflow-hidden">
-        {/* Left Column: Assignment Details */}
-        <div className="flex-1 p-6 sm:p-8 lg:p-10">
-          {/* Header */}
-          <div className="flex items-start justify-between mb-6">
-            <div className="flex items-center space-x-4">
-              <div className="p-3 bg-blue-100 text-blue-600 rounded-full">
-                <FileTextIcon />
-              </div>
-              <div>
-                <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800">
-                  {dataAssignment?.title || 'Assignment Title'}
-                </h1>
-                <p className="text-sm text-gray-500 mt-1">
-                  Teacher • {formattedDate}
-                </p>
-              </div>
-            </div>
-            <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
-              <MoreVerticalIcon />
-            </button>
-          </div>
-
-          {/* Points */}
-          <p className="text-lg text-gray-700 mb-6">
-            {dataAssignment?.points || 0} points
-          </p>
-
-          {/* Description/Instructions */}
-          <div className="mb-8">
-            <p className="text-base text-gray-700 leading-relaxed">
-              {dataAssignment?.description || 'No description provided.'}
-            </p>
-          </div>
-
-          {/* --- */}
-          {/* Assignment Attachments Section */}
-          <div className="border-t border-gray-200 pt-6 mb-8">
-            {/* <h3 className="text-lg font-medium text-gray-800 mb-3">Attachments</h3> */}
-            {dataAssignmentAttachments && dataAssignmentAttachments.length > 0 ? (
-              dataAssignmentAttachments.map((attachment: any) => (
-                <a
-                  key={attachment.upload_id}
-                  href={attachment.file_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-3 p-3 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors cursor-pointer mb-2"
-                >
-                  <FileIcon fileName={attachment.file_original_name} />
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-800 truncate">
-                      {attachment.file_original_name}
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      {attachment.file_original_name.split('.').pop()?.toUpperCase()}
-                    </p>
-                  </div>
-                </a>
-              ))
-            ) : (
-              <div className="text-center text-gray-500 py-4">No attachments for this assignment.</div>
-            )}
-          </div>
-          {/* --- */}
-
-          {/* Class Comments */}
-          <div className="border-t border-gray-200 pt-6">
-            <h3 className="text-lg font-medium text-gray-800 mb-3">Class comments</h3>
-            <button className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors">
-              Add a class comment
-            </button>
-          </div>
+    <div className="p-4 sm:p-6 lg:p-4 font-sans w-150 rounded-tl-4xl">
+      <div className="w-3xl mx-auto rounded-[30px] overflow-hidden">
+      {/* Right Column: Assignment Details */}
+      <div className="flex-1 p-6 pt-10 sm:p-8 sm:pt-12 lg:p-6 lg:pt-8">
+        {/* Header */}
+        <div className="flex items-start justify-between mb-4">
+      <div className="flex items-center space-x-4">
+        <div className="p-3 bg-blue-100 text-blue-600 rounded-full">
+        <FileTextIcon />
         </div>
+        <div>
+        <h1 className="text-2xl sm:text-3xl font-semibold text-gray-800">
+        {dataAssignment?.title || 'Assignment Title'}
+        </h1>
+        <p className="text-sm text-gray-500 mt-1">
+        Teacher • {formattedDate}
+        </p>
+        </div>
+      </div>
+      <button className="p-2 rounded-full hover:bg-gray-100 transition-colors">
+        <MoreVerticalIcon />
+      </button>
+        </div>
+
+        {/* Points */}
+        <p className="text-lg text-gray-700 mb-6 border-b border-gray-200 pb-4">
+      {dataAssignment?.points || 0} points
+        </p>
+
+        {/* Description/Instructions */}
+        <div className="mb-8">
+      <p className="text-base text-gray-700 leading-relaxed">
+        {dataAssignment?.description || 'No description provided.'}
+      </p>
+        </div>
+
+        {/* --- */}
+        {/* Assignment Attachments Section */}
+        <div className="border-t border-gray-200 pt-6 mb-8">
+      {/* <h3 className="text-lg font-medium text-gray-800 mb-3">Attachments</h3> */}
+      {dataAssignmentAttachments && dataAssignmentAttachments.length > 0 ? (
+        dataAssignmentAttachments.map((attachment: any) => (
+        <a
+        key={attachment.upload_id}
+        href={attachment.file_link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center space-x-3 p-3 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors cursor-pointer mb-2"
+        >
+        <FileIcon fileName={attachment.file_original_name} />
+        <div className="flex-1">
+        <p className="text-sm font-medium text-gray-800 truncate">
+          {attachment.file_original_name}
+        </p>
+        <p className="text-xs text-gray-500">
+          {attachment.file_original_name.split('.').pop()?.toUpperCase()}
+        </p>
+        </div>
+        </a>
+        ))
+      ) : (
+        <div className="text-center text-gray-500 py-4">No attachments for this assignment.</div>
+      )}
+        </div>
+        {/* --- */}
+
+        {/* Class Comments */}
+        <div className="border-t border-gray-200 pt-6">
+      <h3 className="text-lg font-medium text-gray-800 mb-3">Class comments</h3>
+      <button className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors">
+        Add a class comment
+      </button>
+        </div>
+      </div>
       </div>
     </div>
   );

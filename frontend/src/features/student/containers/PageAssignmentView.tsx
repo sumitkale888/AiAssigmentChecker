@@ -8,12 +8,14 @@ const PageAssignmentView = () => {
             <Header />
             <div className='flex'>
                     <PageList userType="student"/>
-                <div className='flex'>
-                    <ContentAssignment />
-                    <SubmissionUpload />
+                <div className="flex w-full p-2 rounded-l-4xl justify-center items-start bg-gray-50 ">
+                    <div className="flex w-full max-w-6xl">
+                        <ContentAssignment />
+                        <SubmissionUpload />
+                    </div>
                 </div>
 
-                        </div>
+            </div>
 
         </div>
     );
