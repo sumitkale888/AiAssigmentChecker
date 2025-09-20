@@ -17,7 +17,8 @@ const DashboardStudentAnalysis = () => {
       <Header />
       <div className="flex">
         <PageList userType="student" />
-        <StudentAnalysis />
+        <StudentAnalysis/>
+
       </div>
     </div>
   );

@@ -19,11 +19,9 @@ import StudentProfilePage from "./features/student/profile-student/components/St
 
 import PageAttendance from "./features/ClassTeacher/components/attendance/PageAttendance";
 
-// import StudentDashboardPage from "./features/student/student-analysis/StudentAnalysis";
+
 // import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
-// import Attendance from "./features/student/student-analysis/attendance/Attendance";
-// import Performance from "./features/student/student-analysis/overall-performance/Performance";
-// import Progress from "./features/student/student-analysis/progress-report/Progress";
+
 
 //new
 import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";

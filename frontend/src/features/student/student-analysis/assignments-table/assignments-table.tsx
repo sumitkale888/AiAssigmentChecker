@@ -23,17 +23,17 @@ const assignments = [
 
 export function AssignmentsTable() {
   return (
-    <div className="bg-white rounded-3xl shadow-xl">
+   
       <div className="p-6">
         <h3 className="text-lg font-semibold mb-4 text-gray-900">📚 Assignments</h3>
         <div className="w-full">
-          <div className="flex border-b">
+          <div className="flex border-b border-gray-200 mb-4">
             <button className="px-4 py-2 border-b-2 border-blue-500 text-blue-600 font-medium">Upcoming</button>
             <button className="px-4 py-2 text-gray-500">Past</button>
           </div>
           <div className="mt-4">
             <div className="space-y-4">
-              <div className="grid grid-cols-3 gap-4 text-sm font-medium text-gray-600 border-b pb-2">
+              <div className="grid grid-cols-3 gap-4 text-sm font-medium text-gray-600 border-b pb-2 border-gray-200">
                 <div>Title</div>
                 <div>Due Date</div>
                 <div>Status</div>
@@ -57,6 +57,6 @@ export function AssignmentsTable() {
           </div>
         </div>
       </div>
-    </div>
+    
   )
 }
