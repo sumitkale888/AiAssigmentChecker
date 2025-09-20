@@ -1,6 +1,7 @@
 import Header from '../../shared/components/header/Header';
 import PageList from '../../shared/components/sidebar/PageList';
 import { useState, useEffect } from 'react';
+import UpwardArrow from '../../assets/arrow_upward.svg';
 import useManualFetch from '../../shared/hooks/useManualFetch';
 
 interface Message {
@@ -68,7 +69,7 @@ const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userT
         <PageList userType={userType} />
         <div className="relative w-full bg-gray-100 flex flex-col items-center justify-between rounded-[30px]">
           {/* Chat messages */}
-          <div className="flex-grow w-full max-w-4xl mx-auto p-4 overflow-y-scroll h-[500px]"> 
+          <div className="flex-grow w-full max-w-4xl mx-auto p-4 h-[500px]"> 
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -98,15 +99,15 @@ const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userT
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 type="text"
                 placeholder="Ask Anything"
-                className="w-full rounded-full px-8 py-4 pr-24 text-lg focus:outline-none focus:ring-2 focus:ring-blue-700 border border-gray-300"
+                className="w-full rounded-md px-8 py-4 pr-24 text-lg focus:outline-none focus:ring-2 focus:ring-blue-700 border border-gray-400"
                 disabled={status === 'loading'}
               />
               <button
                 onClick={handleSend}
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-blue-600 text-white rounded-full px-6 py-3 font-semibold hover:bg-blue-700 transition"
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-blue-600 text-white rounded-full px-2 py-2 font-semibold hover:bg-blue-700 transition"
                 disabled={status === 'loading'}
               >
-                Send
+                <img src={UpwardArrow} alt="Send" className="inline-block w-8 h-8" />
               </button>
             </div>
           </div>

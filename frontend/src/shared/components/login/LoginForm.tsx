@@ -40,7 +40,7 @@ const LoginForm = ({ role, url }: LoginFormProps) => {
   }, [status, data, dispatch, navigate, role]);
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-100 min-h-screen">
       <div className="flex w-[850px] shadow-lg rounded-lg overflow-hidden bg-white">
         {/* Left column (form) */}
         <div className="w-1/2 p-10">
