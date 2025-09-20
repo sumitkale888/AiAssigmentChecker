@@ -20,7 +20,7 @@ import StudentProfilePage from "./features/student/profile-student/components/St
 import PageAttendance from "./features/ClassTeacher/components/attendance/PageAttendance";
 
 
-import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
+// import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
 
 
 //new
