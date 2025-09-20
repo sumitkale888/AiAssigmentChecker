@@ -18,6 +18,7 @@ const DashboardStudentAnalysis = () => {
       <div className="flex">
         <PageList userType="student" />
         <StudentAnalysis/>
+
       </div>
     </div>
   );

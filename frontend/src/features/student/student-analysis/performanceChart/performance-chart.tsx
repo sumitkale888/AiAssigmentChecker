@@ -18,15 +18,15 @@ export const PerformanceChart = () => {
           {
             label: 'Your Score',
             data: [85, 78, 92, 88, 95],
-            backgroundColor: 'rgba(79, 70, 229, 0.7)',
-            borderColor: '#4f46e5',
+            backgroundColor: 'rgba(34, 197, 94, 0.7)',
+            borderColor: '#22c55e',
             borderWidth: 1
           },
           {
             label: 'Class Average',
             data: [76, 72, 85, 80, 82],
-            backgroundColor: 'rgba(156, 163, 175, 0.7)',
-            borderColor: '#9ca3af',
+           backgroundColor: 'rgba(59, 130, 246, 0.7)',
+            borderColor: '#60a5fa',
             borderWidth: 1
           }
         ]
@@ -60,7 +60,7 @@ export const PerformanceChart = () => {
   }, []);
 
   return (
-    <div className="bg-white rounded-xl p-6 shadow-sm">
+    <div className="bg-white rounded-xl p-11 shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold text-gray-900">Academic Performance</h2>
         <select className="px-3 py-1.5 border border-gray-300 rounded-md text-sm bg-white">

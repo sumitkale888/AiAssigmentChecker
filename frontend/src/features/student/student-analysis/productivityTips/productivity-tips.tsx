@@ -21,7 +21,7 @@ export const ProductivityTips = () => {
   ];
 
   return (
-    <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-white rounded-xl shadow-sm overflow-hidden w-[80rem] h-[20rem]">
       <div className="flex items-center gap-3 p-5 border-b border-gray-200">
         <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white">
           💡
@@ -29,7 +29,7 @@ export const ProductivityTips = () => {
         <h2 className="text-lg font-semibold text-gray-900">AI Feedback Tips</h2>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-5 h-[14rem]">
         {tips.map((tip, index) => (
           <div key={index} className={`p-4 rounded-lg ${
             tip.color === 'indigo' ? 'bg-indigo-50' : 
