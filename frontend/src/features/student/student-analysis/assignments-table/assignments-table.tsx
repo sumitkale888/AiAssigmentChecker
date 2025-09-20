@@ -23,7 +23,7 @@ const assignments = [
 
 export function AssignmentsTable() {
   return (
-    <div className="bg-white rounded-3xl shadow-xl">
+   
       <div className="p-6">
         <h3 className="text-lg font-semibold mb-4 text-gray-900">📚 Assignments</h3>
         <div className="w-full">
@@ -57,6 +57,6 @@ export function AssignmentsTable() {
           </div>
         </div>
       </div>
-    </div>
+    
   )
 }
