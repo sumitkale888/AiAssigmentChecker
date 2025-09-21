@@ -35,6 +35,7 @@ router.get("/attendance/detail/:class_id", handleGetAttendanceByStudentAndClass)
 //ANALYTICS ROUTES
 router.get("/analytics/attendance", handleGetOverallAttendanceAnalytics);
 router.get("/analytics/performance", handleGetPerformanceAnalytics);
+router.get("/feedback/recent", handleGetRecentTestFeedback);
 
 //////////////////POST ROUTES/////////////////////////
 const uploadMiddleware = require('../services/myMulter');

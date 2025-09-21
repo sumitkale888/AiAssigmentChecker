@@ -10,6 +10,7 @@ const {
 
         getOverallAttendanceAnalytics,
         getPerformanceAnalytics,
+        getRecentTestFeedback,
         } = require("../models/studentModels");
 const {
         getAssignmentInfoByAssignment_id,
@@ -82,6 +83,19 @@ handleGetPerformanceAnalytics = async (req, res) => {
   }
 }
 
+handleGetRecentTestFeedback = async (req, res) => {
+  try {
+    const student_id = req.user.student_id;
+    const limit = parseInt(req.query.limit) || 3;
+    
+    const result = await getRecentTestFeedback(student_id, limit);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error('Error fetching recent test feedback:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 // handleGetAssignmentsAttachmentsByAssignment_id = async (req, res) => {
 //     try {
 //         const assignment_id = req.params.assignment_id;
@@ -149,5 +163,6 @@ module.exports = {
 
     handleGetOverallAttendanceAnalytics,
     handleGetPerformanceAnalytics,
+    handleGetRecentTestFeedback,
     handleJointClassByJoiningID
 }
