@@ -1,6 +1,7 @@
 import Header from '../../shared/components/header/Header';
 import PageList from '../../shared/components/sidebar/PageList';
 import { useState, useEffect } from 'react';
+import UpwardArrow from '../../assets/arrow_upward.svg';
 import useManualFetch from '../../shared/hooks/useManualFetch';
 
 interface Message {
@@ -71,9 +72,11 @@ const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userT
       <Header />
       <div className="flex">
         <PageList userType={userType} />
+
         <div className="relative w-full bg-gray-50 flex flex-col items-center justify-between rounded-[30px]">
           {/* Chat messages - UPDATED CONTAINER */}
           <div className="flex-grow w-full max-w-4xl mx-auto p-4 overflow-y-auto h-[500px] flex flex-col space-y-3 chat-scrollbar"> 
+
             {messages.map((msg, index) => (
               <div
                 key={index}
@@ -108,10 +111,12 @@ const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userT
               />
               <button
                 onClick={handleSend}
+
                 className="absolute right-3 top-1/2 -translate-y-1/2 bg-blue-600 text-white rounded-full px-3 py-2 font-semibold hover:bg-blue-700 transition"
+
                 disabled={status === 'loading'}
               >
-                Send
+                <img src={UpwardArrow} alt="Send" className="inline-block w-8 h-8" />
               </button>
             </div>
           </div>

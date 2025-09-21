@@ -69,9 +69,7 @@ function App() {
         <Route path="/teacherprofile" element={<TeacherProfilePage/>}></Route> {/* Teacher Profile */}
         <Route path="/studentprofile" element={<StudentProfilePage/>}></Route> {/* Student Profile */}
 
-
-        {/* <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard
-        <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> Student Analysis */}
+        {/* <Route path="/analysis" element={<StudentAnalysis/>}></Route> */}
         {/* <Route path="/performance" element={<Performance/>}></Route> */}
         {/* <Route path="/progress" element={<Progress />}></Route> */}
 

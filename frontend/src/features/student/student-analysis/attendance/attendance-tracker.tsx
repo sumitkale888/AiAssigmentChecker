@@ -8,7 +8,7 @@ export function AttendanceTracker() {
   const missedPercentage = attendanceData.missed
   
   return (
-    <div className="p-6 ">
+    <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-lg font-semibold text-gray-900">Attendance Tracker</h3>
         <select className="px-3 py-1.5 border border-gray-300 rounded-md text-sm bg-white">
@@ -50,7 +50,7 @@ export function AttendanceTracker() {
             
             {/* Center text */}
             <text 
-              x="21" 
+              x="22" 
               y="24" 
               className="text-[.7rem] font-semibold fill-gray-800 " 
               textAnchor="middle"
