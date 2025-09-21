@@ -7,6 +7,7 @@ const {
     handleGetSubmissionsByAssigment_idAndStudent_id,
     handleGetClassesWithAttendanceByStudentId,
     handleGetAttendanceByStudentAndClass,
+    handleGetOverallAttendanceAnalytics,
 } = require("../controller/studentController")
 
 const {
@@ -29,6 +30,9 @@ router.get('/class/students/:class_id',handleGetStudentsByClass_id)
 //ATTENDANCE ROUTES
 router.get("/attendance/summary", handleGetClassesWithAttendanceByStudentId);
 router.get("/attendance/detail/:class_id", handleGetAttendanceByStudentAndClass);
+
+//ANALYTICS ROUTES
+router.get("/analytics/attendance", handleGetOverallAttendanceAnalytics);
 
 //////////////////POST ROUTES/////////////////////////
 const uploadMiddleware = require('../services/myMulter');
