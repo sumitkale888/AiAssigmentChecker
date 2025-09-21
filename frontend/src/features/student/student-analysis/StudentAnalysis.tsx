@@ -8,8 +8,10 @@ import { ProductivityTips } from "./productivityTips/productivity-tips";
 
 export default function StudentAnalysis() {
   return (
+
     <>
     <div className="w-full rounded-4xl bg-gray-50 min-h-screen p-6">
+
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Page Header */}
         <div className="mb-6">
