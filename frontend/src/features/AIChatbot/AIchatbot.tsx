@@ -103,7 +103,7 @@ const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userT
                 onKeyDown={(e) => e.key === 'Enter' && handleSend()}
                 type="text"
                 placeholder="Ask Anything"
-                className="w-full rounded-full px-5 py-2 pr-24 text-[1.3rem] focus:outline-none focus:ring-2 focus:ring-blue-700 border border-gray-300"
+                className="w-full rounded-full px-5 py-2 pr-24 text-[1.1rem] focus:outline-none focus:ring-2 focus:ring-blue-700 border border-gray-300"
                 disabled={status === 'loading'}
               />
               <button
