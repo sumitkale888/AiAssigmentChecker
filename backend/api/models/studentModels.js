@@ -167,9 +167,75 @@ const getAttendanceByStudentAndClass = async (student_id, class_id) => {
 
 // end shaivi first sample
 
+/////////////////Analytics PageModels////////////
+
+const getOverallAttendanceAnalytics = async (student_id, period = 'current-month') => {
+  // Determine date range based on period
+  let dateCondition = '';
+  let dateParams = [student_id];
+  
+  switch(period) {
+    case 'current-month':
+      dateCondition = `AND a.date >= date_trunc('month', CURRENT_DATE)`;
+      break;
+    case 'last-month':
+      dateCondition = `AND a.date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month') 
+                       AND a.date < date_trunc('month', CURRENT_DATE)`;
+      break;
+    case 'semester':
+      // Adjust this based on your semester definition
+      dateCondition = `AND a.date >= CURRENT_DATE - INTERVAL '6 months'`;
+      break;
+    default:
+      dateCondition = '';
+  }
+  
+  const query = `
+    SELECT 
+      -- Total attended classes
+      COUNT(a.attendance_id) FILTER (WHERE a.status = 'Present') AS attended_classes,
+      -- Total missed classes
+      COUNT(a.attendance_id) FILTER (WHERE a.status = 'Absent') AS missed_classes,
+      -- Total classes with attendance taken
+      COUNT(a.attendance_id) AS total_classes_with_attendance,
+      -- Total classes enrolled (regardless of attendance taken)
+      COUNT(DISTINCT cs.class_id) AS total_enrolled_classes,
+      -- Classes that have had attendance taken
+      COUNT(DISTINCT CASE WHEN a.attendance_id IS NOT NULL THEN cs.class_id END) AS classes_with_attendance
+    FROM class_students cs
+    LEFT JOIN attendance a 
+      ON a.class_id = cs.class_id 
+      AND a.student_id = cs.student_id
+      ${dateCondition}
+    WHERE cs.student_id = $1
+  `;
+  
+  try {
+    const { rows } = await pool.query(query, [student_id]);
+    const data = rows[0];
+    
+    // Calculate percentages only for classes that have attendance records
+    const attendancePercentage = data.total_classes_with_attendance > 0 
+      ? (data.attended_classes / data.total_classes_with_attendance) * 100 
+      : 0;
+    
+    return {
+      attended: parseInt(data.attended_classes) || 0,
+      missed: parseInt(data.missed_classes) || 0,
+      total_classes: parseInt(data.total_classes_with_attendance) || 0,
+      enrolled_classes: parseInt(data.total_enrolled_classes) || 0,
+      classes_with_attendance: parseInt(data.classes_with_attendance) || 0,
+      percentage: parseFloat(attendancePercentage.toFixed(1))
+    };
+  } catch (error) {
+    console.error('Error in getOverallAttendanceAnalytics:', error);
+    throw error;
+  }
+};
 
 module.exports = {
   createStudent,
+  
   getStudentByEmail,
   getClass_idByStudent_id,
   getStudentsByClass_id,
@@ -179,7 +245,10 @@ module.exports = {
 
   // NEW-shaivi
   getClassesWithAttendanceByStudentId,
-  getAttendanceByStudentAndClass
+  getAttendanceByStudentAndClass,
+
+  //analytics
+  getOverallAttendanceAnalytics
 
 };
 

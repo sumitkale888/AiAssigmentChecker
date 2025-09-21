@@ -4,10 +4,11 @@ const { getClassInfoByStudentId } = require("../models/studentModels")
 const {
         getAssignments_attachmentsByAssignment_id,
         getSubmissionsByAssigment_idAndStudent_id,
-        //new
+
         getClassesWithAttendanceByStudentId,
-        getAttendanceByStudentAndClass
-        //new end
+        getAttendanceByStudentAndClass,
+
+        getOverallAttendanceAnalytics 
         } = require("../models/studentModels");
 const {
         getAssignmentInfoByAssignment_id,
@@ -49,6 +50,19 @@ handleGetSubmissionsByAssigment_idAndStudent_id = async (req, res) => {
         console.error('Error fetching assignments handleGetSubmissionsByAssigment_idAndStudent_id:', err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
+}
+
+handleGetOverallAttendanceAnalytics = async (req, res) => {
+  try {
+    const student_id = req.user.student_id;
+    const period = req.query.period || 'current-month'; // Get period from query params
+    
+    const result = await getOverallAttendanceAnalytics(student_id, period);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error('Error fetching overall attendance analytics:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 }
 
 
@@ -117,6 +131,6 @@ module.exports = {
     handleGetClassesWithAttendanceByStudentId,
     handleGetAttendanceByStudentAndClass,
 
-
+    handleGetOverallAttendanceAnalytics,
     handleJointClassByJoiningID
 }

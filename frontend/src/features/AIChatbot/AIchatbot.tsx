@@ -112,7 +112,7 @@ const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userT
               <button
                 onClick={handleSend}
 
-                className="absolute right-3 top-1/2 -translate-y-1/2 bg-blue-600 text-white rounded-full px-3 py-2 font-semibold hover:bg-blue-700 transition"
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-blue-600 text-white rounded-full px-1 py-1 font-semibold hover:bg-blue-700 transition"
 
                 disabled={status === 'loading'}
               >
