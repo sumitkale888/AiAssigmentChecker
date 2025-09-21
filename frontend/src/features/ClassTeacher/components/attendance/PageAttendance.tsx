@@ -4,9 +4,6 @@ import useFetch from "../../../../shared/hooks/UseFetch";
 import { useParams } from "react-router-dom";
 import useManualFetch from "../../../../shared/hooks/useManualFetch";
 import AnimatedLoader from "../../../../shared/components/loaders/DefaultLoader";
-
-import { useNavigate } from "react-router-dom";
-
 interface Student {
   student_id: number;
   first_name: string;
@@ -22,7 +19,6 @@ interface AttendancePayload {
 }
 
 const PageAttendance: React.FC = () => {
-  const navigate = useNavigate();
   const { class_id } = useParams<{ class_id: string }>();
   const numericClassId = class_id ? parseInt(class_id, 10) : 0;
 
@@ -81,10 +77,6 @@ const PageAttendance: React.FC = () => {
       payload
     );
     console.log("Save result:", result);
-
-    if (result) {
-      navigate(`/teacher/class/${class_id}`);
-    }
 
     
   };
@@ -210,7 +202,6 @@ const PageAttendance: React.FC = () => {
             </div>
           )}
         </div>
-      
         <button
           onClick={handleSave}
           disabled={saveStatus === "loading"}
@@ -221,7 +212,6 @@ const PageAttendance: React.FC = () => {
           </svg>
           Save Attendance
         </button>
-
       </div>
     </div>
   );

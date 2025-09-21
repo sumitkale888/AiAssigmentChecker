@@ -19,72 +19,76 @@ import StudentProfilePage from "./features/student/profile-student/components/St
 
 import PageAttendance from "./features/ClassTeacher/components/attendance/PageAttendance";
 
-
+// import StudentDashboardPage from "./features/student/student-analysis/StudentAnalysis";
 // import StudentAnalysis from "./features/student/student-analysis/StudentAnalysis";
-
+// import Attendance from "./features/student/student-analysis/attendance/Attendance";
+// import Performance from "./features/student/student-analysis/overall-performance/Performance";
+// import Progress from "./features/student/student-analysis/progress-report/Progress";
 
 //new
 import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";
 import PageAttendanceDetail from "./features/student/containers/PageAttendanceDetail";
-import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
-
+import BiometricAttendancePage from "./features/ClassTeacher/components/attendance/BiometricAttendance";
+// import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 //new end
-
-
 function App() {
 
 
   return (
     <>
-     <BrowserRouter>
-      <Routes>
+      <BrowserRouter>
+        <Routes>
 
-        {/* ----------AUTH ROUTES-------------- */}
-        <Route path="/auth/signup" element={<SingupPage/>}></Route>
-        <Route path="/auth/signin" element={<SigninPage/>}></Route>
-        <Route path="/" element={<SigninPage/>}></Route>
-        {/* ----------TEACHER ROUTES-------------- */}
+          {/* ----------AUTH ROUTES-------------- */}
+          <Route path="/auth/signup" element={<SingupPage />}></Route>
+          <Route path="/auth/signin" element={<SigninPage />}></Route>
+          <Route path="/" element={<SigninPage />}></Route>
+          {/* ----------TEACHER ROUTES-------------- */}
 
-        <Route path="/teacher" element={<DashboardPage/>}></Route>
-        <Route path="/teacher/class/:class_id" element={<DashboardTeacherClassPage/>}></Route>
-        <Route path="/teacher/class/:class_id/assignment/create" element={<PageCreateAssignment/>}></Route>
-        <Route path="/teacher/class/:class_id/submission" element={<PageAssignmentView/>}></Route>
-        <Route  path="/teacher/class/:class_id/student/:student_id" element={<DashboardStudentSubmission/>}></Route>
-        {/*  */}
-        <Route path="/teacher/student/:student_id/submission/:submission_id" element={<DashboardAssigmentCheck/>}></Route>
-        <Route path="/aichat" element={<AIchatbot userType="teacher"/>}></Route>
+          <Route path="/teacher" element={<DashboardPage />}></Route>
+          <Route path="/teacher/class/:class_id" element={<DashboardTeacherClassPage />}></Route>
+          <Route path="/teacher/class/:class_id/assignment/create" element={<PageCreateAssignment />}></Route>
+          <Route path="/teacher/class/:class_id/submission" element={<PageAssignmentView />}></Route>
+          <Route path="/teacher/class/:class_id/student/:student_id" element={<DashboardStudentSubmission />}></Route>
+          {/*  */}
+          <Route path="/teacher/student/:student_id/submission/:submission_id" element={<DashboardAssigmentCheck />}></Route>
+          <Route path="/aichat" element={<AIchatbot userType="teacher" />}></Route>
 
-        <Route path="/teacher/attendance/class/:class_id" element={<PageAttendance />} />
+          <Route path="/teacher/checklist_attendance/class/:class_id" element={<PageAttendance />} />
+          <Route path="/teacher/biometric_attendance/class/:class_id" element={<BiometricAttendancePage />}></Route>
 
-        {/* --------------STUDENTS ROUTES --------------------*/}
-        {/* <Route path="/student" element={<DashboardPageStudent/>}></Route> */}
-        {/* <Route path="/student" element={<DashboardPage/>}></Route> */}
+            {/* --------------STUDENTS ROUTES --------------------*/}
+            {/* <Route path="/student" element={<DashboardPageStudent/>}></Route> */}
+            {/* <Route path="/student" element={<DashboardPage/>}></Route> */}
 
-        {/* --------------STUDENTS ROUTES --------------------*/}
+            {/* --------------STUDENTS ROUTES --------------------*/}
 
-        <Route path="/student" element={<DashboardPageStudent/>}></Route>
-        <Route path="/student/class/:class_id" element={<DashboardStudentClassPage/>}></Route>
-        <Route path="/student/class/:class_id/assignment/:assignment_id" element={<PageAssignmentView/>}></Route>
-        <Route path="/aichatStudent" element={<AIchatbot userType="student"/>}></Route>
-        <Route path="/teacherprofile" element={<TeacherProfilePage/>}></Route> {/* Teacher Profile */}
-        <Route path="/studentprofile" element={<StudentProfilePage/>}></Route> {/* Student Profile */}
+        <Route path="/student" element={<DashboardPageStudent />}></Route>
+          <Route path="/student/class/:class_id" element={<DashboardStudentClassPage />}></Route>
+          <Route path="/student/class/:class_id/assignment/:assignment_id" element={<PageAssignmentView />}></Route>
+          <Route path="/aichatStudent" element={<AIchatbot userType="student" />}></Route>
+          <Route path="/teacherprofile" element={<TeacherProfilePage />}></Route> {/* Teacher Profile */}
+          <Route path="/studentprofile" element={<StudentProfilePage />}></Route> {/* Student Profile */}
 
-        {/* <Route path="/analysis" element={<StudentAnalysis/>}></Route> */}
-        {/* <Route path="/performance" element={<Performance/>}></Route> */}
-        {/* <Route path="/progress" element={<Progress />}></Route> */}
 
-        {/* Student Analysis Route */}
-        <Route path="/student/analysis" element={<DashboardStudentAnalysis/>}></Route>
+          {/* <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard
+        <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> Student Analysis */}
+          {/* <Route path="/performance" element={<Performance/>}></Route> */}
+          {/* <Route path="/progress" element={<Progress />}></Route> */}
 
-     
-      <Route path="/student/attendance" element={<PageAttendanceDashboard />} />
-      <Route path="/student/attendance/:class_id" element={<PageAttendanceDetail />} />
+          {/* Student Analysis Route */}
+          {/* <Route path="/studentanalysis" element={<DashboardStudentAnalysis/>}></Route> */}
 
-      
 
-      </Routes>
-    </BrowserRouter>
-  
+          <Route path="/student/attendance" element={<PageAttendanceDashboard />} />
+          <Route path="/student/attendance/:class_id" element={<PageAttendanceDetail />} />
+
+
+
+
+        </Routes>
+      </BrowserRouter>
+
     </>
   )
 }

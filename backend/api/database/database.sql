@@ -124,6 +124,17 @@ CREATE TABLE attendance (
   UNIQUE (class_id, student_id, date,lecture_number)
 );
 
+CREATE TABLE attendance_sessions (
+    session_id SERIAL PRIMARY KEY,
+    class_id INTEGER REFERENCES classes(class_id) ON DELETE CASCADE,
+    teacher_id INTEGER REFERENCES teachers(teacher_id) ON DELETE CASCADE,
+    date DATE DEFAULT CURRENT_DATE,
+    start_time TIME,
+    end_time TIME,
+    is_active BOOLEAN DEFAULT FALSE
+);
+
+
 ---
 
 CREATE OR REPLACE FUNCTION set_lecture_number()

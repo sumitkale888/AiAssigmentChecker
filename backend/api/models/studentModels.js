@@ -167,8 +167,32 @@ const getAttendanceByStudentAndClass = async (student_id, class_id) => {
 
 // end shaivi first sample
 
+// attendence query to mark biometric attendence
+async function markAttendanceForSession(student_id, session_id, status, method) {
+  const query = `
+    INSERT INTO attendance (student_id, session_id, status, method)
+    VALUES ($1, $2, $3, $4)
+    ON CONFLICT (student_id, session_id)
+    DO UPDATE SET status = EXCLUDED.status, method = EXCLUDED.method, time_marked = CURRENT_TIME
+    RETURNING *;
+  `;
+  const values = [student_id, session_id, status, method];
+  const { rows } = await pool.query(query, values);
+  return rows[0];
+}
 
-
+// attendence query to get active session by students
+async function getActiveSessionByClassId(class_id) {
+  const query = `
+    SELECT session_id
+    FROM attendance_sessions
+    WHERE class_id = $1 AND is_active = TRUE
+    ORDER BY start_time DESC
+    LIMIT 1
+  `;
+  const { rows } = await pool.query(query, [class_id]);
+  return rows[0] || null;
+}
 
 
 /////////////////Analytics PageModels////////////
@@ -394,7 +418,11 @@ module.exports = {
   //analytics
   getOverallAttendanceAnalytics,
   getPerformanceAnalytics,
-  getRecentTestFeedback
+  getRecentTestFeedback,
+
+  // Biometric
+  markAttendanceForSession,
+  getActiveSessionByClassId
 
 };
 

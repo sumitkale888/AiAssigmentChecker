@@ -10,12 +10,19 @@ const {handleCreateClass,
     handleGetJsonBuildObjectStudentSubmission,
     handleGetStudentByStudent_id,
     handleGetJsonAssignmentCheckInfo,
-    handleCreateAttendance
+    handleCreateAttendance,
+    handlestartSession,
+    handleEndSession
     } = require('../controller/teacherController')
 const {handleGetAttendanceOfClassByClassId} = require("../controller/teacherController")
 
 router.post('/classes', handleCreateClass);
 router.post('/attendance',handleCreateAttendance);
+
+// biometric attendance
+router.post("/biometric_attendance/start_session", handlestartSession);
+router.post("/biometric_attendance/end_session", handleEndSession);
+
 
 
 ///////////////////GET ROUTS////////////////////////
@@ -27,5 +34,6 @@ router.get('/student/:student_id', handleGetStudentByStudent_id)
 router.get('/submission/:submission_id/student/:student_id', handleGetJsonAssignmentCheckInfo)
 //Attendance route
 router.get('/attendance/class/:class_id',handleGetAttendanceOfClassByClassId)
+
 
 module.exports = router

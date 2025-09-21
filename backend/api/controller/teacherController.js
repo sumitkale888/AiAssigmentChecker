@@ -1,7 +1,7 @@
 
 ///////////////////////POST ROUTES////////////////////////////////////////////////
 const { createClass, getClassByTeacher_id } = require('../models/classModels');
-const {createAttendance} = require('../models/teacherModels');
+const {createAttendance,startAttendanceSession,endAttendanceSession } = require('../models/teacherModels');
 handleCreateClass = async (req, res) => {
     try {
         const classData = req.body;
@@ -26,6 +26,7 @@ handleCreateAttendance = async (req, res) => {
     // }
     try{
         const attendanceData = req.body;
+        console.log("------>",attendanceData)
         for(let i = 0 ; i < attendanceData.students_id.length; i++){
             const student_id = attendanceData.students_id[i];
             const status = attendanceData.status[i];
@@ -39,13 +40,74 @@ handleCreateAttendance = async (req, res) => {
     }
 }
 
+// create a session for biometric attendence
+handlestartSession = async (req, res) => {
+  try {
+    const { class_id, teacher_id } = req.body;
+
+    const session = await startAttendanceSession(class_id, teacher_id);
+
+    // Emit Socket.IO event (if available)
+    if (req.io) {
+      req.io.emit("sessionStarted", { classId: class_id });
+    }
+
+    res.status(200).json({ success: true, session });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to start session" });
+  }
+};
+
+// end a session for biometric attendence
+// handleEndSession = async (req, res) => {
+//   try {
+//     const { class_id } = req.body;
+
+//     // Call your model function to end the session
+//     const session = await endAttendanceSession(class_id); // implement this in your model
+
+//     // Emit Socket.IO event to notify clients
+//     if (req.io) {
+//       req.io.emit("endSession", { classId: class_id });
+//     }
+
+//     res.status(200).json({ success: true, session });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Failed to end session" });
+//   }
+// };
+handleEndSession = async (req, res) => {
+  try {
+    const { class_id } = req.body;
+
+    const session = await endAttendanceSession(class_id);
+
+    if (!session) {
+      return res.status(404).json({ success: false, message: "No active session found" });
+    }
+
+    // Emit Socket.IO event to all clients (students)
+    if (req.io) {
+      req.io.emit("endSession", { classId: class_id });
+    }
+
+    res.status(200).json({ success: true, session });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Failed to end session" });
+  }
+};
+
 
 
 /////////////////////////GET ROUTES/////////////////////////
 
 const { getStudentsByClass_id,getStudentByStudent_id } = require("../models/studentModels")
 const {getJsonBuildObjectSubmission,getJsonBuildObjectStudentSubmission,getJsonAssignmentCheckInfo} = require("../models/classModels")
-const {getAttendanceOfClassByClassId} = require("../models/teacherModels")
+const {getAttendanceOfClassByClassId} = require("../models/teacherModels");
+const { handleGetActiveSessionByClassId } = require('./studentController');
 handleGetClassByTeacher_id = async (req, res) => {
     const teacher_id = req.user.teacher_id; // Assuming user info is attached to request by auth middleware
     if (!teacher_id) {
@@ -155,6 +217,9 @@ handleGetAttendanceOfClassByClassId = async (req, res) => {
 module.exports = {
     handleCreateClass,
     handleCreateAttendance,
+    // biometric
+    handlestartSession,
+    handleEndSession,
 
     handleGetStudentsByClass_id,
     handleGetJsonBuildObjectSubmission,
