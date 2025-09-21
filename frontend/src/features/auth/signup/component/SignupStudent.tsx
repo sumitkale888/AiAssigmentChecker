@@ -5,7 +5,7 @@ import { updateAuth } from "../../authSlice";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import StudentLogin from "../../../../assets/StudentLogin.webp"
-const SignupStudent: FC = () => {
+const SignupStudent: FC<{ onToggle: () => void }> = ({ onToggle }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -83,10 +83,16 @@ const SignupStudent: FC = () => {
 
         {/* Right Section */}
         <div className="w-1/2 bg-white p-10">
-          <h2 className="text-2xl font-semibold mb-6">
-            Register as a Student
-          </h2>
-
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-semibold">Register as a Student</h2>
+            <button
+              type="button"
+              onClick={onToggle}
+              className="text-blue-600 hover:text-blue-800 transition-colors text-sm"
+            >
+              Teacher Signup?
+            </button>
+          </div>
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {/* First Name */}
             <div className="flex flex-col">
