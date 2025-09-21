@@ -233,6 +233,89 @@ const getOverallAttendanceAnalytics = async (student_id, period = 'current-month
   }
 };
 
+const getPerformanceAnalytics = async (student_id, period = 'current-semester') => {
+  // Determine date range based on period
+  let dateCondition = '';
+  
+  switch(period) {
+    case 'current-semester':
+      dateCondition = `AND a.created_date >= CURRENT_DATE - INTERVAL '6 months'`;
+      break;
+    case 'last-semester':
+      dateCondition = `AND a.created_date >= CURRENT_DATE - INTERVAL '12 months' 
+                       AND a.created_date < CURRENT_DATE - INTERVAL '6 months'`;
+      break;
+    case 'all-time':
+      dateCondition = '';
+      break;
+    default:
+      dateCondition = `AND a.created_date >= CURRENT_DATE - INTERVAL '6 months'`;
+  }
+  
+  const query = `
+    SELECT 
+      c.class_id,
+      c.class_name,
+      c.subject,
+      COUNT(DISTINCT a.assignment_id) AS total_assignments,
+      COUNT(DISTINCT s.submission_id) AS submitted_assignments,
+      COALESCE(AVG(g.obtained_grade), 0) AS average_grade,
+      MAX(g.obtained_grade) AS highest_grade,
+      MIN(g.obtained_grade) AS lowest_grade
+    FROM class_students cs
+    JOIN classes c ON c.class_id = cs.class_id
+    LEFT JOIN assignments a ON a.class_id = c.class_id ${dateCondition}
+    LEFT JOIN submissions s ON s.assignment_id = a.assignment_id AND s.student_id = cs.student_id
+    LEFT JOIN grades g ON g.submission_id = s.submission_id
+    WHERE cs.student_id = $1
+    GROUP BY c.class_id, c.class_name, c.subject
+    HAVING COUNT(DISTINCT a.assignment_id) > 0
+    ORDER BY c.subject;
+  `;
+  
+  try {
+    const { rows } = await pool.query(query, [student_id]);
+    
+    // Calculate class average for each subject
+    const classAveragesQuery = `
+      SELECT 
+        c.subject,
+        COALESCE(AVG(g.obtained_grade), 0) AS class_average
+      FROM classes c
+      JOIN assignments a ON a.class_id = c.class_id ${dateCondition}
+      JOIN submissions s ON s.assignment_id = a.assignment_id
+      JOIN grades g ON g.submission_id = s.submission_id
+      GROUP BY c.subject
+    `;
+    
+    const classAveragesResult = await pool.query(classAveragesQuery);
+    const classAverages = {};
+    classAveragesResult.rows.forEach(row => {
+      classAverages[row.subject] = parseFloat(row.class_average);
+    });
+    
+    return {
+      studentPerformance: rows.map(row => ({
+        subject: row.subject || row.class_name,
+        studentScore: parseFloat(row.average_grade) || 0,
+        classAverage: classAverages[row.subject] || classAverages[row.class_name] || 0,
+        totalAssignments: parseInt(row.total_assignments) || 0,
+        submittedAssignments: parseInt(row.submitted_assignments) || 0
+      })),
+      summary: {
+        overallAverage: rows.length > 0 ? 
+          rows.reduce((sum, row) => sum + parseFloat(row.average_grade), 0) / rows.length : 0,
+        totalClasses: rows.length,
+        completedAssignments: rows.reduce((sum, row) => sum + parseInt(row.submitted_assignments), 0),
+        totalAssignments: rows.reduce((sum, row) => sum + parseInt(row.total_assignments), 0)
+      }
+    };
+  } catch (error) {
+    console.error('Error in getPerformanceAnalytics:', error);
+    throw error;
+  }
+};
+
 module.exports = {
   createStudent,
   
@@ -248,7 +331,8 @@ module.exports = {
   getAttendanceByStudentAndClass,
 
   //analytics
-  getOverallAttendanceAnalytics
+  getOverallAttendanceAnalytics,
+  getPerformanceAnalytics
 
 };
 
