@@ -12,15 +12,11 @@ const SignupPage = () => {
   return (
     <div className="relative flex flex-col items-center justify-center min-h-screen bg-gray-50">
       {/* Show Student or Teacher Signup */}
-      {role === "student" ? <SignupStudent /> : <SignupTeacher />}
-
-      {/* Toggle Button */}
-      <button
-        onClick={handleRole}
-        className="px-4 py-2 underline text-blue-600 rounded absolute top-6 right-6 hover:text-blue-800 transition-colors"
-      >
-        {role === "student" ? "Teacher Signup?" : "Student Signup?"}
-      </button>
+      {role === "student" ? (
+        <SignupStudent onToggle={handleRole} />
+      ) : (
+        <SignupTeacher onToggle={handleRole} />
+      )}
     </div>
   );
 };

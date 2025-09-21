@@ -15,7 +15,7 @@ return (
   <>
     
 
-    <div className=" my-50 space-y-4">
+    <div className="flex flex-col items-center justify-center min-h-screen space-y-6">
       {role === 'student' ? (
         <LoginForm
           role={'Student'}
@@ -26,7 +26,7 @@ return (
           role={'Teacher'}
           url={`${import.meta.env.VITE_BACKEND_URL}/auth/loginTeacher`}
         />
-      )}    <div className="flex justify-center ">
+      )}   
       
       <button
         onClick={handleRole}
@@ -35,9 +35,6 @@ return (
         {role === 'student' ? 'Teacher Login?' : 'Student Login?'}
       </button>
     </div>
-    </div>
-
-    
   </>
 );
 
