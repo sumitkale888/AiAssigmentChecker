@@ -1,26 +1,38 @@
-// import { useEffect } from 'react';
-// import { useDispatch } from 'react-redux';
-// import Header from '../../../shared/components/header/Header';
-// import PageList from '../../../shared/components/sidebar/PageList';
-// import StudentAnalysis from '../student-analysis/StudentAnalysis';
-// import { updatesidebarStatus } from '../../../shared/slices/sharedSlice';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Header from "../../../shared/components/header/Header";
+import PageList from "../../../shared/components/sidebar/PageList";
+import StudentAnalysis from "../student-analysis/StudentAnalysis";
+import { updatesidebarStatus } from "../../../shared/slices/sharedSlice";
 
-// const DashboardStudentAnalysis = () => {
-//   const dispatch = useDispatch();
+interface RootState {
+  shared: {
+    sidebarStatus: {
+      isOpen: boolean;
+    };
+  };
+}
 
-//   useEffect(() => {
-//     dispatch(updatesidebarStatus({ activePage: 'Analysis' }));
-//   }, [dispatch]);
+const DashboardStudentAnalysis = () => {
+  const dispatch = useDispatch();
 
-//   return (
-//     <div>
-//       <Header />
-//       <div className="flex">
-//         <PageList userType="student" />
-//         <StudentAnalysis />
-//       </div>
-//     </div>
-//   );
-// };
+  const isSidebarOpen = useSelector(
+    (state: RootState) => state.shared.sidebarStatus.isOpen
+  );
 
-// export default DashboardStudentAnalysis;
+  useEffect(() => {
+    dispatch(updatesidebarStatus({ activePage: "Analysis" }));
+  }, [dispatch]);
+
+  return (
+    <div>
+      <Header />
+      <div className="flex h-[89vh]">
+        <PageList userType="student" />
+          <StudentAnalysis />
+      </div>
+    </div>
+  );
+};
+
+export default DashboardStudentAnalysis;

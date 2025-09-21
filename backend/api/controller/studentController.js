@@ -4,10 +4,13 @@ const { getClassInfoByStudentId } = require("../models/studentModels")
 const {
         getAssignments_attachmentsByAssignment_id,
         getSubmissionsByAssigment_idAndStudent_id,
-        //new
+
         getClassesWithAttendanceByStudentId,
-        getAttendanceByStudentAndClass
-        //new end
+        getAttendanceByStudentAndClass,
+
+        getOverallAttendanceAnalytics,
+        getPerformanceAnalytics,
+        getRecentTestFeedback,
         } = require("../models/studentModels");
 const {
         getAssignmentInfoByAssignment_id,
@@ -51,6 +54,47 @@ handleGetSubmissionsByAssigment_idAndStudent_id = async (req, res) => {
     }
 }
 
+//////Analytics//////
+
+handleGetOverallAttendanceAnalytics = async (req, res) => {
+  try {
+    const student_id = req.user.student_id;
+    const period = req.query.period || 'current-month'; // Get period from query params
+    
+    const result = await getOverallAttendanceAnalytics(student_id, period);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error('Error fetching overall attendance analytics:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+
+handleGetPerformanceAnalytics = async (req, res) => {
+  try {
+    const student_id = req.user.student_id;
+    const period = req.query.period || 'current-semester';
+    
+    const result = await getPerformanceAnalytics(student_id, period);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error('Error fetching performance analytics:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
+handleGetRecentTestFeedback = async (req, res) => {
+  try {
+    const student_id = req.user.student_id;
+    const limit = parseInt(req.query.limit) || 3;
+    
+    const result = await getRecentTestFeedback(student_id, limit);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error('Error fetching recent test feedback:', err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
 
 // handleGetAssignmentsAttachmentsByAssignment_id = async (req, res) => {
 //     try {
@@ -117,6 +161,8 @@ module.exports = {
     handleGetClassesWithAttendanceByStudentId,
     handleGetAttendanceByStudentAndClass,
 
-
+    handleGetOverallAttendanceAnalytics,
+    handleGetPerformanceAnalytics,
+    handleGetRecentTestFeedback,
     handleJointClassByJoiningID
 }
