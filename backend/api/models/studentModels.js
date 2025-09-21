@@ -167,6 +167,10 @@ const getAttendanceByStudentAndClass = async (student_id, class_id) => {
 
 // end shaivi first sample
 
+
+
+
+
 /////////////////Analytics PageModels////////////
 
 const getOverallAttendanceAnalytics = async (student_id, period = 'current-month') => {
@@ -316,6 +320,63 @@ const getPerformanceAnalytics = async (student_id, period = 'current-semester') 
   }
 };
 
+
+const getRecentTestFeedback = async (student_id, limit = 3) => {
+  const query = `
+    SELECT 
+      g.grade_id,
+      g.obtained_grade,
+      COALESCE(g.feedback, '') as feedback,
+      COALESCE(g.corrections, '') as corrections,
+      COALESCE(g.suggestions, '') as suggestions,
+      COALESCE(g.weaknesses, '') as weaknesses,
+      COALESCE(g.improvementAreas, '') as improvementAreas,
+      a.title AS assignment_title,
+      COALESCE(a.description, '') AS assignment_description,
+      c.class_name,
+      c.subject,
+      g.submission_id,
+      s.submission_date
+    FROM grades g
+    JOIN submissions s ON s.submission_id = g.submission_id
+    JOIN assignments a ON a.assignment_id = s.assignment_id
+    JOIN classes c ON c.class_id = a.class_id
+    WHERE s.student_id = $1 
+      AND (
+        g.feedback IS NOT NULL OR 
+        g.corrections IS NOT NULL OR 
+        g.suggestions IS NOT NULL OR 
+        g.weaknesses IS NOT NULL OR 
+        g.improvementAreas IS NOT NULL
+      )
+    ORDER BY s.submission_date DESC
+    LIMIT $2
+  `;
+  
+  try {
+    const { rows } = await pool.query(query, [student_id, limit]);
+    
+    return rows.map(row => ({
+      grade_id: row.grade_id,
+      obtained_grade: row.obtained_grade,
+      feedback: row.feedback,
+      corrections: row.corrections,
+      suggestions: row.suggestions,
+      weaknesses: row.weaknesses,
+      improvementAreas: row.improvementAreas,
+      assignment_title: row.assignment_title,
+      assignment_description: row.assignment_description,
+      class_name: row.class_name,
+      subject: row.subject,
+      submission_date: row.submission_date
+    }));
+  } catch (error) {
+    console.error('Error in getRecentTestFeedback:', error);
+    throw error;
+  }
+};
+
+
 module.exports = {
   createStudent,
   
@@ -332,7 +393,8 @@ module.exports = {
 
   //analytics
   getOverallAttendanceAnalytics,
-  getPerformanceAnalytics
+  getPerformanceAnalytics,
+  getRecentTestFeedback
 
 };
 
