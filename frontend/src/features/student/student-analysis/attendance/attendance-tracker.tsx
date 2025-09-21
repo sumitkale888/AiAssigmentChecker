@@ -18,6 +18,7 @@ export function AttendanceTracker() {
     total_classes: 0,
     percentage: 0
   });
+  console.log(overallAttendance);
 
   const { data, status } = useFetch<AttendanceAnalytics>({
     method: "GET",
