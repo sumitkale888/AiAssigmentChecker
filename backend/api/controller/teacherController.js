@@ -26,7 +26,6 @@ handleCreateAttendance = async (req, res) => {
     // }
     try{
         const attendanceData = req.body;
-        console.log("------>",attendanceData)
         for(let i = 0 ; i < attendanceData.students_id.length; i++){
             const student_id = attendanceData.students_id[i];
             const status = attendanceData.status[i];
