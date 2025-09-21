@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import useFetch from "../../../../shared/hooks/UseFetch";
 
 interface AttendanceAnalytics {
@@ -12,38 +12,11 @@ interface AttendanceAnalytics {
 
 export function AttendanceTracker() {
   const [timeRange, setTimeRange] = useState("current-month");
-  const [overallAttendance, setOverallAttendance] = useState({
-    attended: 0,
-    missed: 0,
-    total_classes: 0,
-    percentage: 0
-  });
-  console.log(overallAttendance);
 
   const { data, status } = useFetch<AttendanceAnalytics>({
     method: "GET",
     url: `${import.meta.env.VITE_BACKEND_URL}/student/analytics/attendance?period=${timeRange}`,
   });
-
-  // Update state when data changes
-  useEffect(() => {
-    if (data) {
-      setOverallAttendance({
-        attended: data.attended,
-        missed: data.missed,
-        total_classes: data.total_classes,
-        percentage: data.percentage
-      });
-    } else {
-      // Reset if no data
-      setOverallAttendance({
-        attended: 0,
-        missed: 0,
-        total_classes: 0,
-        percentage: 0
-      });
-    }
-  }, [data]);
 
   const handleTimeRangeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setTimeRange(e.target.value);
