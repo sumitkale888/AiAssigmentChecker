@@ -1,5 +1,5 @@
 ///////////////////PUT Endpoints///////////////////////////////
-const { studentClass, submissionUpload, createAssignments_attachments, createAssigment, getSubmissionAndEvaluation,joinClass} = require('../models/classModels')
+const { studentClass, submissionUpload, createAssignments_attachments, createAssigment, getSubmissionAndEvaluation, joinClass } = require('../models/classModels')
 const upload = require('../services/myMulter')
 const Redis = require('ioredis');
 const { Queue } = require('bullmq');
@@ -312,10 +312,9 @@ handleGetGradesByStudent_id = async (req, res) => {
 }
 
 
-
 module.exports = {
   handleJoinClasses,
-  
+
   handleSubmissionUpload,
   handleCreateAssigment,
   handleAssignments_attachments,

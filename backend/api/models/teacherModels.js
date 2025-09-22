@@ -1,4 +1,4 @@
-const {pool,bcrypt} = require('./database')
+const { pool, bcrypt } = require('./database')
 
 //////////////////PUT MODELS/////////////////
 
@@ -19,25 +19,79 @@ createTeacher = async (teacherData) => {
 
 //Attendence From teacher side
 
-createAttendance = async(class_id , student_id  , status )=>{
+// createAttendance = async(class_id , student_id  , status )=>{
+//   const query = `
+//     INSERT INTO attendance(class_id, student_id, status)
+//     VALUES ($1, $2, $3)
+//     ON CONFLICT (class_id, student_id, date, lecture_number)
+//     DO UPDATE SET status = EXCLUDED.status
+//   `;
+
+//   const values = [class_id, student_id, status];
+
+
+//   try{
+//     await pool.query(query,values);
+//   }catch(error){
+//     console.error('Error creating student Attendance:', error);
+//     throw error;
+//   }
+
+// }
+
+createAttendance = async (class_id, student_id, status, session_id, method = "manual") => {
   const query = `
-    INSERT INTO attendance(class_id, student_id, status)
-    VALUES ($1, $2, $3)
-    ON CONFLICT (class_id, student_id, date, lecture_number)
-    DO UPDATE SET status = EXCLUDED.status
+    INSERT INTO attendance(class_id, student_id, session_id, status, method)
+    VALUES ($1, $2, $3, $4, $5)
+    ON CONFLICT (class_id, student_id, date, lecture_number, session_id)
+    DO UPDATE SET status = EXCLUDED.status, method = EXCLUDED.method
   `;
 
-  const values = [class_id, student_id, status];
+  const values = [class_id, student_id, session_id, status, method];
 
-
-  try{
-    await pool.query(query,values);
-  }catch(error){
+  try {
+    await pool.query(query, values);
+  } catch (error) {
     console.error('Error creating student Attendance:', error);
     throw error;
   }
+};
 
-}
+
+// Biometric Attendance session creation
+const startAttendanceSession = async (class_id, teacher_id) => {
+  try {
+    // Deactivate any previous active sessions for this class
+    await pool.query(
+      "UPDATE attendance_sessions SET is_active = FALSE WHERE class_id = $1",
+      [class_id]
+    );
+
+    // Create a new active session
+    const result = await pool.query(
+      `INSERT INTO attendance_sessions (class_id, teacher_id, is_active, start_time)
+       VALUES ($1, $2, TRUE, CURRENT_TIME)
+       RETURNING *`,
+      [class_id, teacher_id]
+    );
+
+    return result.rows[0]; // Return the newly created session
+  } catch (error) {
+    console.error("Error starting attendance session:", error);
+    throw error;
+  }
+};
+
+const endAttendanceSession = async (class_id) => {
+  const query = `
+    UPDATE attendance_sessions
+    SET end_time = NOW(), is_active = false
+    WHERE class_id = $1 AND is_active = true
+    RETURNING *;
+  `;
+  const result = await pool.query(query, [class_id]);
+  return result.rows[0];
+};
 
 
 //////////////////GET MODELS/////////////////
@@ -53,9 +107,9 @@ getTeacherByEmail = async (email) => {
   }
 }
 
-getContext =  async(assignment_id)=>{
-  const query = 
-  `  
+getContext = async (assignment_id) => {
+  const query =
+    `  
     SELECT 
     a.title,
     a.description,
@@ -74,7 +128,7 @@ getContext =  async(assignment_id)=>{
   `;
   try {
     const result = await pool.query(query, [assignment_id]);
-    console.log("result.rows[0]",result.rows[0])
+    console.log("result.rows[0]", result.rows[0])
     return result.rows[0];
   } catch (error) {
     console.error('Error fetching getContext:', error);
@@ -87,24 +141,24 @@ getContext =  async(assignment_id)=>{
 
 getAttendanceOfClassByClassId = async (class_id) => {
   // result = 
-//   [
-//   {
-//     "date": "2025-09-18",
-//     "class_id": 101,
-//     "lecture_number": 1,
-//     "first_marked_time": "09:00:00",
-//     "percentage_present": 95.00
-//   },
-//   {
-//     "date": "2025-09-18",
-//     "class_id": 101,
-//     "lecture_number": 2,
-//     "first_marked_time": "14:00:00",
-//     "percentage_present": 88.00
-//   }
-// ]
+  //   [
+  //   {
+  //     "date": "2025-09-18",
+  //     "class_id": 101,
+  //     "lecture_number": 1,
+  //     "first_marked_time": "09:00:00",
+  //     "percentage_present": 95.00
+  //   },
+  //   {
+  //     "date": "2025-09-18",
+  //     "class_id": 101,
+  //     "lecture_number": 2,
+  //     "first_marked_time": "14:00:00",
+  //     "percentage_present": 88.00
+  //   }
+  // ]
 
-  const query  =`
+  const query = `
 SELECT
   class_id,
   date,
@@ -120,7 +174,7 @@ WHERE class_id = $1
 GROUP BY class_id, date, lecture_number
 ORDER BY date, lecture_number;
   `
-    try {
+  try {
     const result = await pool.query(query, [class_id]);
     return result.rows;
   } catch (error) {
@@ -132,11 +186,14 @@ ORDER BY date, lecture_number;
 }
 
 
- 
+
 
 module.exports = {
   createTeacher,
   createAttendance,
+  // biometric
+  startAttendanceSession,
+  endAttendanceSession,
 
   getTeacherByEmail,
   getContext,

@@ -31,6 +31,9 @@ router.get('/class/students/:class_id',handleGetStudentsByClass_id)
 //ATTENDANCE ROUTES
 router.get("/attendance/summary", handleGetClassesWithAttendanceByStudentId);
 router.get("/attendance/detail/:class_id", handleGetAttendanceByStudentAndClass);
+router.post("/attendance/mark/:session_id", handleMarkAttendanceByStudent);
+router.get("/biometric_attendance/active_session/:class_id",handleGetActiveSessionByClassId);
+
 
 //ANALYTICS ROUTES
 router.get("/analytics/attendance", handleGetOverallAttendanceAnalytics);

@@ -11,6 +11,7 @@ const {
         getOverallAttendanceAnalytics,
         getPerformanceAnalytics,
         getRecentTestFeedback,
+        getActiveSessionByClassId
         } = require("../models/studentModels");
 const {
         getAssignmentInfoByAssignment_id,
@@ -154,6 +155,66 @@ handleGetAttendanceByStudentAndClass = async (req, res) => {
 
 //end new attendance
 
+// inform student with session_id
+
+// Student: Get active session info for a class
+// handleGetActiveSessionByClassId = async (req, res) => {
+//     try {
+//         const { class_id } = req.params;
+//         const session = await getActiveSessionByClassId(class_id);
+
+//         if (!session) {
+//             return res.json({ active: false });
+//         }
+
+//         res.json({
+//             active: true,
+//             ...session, // contains session_id, start_time, end_time, method
+//         });
+//     } catch (err) {
+//         console.error("Error fetching active session:", err);
+//         res.status(500).json({ error: "Internal Server Error" });
+//     }
+// };
+
+
+handleMarkAttendanceByStudent = async (req, res) => {
+    try {
+        const student_id = req.user.student_id;
+        const { session_id } = req.params;
+        const { status, method } = req.body; // e.g., { "status": "Present", "method": "self_mark" }
+
+        const result = await markAttendanceForSession(student_id, session_id, status, method);
+
+        res.status(200).json({ success: true, result });
+    } catch (err) {
+        console.error("Error marking attendance:", err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+
+// GET active session for a class
+handleGetActiveSessionByClassId = async (req, res) => {
+    try {
+        const { class_id } = req.params;
+        const session = await getActiveSessionByClassId(class_id);
+
+        if (!session) {
+            return res.status(200).json({ active: false });
+        }
+
+        res.status(200).json({
+            active: true,
+            session_id: session.session_id
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+
 module.exports = {
     handleGetClassInfoByStudentID,
     handleGetAssignmentsByAssignment_id,
@@ -164,5 +225,9 @@ module.exports = {
     handleGetOverallAttendanceAnalytics,
     handleGetPerformanceAnalytics,
     handleGetRecentTestFeedback,
-    handleJointClassByJoiningID
+    handleJointClassByJoiningID,
+
+    handleMarkAttendanceByStudent,
+    handleGetActiveSessionByClassId,
+    handleMarkAttendanceByStudent
 }
