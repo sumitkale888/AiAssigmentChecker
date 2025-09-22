@@ -41,83 +41,13 @@ const PageAttendanceDetail: React.FC = () => {
     url: `${import.meta.env.VITE_BACKEND_URL}/student/attendance/detail/${class_id}`,
   });
 
-  //for session active
-  // const { data: sessionActive } = useFetch<{ active: boolean }>({
-  //   method: "GET",
-  //   url: `${import.meta.env.VITE_BACKEND_URL}/teacher/biometric_attendance/class/${class_id}`,
-  // })
-
   // sessionActive should contain both active and session_id
   const { data: sessionActive } = useFetch<{ active: boolean; session_id?: string }>({
     method: "GET",
     url: `${import.meta.env.VITE_BACKEND_URL}/student/biometric_attendance/active_session/${class_id}`,
   });
 
-  // // At the top of your component
-  // const [sessionActive] = useState(true); // initially true if session is ongoing
-
-  // useEffect(() => {
-  //   const socket = io(`${import.meta.env.VITE_BACKEND_URL}`);
-
-  //   socket.on("endSession", (payload: { classId: string }) => {
-  //     if (payload.classId === class_id) { // optional: verify class
-  //       setIsSessionActive(false); // ✅ correctly update state
-  //     }
-  //   });
-
-  //   return () => {
-  //     socket.off("endSession");
-  //     socket.disconnect();
-  //   };
-  // }, []);
-
-  // const markAttendance = async () => {
-  //   try {
-  //     await fetch(
-  //       `${import.meta.env.VITE_BACKEND_URL}/student/attendance/mark/${class_id}`,
-  //       { method: "POST" }
-  //     );
-  //     alert("Attendance marked successfully!");
-  //     // optionally refetch attendance
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Failed to mark attendance.");
-  //   }
-  // };
-
   const { execute, status: markStatus, error: markError } = useManualFetch<ApiResponse>();
-
-  // --- Mark attendance function ---
-  // const markAttendance = async () => {
-  //   if (!sessionActive?.active || !sessionActive.session_id) {
-  //     alert("No active session found.");
-  //     return;
-  //   }
-
-  //   try {
-  //     const res = await fetch(
-  //       `${import.meta.env.VITE_BACKEND_URL}/student/attendance/mark/${session_id}`,
-  //       {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({
-  //           session_id: sessionActive.session_id,
-  //           status: "Present",
-  //           method: "self_mark",
-  //         }),
-  //       }
-  //     );
-
-  //     if (!res.ok) throw new Error("Failed to mark attendance");
-
-  //     alert("Attendance marked successfully!");
-  //     // ✅ Refresh attendance records
-  //     window.location.reload(); // or call refetch() if useFetch supports it
-  //   } catch (error) {
-  //     console.error(error);
-  //     alert("Failed to mark attendance.");
-  //   }
-  // };
 
   const markAttendance = async () => {
     if (!sessionActive?.active || !sessionActive.session_id) {
@@ -165,6 +95,14 @@ const PageAttendanceDetail: React.FC = () => {
               {status === "error" && (
                 <p className="text-red-500 text-center">Failed to load attendance.</p>
               )}
+              {markStatus === "loading" && (
+                <p className="text-gray-500 text-center">Marking attendance...</p>
+              )}
+
+              {markError && (
+                <p className="text-red-500 text-center">Failed to mark attendance</p>
+              )}
+
 
               {/* Attendance Table */}
               {status === "success" && attendance && attendance.length > 0 ? (

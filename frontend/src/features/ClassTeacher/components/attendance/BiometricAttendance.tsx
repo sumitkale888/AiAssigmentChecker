@@ -1,4 +1,3 @@
-"use client"
 import { useState, useEffect, useRef } from "react"
 import { io } from "socket.io-client"
 // import { useParams } from "react-router-dom";
@@ -8,30 +7,13 @@ import useManualFetch from "../../../../shared/hooks/useManualFetch";
 
 type SessionStatus = "idle" | "active" | "paused" | "ended"
 
-interface ClassInfoResponse {
-  success: boolean
-  class_id: number
-  class_name: string
-}
+
 interface ApiResponse {
   success: boolean;
   message?: string;
 }
 
-interface SessionStartedPayload {
-  classId: string;
-}
-
-interface AttendanceMarkedPayload {
-  studentId: string;
-}
-
 const TeacherAttendancePage: React.FC = () => {
-//   const { data: classInfo, status: classStatus } = useFetch<ClassInfoResponse>({
-//     method: "GET",
-//     url: `${import.meta.env.VITE_BACKEND_URL}/teacher/biometric_attendance/class_info`,
-//   })
-
   const [sessionStatus, setSessionStatus] = useState<SessionStatus>("idle")
   const [sessionData, setSessionData] = useState({
     course: "Advanced Web Development",
@@ -52,10 +34,10 @@ const TeacherAttendancePage: React.FC = () => {
     socketRef.current = io(`${import.meta.env.VITE_BACKEND_URL}`, { transports: ["websocket"] });
     const socket = socketRef.current;
 
-    socket.on("sessionStarted", (payload: SessionStartedPayload) => {
+    socket.on("sessionStarted", () => {
       setSessionStatus("active");
     });
-    socket.on("attendanceMarked", (payload: AttendanceMarkedPayload) => {
+    socket.on("attendanceMarked", () => {
       setSessionData((prev) => ({ ...prev, studentsPresent: prev.studentsPresent + 1 }));
     });
 
@@ -110,37 +92,6 @@ const TeacherAttendancePage: React.FC = () => {
       studentsPresent: 0,
     }))
   }
-
-  // const socket = io(`${import.meta.env.VITE_BACKEND_URL}`)//backend url
-
-  // useEffect(() => {
-  //   // socket.on("sessionStarted", ({ classId }) => {
-  //   //   setSessionStatus("active")
-  //   // })
-
-  //   // socket.on("attendanceMarked", ({ studentId }) => {
-  //   //   setSessionData((prev) => ({
-  //   //     ...prev,
-  //   //     studentsPresent: prev.studentsPresent + 1,
-  //   //   }))
-  //   // })
-  //   socket.on("sessionStarted", (payload: SessionStartedPayload) => {
-  //     setSessionStatus("active");
-  //   });
-
-  //   socket.on("attendanceMarked", (payload: AttendanceMarkedPayload) => {
-  //     setSessionData((prev) => ({
-  //       ...prev,
-  //       studentsPresent: prev.studentsPresent + 1,
-  //     }));
-  //   });
-
-
-  //   return () => {
-  //     socket.off("sessionStarted")
-  //     socket.off("attendanceMarked")
-  //   }
-  // }, [])
 
   return (
     <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-6">
@@ -229,6 +180,14 @@ const TeacherAttendancePage: React.FC = () => {
               Start Session
             </button>
           )}
+          {saveStatus === "loading" && (
+            <p className="text-gray-500 text-center">Saving session...</p>
+          )}
+
+          {saveError && (
+            <p className="text-red-500 text-center">Error</p>
+          )}
+
           {sessionStatus === "active" && (
             <>
               <button
