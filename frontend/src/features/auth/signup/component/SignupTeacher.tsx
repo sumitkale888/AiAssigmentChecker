@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import TeacherLogin from "../../../../assets/TeacherLogin.webp"
 
-const SignupTeacher: FC = () => {
+const SignupTeacher: FC<{ onToggle: () => void }> = ({ onToggle }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -70,9 +70,16 @@ const SignupTeacher: FC = () => {
 
         {/* Right Section */}
         <div className="w-1/2 bg-white p-10">
-          <h2 className="text-2xl font-semibold mb-6">
-            Register as a Teacher
-          </h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-semibold">Register as a Teacher</h2>
+            <button
+              type="button"
+              onClick={onToggle}
+              className="text-blue-600 hover:text-blue-800 transition-colors text-sm"
+            >
+              Teacher Signup?
+            </button>
+          </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             {/* First Name */}

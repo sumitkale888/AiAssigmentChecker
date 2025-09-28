@@ -26,6 +26,4 @@ router.get('/assignments/:class_id', handleGetAssignmentsByClass_id);
 router.get('/assignmentAttachments/:assignment_id', handleGetAssignments_attachmentsByAssignment_id);
 
 
-
-
 module.exports = router;

@@ -54,8 +54,8 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
 
 
     return (
-        <div className="w-75 p-2 flex flex-col min-h-screen" style={{ width: isOpen ? '300px' : '80px', transition: 'width 0.1s'}}>
-            <div className="flex-grow" >
+        <div className="w-75 p-2 flex flex-col justify-end h-[89vh] " style={{ width: isOpen ? '300px' : '80px', transition: 'width 0.1s'}}>
+            <div className="flex-grow  " >
                 {pageList.map((item) => (
                     <div
                         key={item.item_name}
@@ -78,11 +78,12 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
                     </div>
                 ))}
             </div>
-                
-            <div 
+            <div className=' '>
+ <div 
                 className={`
+
                           flex items-center gap-5 p-4 rounded-[70px] cursor-pointer mb-2
-                           transition-colors duration-200 ease-in-out hover:bg-blue-100 `}
+                           transition-colors duration-200 ease-in-out hover:bg-blue-100  `}
                         >
                         <img
                             src={SettingImg}
@@ -92,15 +93,18 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
                     </div>
               
             {/* Logout button positioned 200px from bottom */}
-            <div className="mt-auto mb-[70px]">
+            <div className="mt-auto mb-[10px]">
                 <div 
                     onClick={handleLogoClick} 
                     className='cursor-pointer flex items-center gap-3 p-4 rounded-[70px] transition-colors duration-200 ease-in-out hover:bg-red-50 hover:text-red-700 position-relative'
                 >
-                    <h1 className={`text-red-500 font-semibold text-xl px-8 `}>{isOpen ? '   Logout' : ''}</h1>
+                    <h1 className={`text-red-500 font-semibold text-xl px-8`}>{isOpen ? '   Logout' : ''}</h1>
                     <img src={MenuImg} className={`w-6 h-6  position-absolute ${isOpen ? 'ml-[-140px]' : 'ml-[-75px]'}`} alt="Logout" />
                 </div>
             </div>
+            </div>
+                
+           
         </div>
     );
 };
