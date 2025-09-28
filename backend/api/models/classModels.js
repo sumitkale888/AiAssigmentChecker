@@ -491,6 +491,10 @@ getJsonAssignmentCheckInfo = async (student_id, submission_id) => {
       g.grade_id,
       g.obtained_grade,
       g.feedback,
+      g.corrections,
+      g.suggestions,
+      g.weaknesses,
+      g.improvementAreas,
       g.submission_id,
       g.student_id AS grade_student_id,
 
