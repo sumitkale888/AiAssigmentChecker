@@ -16,9 +16,9 @@ interface RootState {
 const DashboardStudentAnalysis = () => {
   const dispatch = useDispatch();
 
-  const isSidebarOpen = useSelector(
-    (state: RootState) => state.shared.sidebarStatus.isOpen
-  );
+  // const isSidebarOpen = useSelector(
+  //   (state: RootState) => state.shared.sidebarStatus.isOpen
+  // );
 
   useEffect(() => {
     dispatch(updatesidebarStatus({ activePage: "Analysis" }));
