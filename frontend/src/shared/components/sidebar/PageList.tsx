@@ -54,7 +54,7 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
 
 
     return (
-        <div className="w-75 p-2 flex flex-col justify-end h-[89vh] " style={{ width: isOpen ? '300px' : '80px', transition: 'width 0.1s'}}>
+        <div className="w-75 p-2 flex flex-col justify-end h-[88cd vh] overflow-y-hidden " style={{ width: isOpen ? '300px' : '80px', transition: 'width 0.1s'}}>
             <div className="flex-grow  " >
                 {pageList.map((item) => (
                     <div

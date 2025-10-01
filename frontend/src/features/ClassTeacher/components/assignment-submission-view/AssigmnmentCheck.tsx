@@ -58,7 +58,8 @@ const AssignmentCheck: React.FC<{
 				background: "#fff",
 				borderRadius: "16px",
         overflowY:"scroll",
-        height: "79vh"
+        height: "79vh",
+        marginTop:"0"
 			}}>
 			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         
