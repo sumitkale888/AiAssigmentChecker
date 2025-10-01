@@ -7,21 +7,7 @@ type AttendanceRecord = {
   first_marked_time: string;
   percentage_present: number;
 };
-const formatDate = (dateString:any) => {
-  const date = new Date(dateString);
-  const options:any = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    fractionalSecondDigits: 6, // To include microseconds
-    timeZoneName: 'short',
-    hour12: true, // Use 12-hour format with AM/PM
-  };
-  return date.toLocaleString('en-US', options);
-};
+
 
 const AllAttendaceClass: React.FC<{ class_id: string }> = ({ class_id }) => {
   const { data, status } = useFetch<AttendanceRecord[]>({
