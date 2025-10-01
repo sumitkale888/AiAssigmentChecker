@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useFetch from "../../../../shared/hooks/UseFetch";
 // import AnimatedLoader from "../../../../shared/components/loaders/DefaultLoader";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import useManualFetch from "../../../../shared/hooks/useManualFetch";
 import AnimatedLoader from "../../../../shared/components/loaders/DefaultLoader";
 interface Student {
@@ -19,6 +19,7 @@ interface AttendancePayload {
 }
 
 const PageAttendance: React.FC = () => {
+  const navigate = useNavigate();
   const { class_id } = useParams<{ class_id: string }>();
   const numericClassId = class_id ? parseInt(class_id, 10) : 0;
 
@@ -78,7 +79,7 @@ const PageAttendance: React.FC = () => {
     );
     console.log("Save result:", result);
 
-    
+    navigate(`/teacher/class/${numericClassId}`);
   };
 
   if (status === "loading") {
@@ -130,20 +131,15 @@ const PageAttendance: React.FC = () => {
             className="flex items-center justify-between p-4 hover:bg-gray-50 transition-colors"
           >
             <div className="flex items-center gap-4">
-              {s.url_dp ? (
-                <img
-                  src={s.url_dp}
-                  alt={`${s.first_name} ${s.last_name}`}
-                  className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
-                />
-              ) : (
+          
+          
                 <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center border-2 border-gray-200">
                   <span className="text-blue-600 font-semibold">
                     {s.first_name[0]}
                     {s.last_name[0]}
                   </span>
                 </div>
-              )}
+          
               <div>
                 <p className="font-medium text-gray-900">
                   {s.first_name} {s.last_name}
@@ -205,6 +201,7 @@ const PageAttendance: React.FC = () => {
         <button
           onClick={handleSave}
           disabled={saveStatus === "loading"}
+
           className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-2 px-6 rounded-lg transition-colors flex items-center"
         >
           <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

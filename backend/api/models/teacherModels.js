@@ -39,16 +39,16 @@ createTeacher = async (teacherData) => {
 
 // }
 
-createAttendance = async (class_id, student_id, status, session_id, method = "manual") => {
-  const query = `
-    INSERT INTO attendance(class_id, student_id, session_id, status, method)
-    VALUES ($1, $2, $3, $4, $5)
-    ON CONFLICT (class_id, student_id, date, lecture_number, session_id)
-    DO UPDATE SET status = EXCLUDED.status, method = EXCLUDED.method
-  `;
+createAttendance = async (class_id, student_id, status,  unique_id, method = "manual") => {
+const query = `
+  INSERT INTO attendance (class_id, student_id, status, method, unique_id)
+  VALUES ($1, $2, $3, $4, $5)
+  ON CONFLICT (class_id, student_id, date, lecture_number, session_id)
+  DO UPDATE SET status = EXCLUDED.status, method = EXCLUDED.method
+`;
 
-  const values = [class_id, student_id, session_id, status, method];
-
+const values = [class_id, student_id, status, method, unique_id];
+console.log("Attendance Query Values:", values);
   try {
     await pool.query(query, values);
   } catch (error) {
@@ -162,7 +162,7 @@ getAttendanceOfClassByClassId = async (class_id) => {
 SELECT
   class_id,
   date,
-  lecture_number,
+  
   MIN(time_marked) AS first_marked_time,
   ROUND(
     (SUM(CASE WHEN status = 'Present' THEN 1 ELSE 0 END)::decimal 
@@ -171,8 +171,9 @@ SELECT
   ) AS percentage_present
 FROM attendance
 WHERE class_id = $1
-GROUP BY class_id, date, lecture_number
-ORDER BY date, lecture_number;
+GROUP BY class_id, date ,unique_id
+ORDER BY date;
+  
   `
   try {
     const result = await pool.query(query, [class_id]);
