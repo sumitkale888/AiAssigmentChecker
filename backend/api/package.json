@@ -31,6 +31,7 @@
     "pg": "^8.16.3",
     "pg-promise": "^11.15.0",
     "socket.io": "^4.8.1",
+    "uuidv4": "^6.2.13",
     "word-extractor": "^1.0.4"
   }
 }

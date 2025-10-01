@@ -16,7 +16,7 @@ handleCreateClass = async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
-
+const {uuid}= require('uuidv4');
 //Attendance
 handleCreateAttendance = async (req, res) => {
     // req.body = {
@@ -25,12 +25,13 @@ handleCreateAttendance = async (req, res) => {
     //     status :['Absent','Present','Present','Present']
     // }
     try{
+        const unique_id = uuid();
         const attendanceData = req.body;
         console.log("------>",attendanceData)
         for(let i = 0 ; i < attendanceData.students_id.length; i++){
             const student_id = attendanceData.students_id[i];
             const status = attendanceData.status[i];
-            await createAttendance(attendanceData.class_id, student_id, status);
+            await createAttendance(attendanceData.class_id, student_id, status,unique_id);
         }
         res.status(201).json({ message: 'Attendance created successfully' });
 
@@ -184,7 +185,6 @@ handleGetJsonAssignmentCheckInfo = async (req, res) => {
 }
 
 //Attendance
-
 handleGetAttendanceOfClassByClassId = async (req, res) => {
     //   [
     //   {
@@ -204,10 +204,11 @@ handleGetAttendanceOfClassByClassId = async (req, res) => {
     // ]
     const class_id = req.params.class_id;
     try {
+        
         if (!class_id) {
             return res.status(401).json({ error: 'class_id missing' });
         }
-        const attendanceData = await getAttendanceOfClassByClassId(class_id);
+        const attendanceData = await getAttendanceOfClassByClassId(class_id,);
         res.json(attendanceData);
     } catch (error) {
         res.json({ error: error });
