@@ -1,17 +1,17 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Header from "../../../shared/components/header/Header";
 import PageList from "../../../shared/components/sidebar/PageList";
 import StudentAnalysis from "../student-analysis/StudentAnalysis";
 import { updatesidebarStatus } from "../../../shared/slices/sharedSlice";
 
-interface RootState {
-  shared: {
-    sidebarStatus: {
-      isOpen: boolean;
-    };
-  };
-}
+// interface RootState {
+//   shared: {
+//     sidebarStatus: {
+//       isOpen: boolean;
+//     };
+//   };
+// }
 
 const DashboardStudentAnalysis = () => {
   const dispatch = useDispatch();
