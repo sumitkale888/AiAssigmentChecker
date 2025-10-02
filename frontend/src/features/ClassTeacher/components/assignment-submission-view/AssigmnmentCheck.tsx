@@ -9,6 +9,7 @@ import correctionIcon from "../../../../assets/edit_24dp_2854C5_FILL0_wght400_GR
 import suggestionIcon from "../../../../assets/Analytics.svg";
 import weaknessIcon from "../../../../assets/delete.png";
 import improvementIcon from "../../../../assets/add-svgrepo-com.svg";
+import AnimatedLoader from "../../../../shared/components/loaders/DefaultLoader";
 
 const AssignmentCheck: React.FC<{
   submission_id: string | undefined;
@@ -39,7 +40,7 @@ const AssignmentCheck: React.FC<{
     return "File";
   };
 
-  if (assignmentsMetadataStatus === "loading") return <p>Loading...</p>;
+  if (assignmentsMetadataStatus === "loading") return <div className="mt-[250px] ml-[85vh]"><AnimatedLoader /></div>;
   if (assignmentsMetadataError) return <p>Error fetching data.</p>;
   if (!assignmentsMetadata || assignmentsMetadata.length === 0) return <p>No data found.</p>;
 

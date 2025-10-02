@@ -29,7 +29,7 @@ const AssignmentPost:React.FC<{assignment: Assignment}> = ({assignment}) => {
                     <p className="text-gray-800">
                         <span className="font-semibold">Teacher</span> posted a new assignment: <span className="font-medium">{assignment.title}</span>
                     </p>
-                    <p className="text-gray-500 text-sm">{assignment.created_date}</p>
+                    <p className="text-gray-500 text-sm">{assignment.created_date.split("T")[0]}</p>
                 </div>
             </div>
             <button className="text-gray-500 hover:text-gray-700">

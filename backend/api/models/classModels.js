@@ -266,6 +266,7 @@ getClassInfoByClass_id = async (class_id) => {
 getAssignmentsByClass_id = async (class_id) => {
   const query = `
     SELECT * FROM assignments WHERE class_id = $1
+    ORDER BY created_date DESC
   `;
 
   try {

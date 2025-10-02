@@ -231,19 +231,6 @@ handleGetClassInfoByClass_id = async (req, res) => {
   res.json(classInfo);
 }
 
-// handleGetAssignmentsByClass_id = async (req, res) => {
-//   const class_id = req.params.class_id;
-//   if (!class_id) {
-//     return res.status(400).json({ error: 'Class ID is required' });
-//   }
-
-//   const classInfo = await getClassById(class_id);
-//   if (!classInfo) {
-//     return res.status(404).json({ error: 'Class not found' });
-//   }
-
-//   res.json(classInfo);
-// }
 
 handleGetAssignmentsByClass_id = async (req, res) => {
   const class_id = req.params.class_id;

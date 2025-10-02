@@ -84,7 +84,7 @@ const AssignmentSubmission: React.FC<{ class_id: string }> = ({ class_id }) => {
           {assignments &&  assignments.map((assignment) => (
             <div key={assignment.assignment_id} className="text-center space-y-1">
               <p className="text-xs text-gray-500">
-                {assignment.deadline || 'No due date'}
+                {assignment.deadline ? assignment.deadline.split("T")[0] : 'No due date'}
               </p>
               <a href="#" className="text-blue-600 font-medium text-sm hover:underline">
                 {assignment.title}
