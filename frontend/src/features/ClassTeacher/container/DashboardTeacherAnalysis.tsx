@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Header from "../../../shared/components/header/Header";
 import PageList from "../../../shared/components/sidebar/PageList";
-import StudentAnalysis from "../student-analysis/StudentAnalysis";
+import TeacherAnalysis from "../teacher-analysis/TeacherAnalysis";
 import { updatesidebarStatus } from "../../../shared/slices/sharedSlice";
 
 // interface RootState {
@@ -13,7 +13,7 @@ import { updatesidebarStatus } from "../../../shared/slices/sharedSlice";
 //   };
 // }
 
-const DashboardStudentAnalysis = () => {
+const DashboardTeacherAnalysis = () => {
   const dispatch = useDispatch();
 
   // const isSidebarOpen = useSelector(
@@ -28,11 +28,11 @@ const DashboardStudentAnalysis = () => {
     <div>
       <Header />
       <div className="flex h-[89vh]">
-        <PageList userType='student'/>
-          <StudentAnalysis />
+        <PageList userType='teacher'/>
+          <TeacherAnalysis />
       </div>
     </div>
   );
 };
 
-export default DashboardStudentAnalysis;
+export default DashboardTeacherAnalysis;

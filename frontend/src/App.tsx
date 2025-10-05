@@ -26,10 +26,13 @@ import PageAttendance from "./features/ClassTeacher/components/attendance/PageAt
 // import Progress from "./features/student/student-analysis/progress-report/Progress";
 
 //new
+import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";
 import PageAttendanceDetail from "./features/student/containers/PageAttendanceDetail";
 import BiometricAttendancePage from "./features/ClassTeacher/components/attendance/BiometricAttendance";
 // import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
+
+import DashboardTeacherAnalysis from "./features/ClassTeacher/container/DashboardTeacherAnalysis";
 //new end
 function App() {
 
@@ -56,7 +59,7 @@ function App() {
 
           <Route path="/teacher/checklist_attendance/class/:class_id" element={<PageAttendance />} />
           <Route path="/teacher/biometric_attendance/class/:class_id" element={<BiometricAttendancePage />}></Route>
-
+          <Route path="/teacherAnalysis" element={<DashboardTeacherAnalysis />}></Route>
             {/* --------------STUDENTS ROUTES --------------------*/}
             {/* <Route path="/student" element={<DashboardPageStudent/>}></Route> */}
             {/* <Route path="/student" element={<DashboardPage/>}></Route> */}
@@ -69,7 +72,7 @@ function App() {
           <Route path="/aichatStudent" element={<AIchatbot userType="student" />}></Route>
           <Route path="/teacherprofile" element={<TeacherProfilePage />}></Route> {/* Teacher Profile */}
           <Route path="/studentprofile" element={<StudentProfilePage />}></Route> {/* Student Profile */}
-
+          <Route path="/studentAnalysis" element={<DashboardStudentAnalysis />}></Route>
 
           {/* <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard
         <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> Student Analysis */}
