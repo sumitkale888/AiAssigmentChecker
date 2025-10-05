@@ -29,7 +29,7 @@ import PageAttendance from "./features/ClassTeacher/components/attendance/PageAt
 import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";
 import PageAttendanceDetail from "./features/student/containers/PageAttendanceDetail";
 import BiometricAttendancePage from "./features/ClassTeacher/components/attendance/BiometricAttendance";
-// import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
+import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 //new end
 function App() {
 
@@ -71,8 +71,8 @@ function App() {
           <Route path="/studentprofile" element={<StudentProfilePage />}></Route> {/* Student Profile */}
 
 
-          {/* <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard
-        <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> Student Analysis */}
+          {/* <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard */}
+        <Route path="/studentAnalysis" element={<DashboardStudentAnalysis/>}></Route>
           {/* <Route path="/performance" element={<Performance/>}></Route> */}
           {/* <Route path="/progress" element={<Progress />}></Route> */}
 
