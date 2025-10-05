@@ -28,9 +28,8 @@ const DashboardTeacherAnalysis = () => {
     <div>
       <Header />
       <div className="flex h-[89vh]">
-        <PageList userType='student'/>
+        <PageList userType='teacher'/>
           <TeacherAnalysis />
-          {/* <StudentAnalysis /> */}
       </div>
     </div>
   );
