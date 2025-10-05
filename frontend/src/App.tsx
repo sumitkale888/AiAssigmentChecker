@@ -26,7 +26,6 @@ import PageAttendance from "./features/ClassTeacher/components/attendance/PageAt
 // import Progress from "./features/student/student-analysis/progress-report/Progress";
 
 //new
-import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";
 import PageAttendanceDetail from "./features/student/containers/PageAttendanceDetail";
 import BiometricAttendancePage from "./features/ClassTeacher/components/attendance/BiometricAttendance";

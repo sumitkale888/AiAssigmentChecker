@@ -103,7 +103,7 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
                     <img src={MenuImg} className={`w-6 h-6  position-absolute ${isOpen ? 'ml-[-140px]' : 'ml-[-75px]'}`} alt="Logout" />
                 </div>
             </div>
-            </div>
+            </div>           
         </div>
     );
 };
