@@ -25,7 +25,7 @@ const PageAttendanceDashboard = () => {
       <Header />
       <div className="flex">
         <PageList userType="student"/>
-        <div className="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 w-full bg-gray-100 rounded-l-4xl">
+        <div className="p-6 flex flex-wrap gap-4 w-full bg-gray-50 rounded-l-4xl">
           {status === "loading" && <p>Loading attendance...</p>}
           {status === "error" && (
             <p className="text-red-500">Failed to load attendance data.</p>
@@ -51,7 +51,7 @@ const PageAttendanceDashboard = () => {
             <p>No classes found.</p>
           )}
 
-          {/* ⚠️ Error state */}
+         
           {status === "error" && (
             <p className="text-red-500 text-center">
               Failed to load attendance data.

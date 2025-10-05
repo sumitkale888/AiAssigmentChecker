@@ -30,7 +30,7 @@ const JoinClass = ({ onSuccess, onClose }: CreateClassProps) => {
         <div className="fixed inset-0  flex justify-center items-center p-4 z-50">
             <form
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-4 p-8 bg-white rounded-[3vw] shadow-xl w-full max-w-md border border-gray-200"
+                className="flex flex-col gap-4 p-8 bg-white rounded-[3vw] shadow-xl w-full max-w-md border border-gray-50"
             >
                 <h2 className="text-2xl font-bold text-gray-700 mb-4 text-center">Join Class </h2>
 
