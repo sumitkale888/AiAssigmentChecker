@@ -266,6 +266,7 @@ getClassInfoByClass_id = async (class_id) => {
 getAssignmentsByClass_id = async (class_id) => {
   const query = `
     SELECT * FROM assignments WHERE class_id = $1
+    ORDER BY created_date DESC
   `;
 
   try {
@@ -491,6 +492,10 @@ getJsonAssignmentCheckInfo = async (student_id, submission_id) => {
       g.grade_id,
       g.obtained_grade,
       g.feedback,
+      g.corrections,
+      g.suggestions,
+      g.weaknesses,
+      g.improvementAreas,
       g.submission_id,
       g.student_id AS grade_student_id,
 

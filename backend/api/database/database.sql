@@ -120,9 +120,14 @@ CREATE TABLE attendance (
   date DATE DEFAULT CURRENT_DATE,
   lecture_number INTEGER,
   time_marked TIME DEFAULT CURRENT_TIME,
+  unique_id VARCHAR(100) DEFAULT,
+  session_id INTEGER DEFAULT NULL,
+  method VARCHAR(20) DEFAULT 'manual' ,
   status VARCHAR(20) DEFAULT 'Absent' CHECK (status IN ('Present', 'Absent')),
   UNIQUE (class_id, student_id, date,lecture_number)
 );
+
+
 
 CREATE TABLE attendance_sessions (
     session_id SERIAL PRIMARY KEY,

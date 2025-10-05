@@ -44,8 +44,9 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
 
     const pageList = [
         { item_name: 'Home', item_img: HomeImg, navigate: `/${userType}` },
-        // { item_name: 'Dashboard', item_img: DashboardImg, navigate: `/${userType}` },
-        { item_name: 'Analysis', item_img: AnalyticsImg, navigate: `/${userType === 'student' ? 'student' : 'teacher'}/Analysis` },
+
+        { item_name: 'Analysis', item_img: AnalyticsImg, navigate: `/${userType === 'student' ? 'student' : 'teacher'}Analysis` },
+
         { item_name: 'Chatbox', item_img: RobotImg, navigate: `/aichat${userType === 'student' ? 'Student' : ''}` },
         ...(userType === 'student'
             ? [{ item_name: 'Attendance', item_img: CalenderImg, navigate: "/student/attendance" }]
@@ -54,7 +55,7 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
 
 
     return (
-        <div className="w-75 p-2 flex flex-col justify-end h-[89vh] " style={{ width: isOpen ? '300px' : '80px', transition: 'width 0.1s'}}>
+        <div className="w-75 p-2 flex flex-col justify-end h-[89vh] overflow-y-hidden " style={{ width: isOpen ? '300px' : '80px', transition: 'width 0.1s'}}>
             <div className="flex-grow  " >
                 {pageList.map((item) => (
                     <div
@@ -92,7 +93,7 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
                         <span className="text-sm md:text-base hover:text-blue-700">{isOpen ? 'Settings' : ''}</span>
                     </div>
               
-            {/* Logout button positioned 200px from bottom */}
+            
             <div className="mt-auto mb-[10px]">
                 <div 
                     onClick={handleLogoClick} 
@@ -103,8 +104,6 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
                 </div>
             </div>
             </div>
-                
-           
         </div>
     );
 };

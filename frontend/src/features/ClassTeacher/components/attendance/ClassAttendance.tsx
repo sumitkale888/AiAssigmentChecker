@@ -1,47 +1,56 @@
-import { useNavigate } from "react-router-dom"
-import addImg from "../../../../assets/add-svgrepo-com.svg"
-import AllAttendaceClass from "./AllAttendaceClass"
-import { useState } from "react"
+import { useNavigate } from "react-router-dom";
+import AllAttendaceClass from "./AllAttendaceClass";
+import { useState } from "react";
+
+const options = [
+  { value: "checklist", label: "Checklist" },
+  { value: "biometric", label: "Biometric" },
+];
 
 const ClassAttendance: React.FC<{ class_id: string }> = ({ class_id }) => {
-    const navigate = useNavigate();
-    const [mode, setMode] = useState("")
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState("");
 
-    const handleNavigate = () => {
-        if (!mode) return;
-        if (mode === "checklist") {
-            navigate(`/teacher/checklist_attendance/class/${class_id}`)
-        } else if (mode === "biometric") {
-            navigate(`/teacher/biometric_attendance/class/${class_id}`)
-        }
+  const handleSelect = (value: string) => {
+    setSelected(value);
+    setOpen(false);
+    if (value === "checklist") {
+      navigate(`/teacher/checklist_attendance/class/${class_id}`);
+    } else if (value === "biometric") {
+      navigate(`/teacher/biometric_attendance/class/${class_id}`);
     }
+  };
 
-    return (
-        <div>
-            <div className="flex gap-2 m-2.5">
-                <button
-                    className={`px-4 py-2 rounded-lg ${mode === "checklist" ? "bg-green-500 text-white" : "bg-gray-200"}`}
-                    onClick={() => setMode("checklist")}
-                >
-                    Checklist
-                </button>
-                <button
-                    className={`px-4 py-2 rounded-lg ${mode === "biometric" ? "bg-green-500 text-white" : "bg-gray-200"}`}
-                    onClick={() => setMode("biometric")}
-                >
-                    Biometric
-                </button>
-                <button
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-green-600 disabled:bg-gray-400"
-                    disabled={!mode}
-                    onClick={handleNavigate}
-                >
-                    Take Attendance
-                    <img src={addImg} alt="add" className="w-[15px]" />
-                </button>
-            </div>
-            <AllAttendaceClass class_id={class_id} />
-        </div>
-    )
-}
+  return (
+    <div className="  lg:p-8 pt-0 mt-0">
+      <div className="relative w-64 mb-6">
+        <button
+          className="w-full px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 flex justify-between items-center"
+          onClick={() => setOpen(!open)}
+        >
+          {selected || "Select Attendance Mode"}
+          <span className="ml-2">&#9662;</span>
+        </button>
+
+        {open && (
+          <ul className="absolute w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10">
+            {options.map((option) => (
+              <li
+                key={option.value}
+                className="px-4 py-2 hover:bg-blue-100 cursor-pointer transition"
+                onClick={() => handleSelect(option.value)}
+              >
+                {option.label}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <AllAttendaceClass class_id={class_id} />
+    </div>
+  );
+};
+
 export default ClassAttendance;

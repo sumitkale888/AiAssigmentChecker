@@ -78,22 +78,12 @@ An AI-powered platform for automating assignment checking, submission tracking, 
 
 ## ⚙️ Tech Stack
 
-- **Frontend**: React, Vite
-- **Backend**: Node.js, Express.js
-- **AI**: Language Model-based Evaluation
-- **Database**: PostgreSQL / MongoDB (Pluggable)
-- **Cloud**: Azure (Backend), Vercel (Frontend)
-- **Others**: Docker, Redis, BullMQ, Multer
-
----
-
-## 🧠 What I Learned
-
-- Multi-role authentication system design
-- File upload handling using Multer
-- Asynchronous job processing with BullMQ & Redis
-- Docker + Azure deployment pipelines
-- AI integration for response evaluation
+- **Frontend**: React, Vite, redux
+- **Backend**: Node.js, Express.js,python Fastapi
+- **AI**: Language Model-based Evaluation gemini flash 2.5
+- **Database**: PostgreSQL / SupaBase
+- **Cloud**: AWS (Backend), Vercel (Frontend)
+- **Others**: Docker, Redis, BullMQ, Multer,nginx, 
 
 ---
 
@@ -101,6 +91,7 @@ An AI-powered platform for automating assignment checking, submission tracking, 
 
 Clone and run both backend and frontend locally using Docker:
 
+set up env
 ```bash
 # Clone the repo
 git clone https://github.com/your-username/ai-assignment-checker.git
@@ -109,7 +100,7 @@ cd ai-assignment-checker
 # Setup backend
 cd backend
 npm install
-docker compose up
+docker-compose up
 
 # Setup frontend
 cd ../frontend

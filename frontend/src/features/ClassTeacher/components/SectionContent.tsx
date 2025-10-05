@@ -79,7 +79,7 @@ const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) 
                 </div>
 
                 {/* Main Stream Content */}
-                <div className="w-full md:w-2/3">
+                <div className="w-full md:w-2/3 ">
                     {/* Announce something section */}
                     <div className="bg-white     p-4 rounded-lg shadow-sm flex items-center mb-4">
                         <div className="w-10 h-10 bg-purple-500 text-white flex items-center justify-center rounded-full font-bold text-lg mr-4">
@@ -99,8 +99,8 @@ const SectionContent: React.FC<{ classInfo: SectionContent }> = ({ classInfo }) 
 
                     {/* Assignment Posts */}
                       {/* Main Stream Content */}
-                <div className="w-full md:w-2/3">
-                    <div>
+                <div className="w-full ">
+                    <div className="h-[150px] overflow-y-scroll">
                         {data && data.length > 0 ? (
                             data.map((assignment: any) => (
                                 <div className='mb-4 ' key={assignment.assignment_id}>

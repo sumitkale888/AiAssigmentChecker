@@ -26,6 +26,7 @@ import PageAttendance from "./features/ClassTeacher/components/attendance/PageAt
 // import Progress from "./features/student/student-analysis/progress-report/Progress";
 
 //new
+import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";
 import PageAttendanceDetail from "./features/student/containers/PageAttendanceDetail";
 import BiometricAttendancePage from "./features/ClassTeacher/components/attendance/BiometricAttendance";
@@ -69,7 +70,7 @@ function App() {
           <Route path="/aichatStudent" element={<AIchatbot userType="student" />}></Route>
           <Route path="/teacherprofile" element={<TeacherProfilePage />}></Route> {/* Teacher Profile */}
           <Route path="/studentprofile" element={<StudentProfilePage />}></Route> {/* Student Profile */}
-
+          <Route path="/studentAnalysis" element={<DashboardStudentAnalysis />}></Route>
 
           {/* <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard */}
         <Route path="/studentAnalysis" element={<DashboardStudentAnalysis/>}></Route>
