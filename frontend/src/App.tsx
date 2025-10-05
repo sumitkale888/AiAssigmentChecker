@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SigninPage from './features/auth/signup/continer/SigninPage';
 import SingupPage from './features/auth/signup/continer/SignupPage'
-
+import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 import DashboardPage from './shared/containers/DashboardPage';
 import DashboardTeacherClassPage from './features/ClassTeacher/container/DashboardTeacherClassPage'
 import PageCreateAssignment from './features/ClassTeacher/container/PageCreateAssignment';
@@ -26,13 +26,14 @@ import PageAttendance from "./features/ClassTeacher/components/attendance/PageAt
 // import Progress from "./features/student/student-analysis/progress-report/Progress";
 
 //new
-import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 import PageAttendanceDashboard from "./features/student/containers/PageAttendanceDashboard";
 import PageAttendanceDetail from "./features/student/containers/PageAttendanceDetail";
 import BiometricAttendancePage from "./features/ClassTeacher/components/attendance/BiometricAttendance";
+
 // import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 
 import DashboardTeacherAnalysis from "./features/ClassTeacher/container/DashboardTeacherAnalysis";
+
 //new end
 function App() {
 
@@ -74,8 +75,8 @@ function App() {
           <Route path="/studentprofile" element={<StudentProfilePage />}></Route> {/* Student Profile */}
           <Route path="/studentAnalysis" element={<DashboardStudentAnalysis />}></Route>
 
-          {/* <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard
-        <Route path="/studentanalysis" element={<StudentAnalysis/>}></Route> Student Analysis */}
+          {/* <Route path="/studentdashboard" element={<StudentDashboardPage/>}></Route> Student Dashboard */}
+        <Route path="/studentAnalysis" element={<DashboardStudentAnalysis/>}></Route>
           {/* <Route path="/performance" element={<Performance/>}></Route> */}
           {/* <Route path="/progress" element={<Progress />}></Route> */}
 

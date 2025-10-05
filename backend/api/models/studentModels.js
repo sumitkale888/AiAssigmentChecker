@@ -400,6 +400,351 @@ const getRecentTestFeedback = async (student_id, limit = 3) => {
   }
 };
 
+// ================ ASSIGNMENT MODELS ================
+
+// Get all assignments for student with submission status
+const getStudentAssignmentsWithStatus = async (student_id) => {
+    const query = `
+        SELECT 
+            c.class_id,
+            c.class_name,
+            c.subject,
+            a.assignment_id,
+            a.title,
+            a.description,
+            a.deadline,
+            a.created_date,
+            a.points,
+            a.evaluation_guideline,
+            s.submission_id,
+            s.submission_date,
+            g.obtained_grade,
+            g.feedback
+        FROM class_students cs
+        JOIN classes c ON c.class_id = cs.class_id
+        JOIN assignments a ON a.class_id = c.class_id
+        LEFT JOIN submissions s ON s.assignment_id = a.assignment_id AND s.student_id = cs.student_id
+        LEFT JOIN grades g ON g.submission_id = s.submission_id
+        WHERE cs.student_id = $1
+        ORDER BY a.deadline ASC
+    `;
+    
+    try {
+        const { rows } = await pool.query(query, [student_id]);
+        return rows;
+    } catch (error) {
+        console.error('Error in getStudentAssignmentsWithStatus:', error);
+        throw error;
+    }
+}
+
+// Get grade by submission ID
+const getGradeBySubmissionId = async (submission_id) => {
+    const query = `
+        SELECT * FROM grades 
+        WHERE submission_id = $1
+    `;
+    
+    try {
+        const { rows } = await pool.query(query, [submission_id]);
+        return rows[0];
+    } catch (error) {
+        console.error('Error in getGradeBySubmissionId:', error);
+        throw error;
+    }
+}
+
+// Get detailed assignment info
+const getAssignmentDetailed = async (assignment_id, student_id) => {
+    const assignmentQuery = `
+        SELECT 
+            a.*,
+            c.class_name,
+            c.subject,
+            t.first_name || ' ' || t.last_name as teacher_name
+        FROM assignments a
+        JOIN classes c ON c.class_id = a.class_id
+        JOIN teachers t ON t.teacher_id = c.teacher_id
+        WHERE a.assignment_id = $1
+    `;
+    
+    try {
+        const assignmentResult = await pool.query(assignmentQuery, [assignment_id]);
+        
+        if (assignmentResult.rows.length === 0) {
+            throw new Error('Assignment not found');
+        }
+
+        const assignment = assignmentResult.rows[0];
+
+        // Get attachments
+        const attachmentsQuery = `
+            SELECT * FROM assignments_attachments 
+            WHERE assignment_id = $1
+        `;
+        const attachmentsResult = await pool.query(attachmentsQuery, [assignment_id]);
+        
+        // Get submission
+        const submissionQuery = `
+            SELECT * FROM submissions 
+            WHERE assignment_id = $1 AND student_id = $2
+        `;
+        const submissionResult = await pool.query(submissionQuery, [assignment_id, student_id]);
+        
+        // Get grade
+        let grade = null;
+        if (submissionResult.rows.length > 0) {
+            const gradeResult = await pool.query(
+                'SELECT * FROM grades WHERE submission_id = $1',
+                [submissionResult.rows[0].submission_id]
+            );
+            grade = gradeResult.rows[0] || null;
+        }
+
+        return {
+            assignment: assignment,
+            attachments: attachmentsResult.rows,
+            submission: submissionResult.rows[0] || null,
+            grade: grade
+        };
+    } catch (error) {
+        console.error('Error in getAssignmentDetailed:', error);
+        throw error;
+    }
+}
+
+// ================ LEADERBOARD MODELS ================
+
+// Get leaderboard data with rankings and badges
+const getLeaderboardData = async (class_id = null) => {
+    try {
+        // Base query for student performance
+        let query = `
+            SELECT 
+                s.student_id,
+                s.first_name || ' ' || s.last_name as name,
+                s.url_dp as avatar,
+                COUNT(DISTINCT a.assignment_id) as total_assignments,
+                COUNT(DISTINCT sub.submission_id) as submitted_assignments,
+                COALESCE(AVG(g.obtained_grade), 0) as average_grade,
+                COUNT(DISTINCT att.attendance_id) as total_classes,
+                COUNT(DISTINCT att.attendance_id) FILTER (WHERE att.status = 'Present') as present_classes,
+                COALESCE(SUM(g.obtained_grade), 0) as total_points
+            FROM students s
+            LEFT JOIN class_students cs ON s.student_id = cs.student_id
+            LEFT JOIN classes c ON cs.class_id = c.class_id
+            LEFT JOIN assignments a ON a.class_id = c.class_id
+            LEFT JOIN submissions sub ON sub.assignment_id = a.assignment_id AND sub.student_id = s.student_id
+            LEFT JOIN grades g ON g.submission_id = sub.submission_id
+            LEFT JOIN attendance att ON att.student_id = s.student_id AND att.class_id = c.class_id
+        `;
+
+        const params = [];
+        
+        if (class_id) {
+            query += ` WHERE c.class_id = $1`;
+            params.push(class_id);
+        }
+
+        query += `
+            GROUP BY s.student_id, s.first_name, s.last_name, s.url_dp
+            HAVING COUNT(DISTINCT a.assignment_id) > 0 OR COUNT(DISTINCT att.attendance_id) > 0
+            ORDER BY total_points DESC, average_grade DESC, present_classes DESC
+        `;
+
+        const { rows } = await pool.query(query, params);
+        return rows;
+    } catch (error) {
+        console.error('Error in getLeaderboardData:', error);
+        throw error;
+    }
+}
+
+// Calculate badges for students based on performance
+const calculateStudentBadges = async (studentData) => {
+    const badges = [];
+
+    // Academic performance badges
+    if (studentData.average_grade >= 90) {
+        badges.push("🏆 Top Performer");
+    } else if (studentData.average_grade >= 80) {
+        badges.push("📚 Academic Excellence");
+    }
+
+    // Consistency badges
+    const submissionRate = studentData.total_assignments > 0 
+        ? (studentData.submitted_assignments / studentData.total_assignments) * 100 
+        : 0;
+    
+    if (submissionRate >= 95) {
+        badges.push("🎯 Consistent Effort");
+    } else if (submissionRate >= 80) {
+        badges.push("💪 Persistent");
+    }
+
+    // Attendance badges
+    const attendanceRate = studentData.total_classes > 0 
+        ? (studentData.present_classes / studentData.total_classes) * 100 
+        : 0;
+    
+    if (attendanceRate >= 95) {
+        badges.push("⏰ Perfect Attendance");
+    } else if (attendanceRate >= 90) {
+        badges.push("🎓 Diligent Learner");
+    }
+
+    // Improvement badges (you might want to track this over time)
+    if (studentData.average_grade >= 75 && studentData.average_grade < 85) {
+        badges.push("⭐ Rising Star");
+    }
+
+    // Participation badges
+    if (studentData.submitted_assignments >= 5) {
+        badges.push("🤝 Active Participant");
+    }
+
+    // Default badge if no others
+    if (badges.length === 0 && studentData.submitted_assignments > 0) {
+        badges.push("🎒 Learner");
+    }
+
+    return badges;
+}
+
+
+// ================ TASK COMPLETION CHART MODELS ================
+
+// Get task completion data for charts
+const getTaskCompletionData = async (student_id, period = 'current-month') => {
+    try {
+        let dateCondition = '';
+        let groupBy = 'week';
+        
+        switch(period) {
+            case 'current-week':
+                dateCondition = `AND a.created_date >= date_trunc('week', CURRENT_DATE)`;
+                groupBy = 'day';
+                break;
+            case 'last-week':
+                dateCondition = `AND a.created_date >= date_trunc('week', CURRENT_DATE - INTERVAL '1 week') 
+                               AND a.created_date < date_trunc('week', CURRENT_DATE)`;
+                groupBy = 'day';
+                break;
+            case 'current-month':
+                dateCondition = `AND a.created_date >= date_trunc('month', CURRENT_DATE)`;
+                groupBy = 'week';
+                break;
+            case 'last-month':
+                dateCondition = `AND a.created_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month') 
+                               AND a.created_date < date_trunc('month', CURRENT_DATE)`;
+                groupBy = 'week';
+                break;
+            default:
+                dateCondition = `AND a.created_date >= date_trunc('month', CURRENT_DATE)`;
+        }
+
+        const query = `
+            WITH date_series AS (
+                SELECT 
+                    generate_series(
+                        date_trunc($2, CURRENT_DATE - INTERVAL '1 month'),
+                        date_trunc($2, CURRENT_DATE),
+                        CASE 
+                            WHEN $2 = 'week' THEN '1 week'::interval
+                            WHEN $2 = 'day' THEN '1 day'::interval
+                        END
+                    ) as period
+            ),
+            assignments_created AS (
+                SELECT 
+                    date_trunc($2, a.created_date) as period,
+                    COUNT(*) as created_count
+                FROM assignments a
+                JOIN class_students cs ON a.class_id = cs.class_id
+                WHERE cs.student_id = $1 
+                ${dateCondition}
+                GROUP BY date_trunc($2, a.created_date)
+            ),
+            assignments_completed AS (
+                SELECT 
+                    date_trunc($2, s.submission_date) as period,
+                    COUNT(*) as completed_count
+                FROM submissions s
+                JOIN assignments a ON s.assignment_id = a.assignment_id
+                WHERE s.student_id = $1 
+                ${dateCondition}
+                GROUP BY date_trunc($2, s.submission_date)
+            )
+            SELECT 
+                ds.period,
+                TO_CHAR(ds.period, CASE WHEN $2 = 'week' THEN '"Week "WW' ELSE 'Dy DD' END) as label,
+                COALESCE(ac.created_count, 0) as tasks_created,
+                COALESCE(acomp.completed_count, 0) as tasks_completed
+            FROM date_series ds
+            LEFT JOIN assignments_created ac ON ds.period = ac.period
+            LEFT JOIN assignments_completed acomp ON ds.period = acomp.period
+            ORDER BY ds.period
+        `;
+
+        const { rows } = await pool.query(query, [student_id, groupBy]);
+        return rows;
+    } catch (error) {
+        console.error('Error in getTaskCompletionData:', error);
+        throw error;
+    }
+}
+
+// Get overall task completion statistics
+const getTaskCompletionStats = async (student_id, period = 'current-month') => {
+    try {
+        let dateCondition = '';
+        
+        switch(period) {
+            case 'current-week':
+                dateCondition = `AND a.created_date >= date_trunc('week', CURRENT_DATE)`;
+                break;
+            case 'last-week':
+                dateCondition = `AND a.created_date >= date_trunc('week', CURRENT_DATE - INTERVAL '1 week') 
+                               AND a.created_date < date_trunc('week', CURRENT_DATE)`;
+                break;
+            case 'current-month':
+                dateCondition = `AND a.created_date >= date_trunc('month', CURRENT_DATE)`;
+                break;
+            case 'last-month':
+                dateCondition = `AND a.created_date >= date_trunc('month', CURRENT_DATE - INTERVAL '1 month') 
+                               AND a.created_date < date_trunc('month', CURRENT_DATE)`;
+                break;
+            default:
+                dateCondition = `AND a.created_date >= date_trunc('month', CURRENT_DATE)`;
+        }
+
+        const query = `
+            SELECT 
+                COUNT(DISTINCT a.assignment_id) as total_tasks,
+                COUNT(DISTINCT s.submission_id) as completed_tasks,
+                COUNT(DISTINCT a.assignment_id) - COUNT(DISTINCT s.submission_id) as pending_tasks,
+                CASE 
+                    WHEN COUNT(DISTINCT a.assignment_id) > 0 
+                    THEN ROUND((COUNT(DISTINCT s.submission_id) * 100.0 / COUNT(DISTINCT a.assignment_id)), 1)
+                    ELSE 0 
+                END as completion_rate,
+                AVG(g.obtained_grade) as average_grade
+            FROM class_students cs
+            JOIN assignments a ON a.class_id = cs.class_id
+            LEFT JOIN submissions s ON s.assignment_id = a.assignment_id AND s.student_id = cs.student_id
+            LEFT JOIN grades g ON g.submission_id = s.submission_id
+            WHERE cs.student_id = $1 
+            ${dateCondition}
+        `;
+
+        const { rows } = await pool.query(query, [student_id]);
+        return rows[0] || {};
+    } catch (error) {
+        console.error('Error in getTaskCompletionStats:', error);
+        throw error;
+    }
+}
+
 
 module.exports = {
   createStudent,
@@ -419,6 +764,13 @@ module.exports = {
   getOverallAttendanceAnalytics,
   getPerformanceAnalytics,
   getRecentTestFeedback,
+  getStudentAssignmentsWithStatus,
+  getGradeBySubmissionId,
+  getAssignmentDetailed,
+  getLeaderboardData,
+  calculateStudentBadges,
+  getTaskCompletionData,
+  getTaskCompletionStats,
 
   // Biometric
   markAttendanceForSession,

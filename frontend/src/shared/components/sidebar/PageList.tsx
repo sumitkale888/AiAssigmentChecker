@@ -44,7 +44,9 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
 
     const pageList = [
         { item_name: 'Home', item_img: HomeImg, navigate: `/${userType}` },
+
         { item_name: 'Analysis', item_img: AnalyticsImg, navigate: `/${userType === 'student' ? 'student' : 'teacher'}Analysis` },
+
         { item_name: 'Chatbox', item_img: RobotImg, navigate: `/aichat${userType === 'student' ? 'Student' : ''}` },
         ...(userType === 'student'
             ? [{ item_name: 'Attendance', item_img: CalenderImg, navigate: "/student/attendance" }]

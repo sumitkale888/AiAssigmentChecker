@@ -39,6 +39,19 @@ router.get("/biometric_attendance/active_session/:class_id",handleGetActiveSessi
 router.get("/analytics/attendance", handleGetOverallAttendanceAnalytics);
 router.get("/analytics/performance", handleGetPerformanceAnalytics);
 router.get("/feedback/recent", handleGetRecentTestFeedback);
+// GET all assignments for student across all classes with status
+router.get("/assignments/student", handleGetStudentAssignmentsWithStatus);
+
+// GET grade for a specific submission
+router.get("/grades/submission/:submission_id", handleGetGradeBySubmissionId);
+
+// GET assignment details with attachments and submission status
+router.get("/assignment/detailed/:assignment_id", handleGetAssignmentDetailed);
+router.get("/leaderboard", handleGetLeaderboard);
+router.get("/leaderboard/personal", handleGetPersonalRanking);
+router.get("/analytics/task-completion", handleGetTaskCompletionData);
+router.get("/analytics/task-stats", handleGetTaskCompletionStats);
+
 
 //////////////////POST ROUTES/////////////////////////
 const uploadMiddleware = require('../services/myMulter');
