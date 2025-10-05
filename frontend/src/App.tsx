@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SigninPage from './features/auth/signup/continer/SigninPage';
 import SingupPage from './features/auth/signup/continer/SignupPage'
-
+import DashboardStudentAnalysis from "./features/student/containers/DashboardStudentAnalysis";
 import DashboardPage from './shared/containers/DashboardPage';
 import DashboardTeacherClassPage from './features/ClassTeacher/container/DashboardTeacherClassPage'
 import PageCreateAssignment from './features/ClassTeacher/container/PageCreateAssignment';
