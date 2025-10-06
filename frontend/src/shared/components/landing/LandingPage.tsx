@@ -1,4 +1,4 @@
-import React, { useState , useEffect , useRef } from 'react';
+import { useState , useEffect , useRef } from 'react';
 import {Link} from "react-router-dom";
 import logo from '../../../assets/logo.svg';
 import TeacherClass from "../../../assets/TeacherClass.png"
@@ -31,7 +31,7 @@ const featureDescriptions = [
 function LandingPage() {
    const [activeIdx, setActiveIdx] = useState(0);
   const highlightRef = useRef<HTMLLIElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
+  const [,setIsVisible] = useState(false);
 
   useEffect(() => {
     const observer = new window.IntersectionObserver(

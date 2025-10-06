@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Youtube = () => {
   return (
     <section className="py-16 bg-gradient-to-tr from-blue-50 to-white">
