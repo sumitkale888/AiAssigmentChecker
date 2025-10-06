@@ -2,7 +2,7 @@
 
 An AI-powered platform for automating assignment checking, submission tracking, and grading for teachers and students.
 
-🚀 **Live Demo**: [https://ai-assigment-checker-rho.vercel.app](https://ai-assigment-checker-rho.vercel.app)
+🚀 **Live Demo**: [https://aiclassroom.online/home](https://aiclassroom.online/home)
 
 ---
 
