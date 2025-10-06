@@ -36,4 +36,13 @@ router.get('/submission/:submission_id/student/:student_id', handleGetJsonAssign
 router.get('/attendance/class/:class_id',handleGetAttendanceOfClassByClassId)
 
 
+// ================ TEACHER ANALYTICS ROUTES ================
+
+router.get("/analytics/classroom-overview", handleGetTeacherClassroomOverview);
+router.get("/analytics/class-statistics", handleGetTeacherClassStatistics);
+router.get("/analytics/class-feedback", handleGetTeacherClassFeedbackSummary);
+router.get("/analytics/class-feedback/:class_id", handleGetClassDetailedFeedback);
+router.get("/analytics/common-issues", handleGetTeacherCommonIssues);
+
+
 module.exports = router
