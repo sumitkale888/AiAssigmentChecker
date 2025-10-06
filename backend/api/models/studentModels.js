@@ -110,6 +110,23 @@ getSubmissionsByAssigment_idAndStudent_id = async (student_id,assignmnet_id) => 
   }
 };
 
+getGradesBySubmissionByStudent_idAndAssignment_id = async (student_id, assignment_id) => {
+  const query = `
+    SELECT g.*
+    FROM grades g
+    JOIN submissions s ON g.submission_id = s.submission_id
+    WHERE s.student_id = $1 AND s.assignment_id = $2
+  `;
+
+  try {
+    const result = await pool.query(query, [student_id, assignment_id]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error getGradesBySubmissionByStudent_idAndAssignment_id:', error);
+    throw error;
+  }
+}
+
 getStudentByStudent_id = async (student_id) => {
   const query = 'SELECT first_name , last_name FROM students WHERE student_id = $1';
 
@@ -755,8 +772,11 @@ module.exports = {
   getClassInfoByStudentId,
   getSubmissionsByAssigment_idAndStudent_id,
   getStudentByStudent_id,
+  getGradesBySubmissionByStudent_idAndAssignment_id,
 
-  // NEW-shaivi
+  //attendance
+
+ 
   getClassesWithAttendanceByStudentId,
   getAttendanceByStudentAndClass,
 

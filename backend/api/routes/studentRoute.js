@@ -28,6 +28,7 @@ router.get("/class/assignment/:assignment_id",handleGetAssignmentsByAssignment_i
 router.get("/class/assignment/:assignment_id/submissions",handleGetSubmissionsByAssigment_idAndStudent_id)
 router.get('/class/students/:class_id',handleGetStudentsByClass_id)
 
+
 //ATTENDANCE ROUTES
 router.get("/attendance/summary", handleGetClassesWithAttendanceByStudentId);
 router.get("/attendance/detail/:class_id", handleGetAttendanceByStudentAndClass);
