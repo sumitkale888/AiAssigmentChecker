@@ -1,7 +1,15 @@
 
 ///////////////////////POST ROUTES////////////////////////////////////////////////
 const { createClass, getClassByTeacher_id } = require('../models/classModels');
-const {createAttendance,startAttendanceSession,endAttendanceSession } = require('../models/teacherModels');
+const {createAttendance,startAttendanceSession,endAttendanceSession,
+    //ANALYTICS
+    getTeacherClassroomOverview,
+    getTeacherClassStatistics,
+    getTeacherClassFeedbackSummary,
+    getClassDetailedFeedback,
+    getTeacherCommonIssues,
+
+ } = require('../models/teacherModels');
 handleCreateClass = async (req, res) => {
     try {
         const classData = req.body;
@@ -215,12 +223,83 @@ handleGetAttendanceOfClassByClassId = async (req, res) => {
     }
 }
 
+
+// ================ TEACHER ANALYTICS CONTROLLERS ================
+
+handleGetTeacherClassroomOverview = async (req, res) => {
+    try {
+        const teacher_id = req.user.teacher_id;
+        const overviewData = await getTeacherClassroomOverview(teacher_id);
+        
+        res.status(200).json(overviewData);
+    } catch (err) {
+        console.error('Error fetching teacher classroom overview:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+handleGetTeacherClassStatistics = async (req, res) => {
+    try {
+        const teacher_id = req.user.teacher_id;
+        const classStats = await getTeacherClassStatistics(teacher_id);
+        
+        res.status(200).json(classStats);
+    } catch (err) {
+        console.error('Error fetching teacher class statistics:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+// ================ TEACHER FEEDBACK CONTROLLERS ================
+
+handleGetTeacherClassFeedbackSummary = async (req, res) => {
+    try {
+        const teacher_id = req.user.teacher_id;
+        const feedbackSummary = await getTeacherClassFeedbackSummary(teacher_id);
+        
+        res.status(200).json(feedbackSummary);
+    } catch (err) {
+        console.error('Error fetching teacher class feedback summary:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+handleGetClassDetailedFeedback = async (req, res) => {
+    try {
+        const { class_id } = req.params;
+        const detailedFeedback = await getClassDetailedFeedback(class_id);
+        
+        res.status(200).json(detailedFeedback);
+    } catch (err) {
+        console.error('Error fetching class detailed feedback:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+handleGetTeacherCommonIssues = async (req, res) => {
+    try {
+        const teacher_id = req.user.teacher_id;
+        const commonIssues = await getTeacherCommonIssues(teacher_id);
+        
+        res.status(200).json(commonIssues);
+    } catch (err) {
+        console.error('Error fetching teacher common issues:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 module.exports = {
     handleCreateClass,
     handleCreateAttendance,
     // biometric
     handlestartSession,
     handleEndSession,
+
+    //analytics
+    handleGetTeacherClassroomOverview,
+    handleGetTeacherClassStatistics,
+    handleGetTeacherClassFeedbackSummary,
+    handleGetClassDetailedFeedback,
+    handleGetTeacherCommonIssues,
 
     handleGetStudentsByClass_id,
     handleGetJsonBuildObjectSubmission,
