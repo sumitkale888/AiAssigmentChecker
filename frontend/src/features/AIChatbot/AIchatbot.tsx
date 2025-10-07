@@ -92,7 +92,7 @@ const AIchatbot = <userType extends 'teacher' | 'student'>({ userType }: { userT
             {/* Loader */}
             {status === 'loading' && (
               <div className="p-4 my-2 rounded-2xl max-w-xs bg-gray-200 text-gray-800 mr-auto">
-                <span className="animate-pulse">Typing...</span>
+                <span className="animate-pulse">Thinking...</span>
               </div>
             )}
           </div>
