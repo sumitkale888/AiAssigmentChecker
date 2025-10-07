@@ -8,7 +8,7 @@ import useFetch from "../../../shared/hooks/UseFetch";
 const DashboardAssigmentCheck: React.FC = () => {
     const {assignment_id} = useParams<{ assignment_id: string }>();
 
-    const { data, status } = useFetch<{ assignment_id: string; student_id: string; submission_id: string }>({
+    const { data } = useFetch<{ assignment_id: string; student_id: string; submission_id: string }>({
         method: "GET",
         url: `${import.meta.env.VITE_BACKEND_URL}/student/class/assignment/${assignment_id}/submission_id`
         // /class/assignment/:assignment_id/submission_id
