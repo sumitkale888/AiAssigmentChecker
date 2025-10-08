@@ -18,6 +18,8 @@ createStudent = async (studentData) => {
 }
 
 
+
+
 getClassInfoByStudentId = async (student_id) => {
   const query = `
     SELECT 
@@ -109,6 +111,23 @@ getSubmissionsByAssigment_idAndStudent_id = async (student_id,assignmnet_id) => 
     throw error;
   }
 };
+
+getGradesBySubmissionByStudent_idAndAssignment_id = async (student_id, assignment_id) => {
+  const query = `
+    SELECT g.*
+    FROM grades g
+    JOIN submissions s ON g.submission_id = s.submission_id
+    WHERE s.student_id = $1 AND s.assignment_id = $2
+  `;
+
+  try {
+    const result = await pool.query(query, [student_id, assignment_id]);
+    return result.rows;
+  } catch (error) {
+    console.error('Error getGradesBySubmissionByStudent_idAndAssignment_id:', error);
+    throw error;
+  }
+}
 
 getStudentByStudent_id = async (student_id) => {
   const query = 'SELECT first_name , last_name FROM students WHERE student_id = $1';
@@ -512,6 +531,22 @@ const getAssignmentDetailed = async (assignment_id, student_id) => {
         throw error;
     }
 }
+getSubmission_idByStudent_idAndAssignment_id = async (student_id, assignment_id) => {
+    const query = `
+      SELECT submission_id, student_id, assignment_id
+      FROM submissions
+      WHERE student_id = $1 AND assignment_id = $2
+    `;
+
+    try {
+        const { rows } = await pool.query(query, [student_id, assignment_id]);
+        console.log("Query executed successfully:", rows);
+        return rows[0] ;
+    } catch (error) {
+        console.error('Error in getSubmission_idByStudent_idAndAssignment_id:', error);
+        throw error;
+    }
+}
 
 // ================ LEADERBOARD MODELS ================
 
@@ -755,8 +790,12 @@ module.exports = {
   getClassInfoByStudentId,
   getSubmissionsByAssigment_idAndStudent_id,
   getStudentByStudent_id,
+  getGradesBySubmissionByStudent_idAndAssignment_id,
+  getSubmission_idByStudent_idAndAssignment_id,
 
-  // NEW-shaivi
+  //attendance
+
+ 
   getClassesWithAttendanceByStudentId,
   getAttendanceByStudentAndClass,
 
