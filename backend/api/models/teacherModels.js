@@ -186,8 +186,28 @@ ORDER BY date;
 
 }
 
+// alert table
+const createAlertTable = async () => {
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS alerts (
+      alert_id SERIAL PRIMARY KEY,
+      teacher_id INTEGER REFERENCES teachers(teacher_id) ON DELETE CASCADE,
+      class_id INTEGER REFERENCES classes(class_id) ON DELETE CASCADE,
+      message TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+  `);
+};
 
+createAlertTable();
 
+async function saveAlert(message, teacherId, classId) {
+  const result = await pool.query(
+    'INSERT INTO alerts (message, teacher_id, class_id) VALUES ($1, $2, $3) RETURNING *',
+    [message, teacherId, classId]
+  );
+  return result.rows[0];
+}
 
 module.exports = {
   createTeacher,
@@ -198,5 +218,8 @@ module.exports = {
 
   getTeacherByEmail,
   getContext,
-  getAttendanceOfClassByClassId
+  getAttendanceOfClassByClassId,
+
+  // alert
+  saveAlert
 }

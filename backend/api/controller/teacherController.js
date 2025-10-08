@@ -1,3 +1,6 @@
+const nodemailer = require('nodemailer');
+const { saveAlert } = require('../models/teacherModels.js');
+const { getStudentsByClass } = require('../models/classModels');
 
 ///////////////////////POST ROUTES////////////////////////////////////////////////
 const { createClass, getClassByTeacher_id } = require('../models/classModels');
@@ -215,6 +218,67 @@ handleGetAttendanceOfClassByClassId = async (req, res) => {
     }
 }
 
+
+// alert System here
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'your_email@gmail.com', 
+    pass: 'your_app_password'     
+  }
+});
+
+
+// POST api/alert/sent
+
+const sendAlert = async (req, res) => {
+  try {
+    const { message, teacherId, teacherName, classId } = req.body;
+
+    if (!message || !teacherId) {
+      return res.status(400).json({ success: false, message: "Missing fields" });
+    }
+
+    // 1️⃣ Get all student emails in that class
+    const students = await db.query(
+      `SELECT s.email 
+       FROM students s 
+       INNER JOIN class_students cs ON s.student_id = cs.student_id 
+       WHERE cs.class_id = $1`,
+      [classId]
+    );
+
+    if (students.rows.length === 0) {
+      return res.status(404).json({ success: false, message: "No students found for this class" });
+    }
+
+    // 2️⃣ Configure email
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    // 3️⃣ Send email to each student
+    for (const student of students.rows) {
+      await transporter.sendMail({
+        from: `"${teacherName}" <${process.env.EMAIL_USER}>`,
+        to: student.email,
+        subject: "Emergency Alert from School",
+        text: message,
+      });
+    }
+
+    res.status(200).json({ success: true, sentTo: students.rows.length });
+  } catch (error) {
+    console.error("Error sending alert:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
 module.exports = {
     handleCreateClass,
     handleCreateAttendance,
@@ -228,5 +292,8 @@ module.exports = {
     handleGetJsonBuildObjectStudentSubmission,
     handleGetStudentByStudent_id,
     handleGetJsonAssignmentCheckInfo,
-    handleGetAttendanceOfClassByClassId
+    handleGetAttendanceOfClassByClassId,
+
+    //alert
+    sendAlert
 }

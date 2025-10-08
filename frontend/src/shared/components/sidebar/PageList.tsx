@@ -3,7 +3,7 @@ import MenuImg from '../../../assets/logout.svg';
 import SettingImg from '../../../assets/settings.svg';
 
 import CalenderImg from '../../../assets/calendar.svg'
-// import DashboardImg from '../../../assets/dashboardImg.svg';
+import AlertImg from '../../../assets/add_alert.svg';
 import AnalyticsImg from '../../../assets/Analytics.svg';
 import RobotImg from '../../../assets/Robot_2.svg';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,6 +51,8 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
         ...(userType === 'student'
             ? [{ item_name: 'Attendance', item_img: CalenderImg, navigate: "/student/attendance" }]
             : []),
+        { item_name: 'Alert' , item_img: AlertImg , navigate: `/alert`}
+        
     ];
 
 

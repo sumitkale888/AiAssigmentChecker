@@ -140,6 +140,16 @@ CREATE TABLE attendance_sessions (
 );
 
 
+-- ================================
+-- Alert table
+-- ================================
+CREATE TABLE alerts (
+  alert_id SERIAL PRIMARY KEY,
+  message TEXT NOT NULL,
+  teacher_id INT REFERENCES teachers(teacher_id),
+  class_id INT REFERENCES classes(class_id),
+  sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 ---
 
 CREATE OR REPLACE FUNCTION set_lecture_number()

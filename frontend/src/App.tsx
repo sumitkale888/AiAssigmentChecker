@@ -34,6 +34,7 @@ import BiometricAttendancePage from "./features/ClassTeacher/components/attendan
 
 import DashboardTeacherAnalysis from "./features/ClassTeacher/container/DashboardTeacherAnalysis";
 import LandingPage from "./shared/components/landing/LandingPage";
+import AlertTeacher from "./features/ClassTeacher/alertTeacher/AlertTeacher";
 
 //new end
 function App() {
@@ -63,6 +64,8 @@ function App() {
           <Route path="/teacher/checklist_attendance/class/:class_id" element={<PageAttendance />} />
           <Route path="/teacher/biometric_attendance/class/:class_id" element={<BiometricAttendancePage />}></Route>
           <Route path="/teacherAnalysis" element={<DashboardTeacherAnalysis />}></Route>
+
+          <Route path="/alert" element={<AlertTeacher />}></Route>
             {/* --------------STUDENTS ROUTES --------------------*/}
             {/* <Route path="/student" element={<DashboardPageStudent/>}></Route> */}
             {/* <Route path="/student" element={<DashboardPage/>}></Route> */}

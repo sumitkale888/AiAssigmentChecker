@@ -1,6 +1,6 @@
 const {Router} = require('express')
 const router = Router()
-
+const { sendAlert } = require('../controller/teacherController');
 
 ///////////////////POST ROUTS////////////////////////
 const {handleCreateClass,
@@ -23,6 +23,8 @@ router.post('/attendance',handleCreateAttendance);
 router.post("/biometric_attendance/start_session", handlestartSession);
 router.post("/biometric_attendance/end_session", handleEndSession);
 
+// alert
+router.post('/send', sendAlert);
 
 
 ///////////////////GET ROUTS////////////////////////
