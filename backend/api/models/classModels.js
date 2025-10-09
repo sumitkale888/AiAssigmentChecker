@@ -523,17 +523,6 @@ getJsonAssignmentCheckInfo = async (student_id, submission_id) => {
   }
 };
 
-getStudentsByClass = async(classId) => {
-  const result = await pool.query(
-    `SELECT s.student_id, s.first_name, s.last_name, s.email
-     FROM students s
-     JOIN class_students cs ON s.student_id = cs.student_id
-     WHERE cs.class_id = $1`,
-    [classId]
-  );
-  return result.rows;
-}
-
 
 
 
@@ -559,7 +548,6 @@ module.exports = {
   getJsonBuildObjectStudentSubmission,
   getJsonAssignmentCheckInfo,
 
-  getStudentsByClass
 
 };
 

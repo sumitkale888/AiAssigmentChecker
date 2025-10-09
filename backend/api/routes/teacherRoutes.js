@@ -1,9 +1,10 @@
 const {Router} = require('express')
 const router = Router()
-const { sendAlert } = require('../controller/teacherController');
+
 
 ///////////////////POST ROUTS////////////////////////
-const {handleCreateClass,
+const {
+    handleCreateClass,
     handleGetClassByTeacher_id,
     handleGetStudentsByClass_id,
     handleGetJsonBuildObjectSubmission,
@@ -12,9 +13,16 @@ const {handleCreateClass,
     handleGetJsonAssignmentCheckInfo,
     handleCreateAttendance,
     handlestartSession,
-    handleEndSession
-    } = require('../controller/teacherController')
-const {handleGetAttendanceOfClassByClassId} = require("../controller/teacherController")
+    handleEndSession,
+    handleGetAttendanceOfClassByClassId,
+    // analytics
+    handleGetTeacherClassroomOverview,
+    handleGetTeacherClassStatistics,
+    handleGetTeacherClassFeedbackSummary,
+    handleGetClassDetailedFeedback,
+    handleGetTeacherCommonIssues,
+} = require('../controller/teacherController');
+const { authMiddleware } = require('../middleware/authMiddleware');
 
 router.post('/classes', handleCreateClass);
 router.post('/attendance',handleCreateAttendance);
@@ -24,9 +32,6 @@ router.post("/biometric_attendance/start_session", handlestartSession);
 router.post("/biometric_attendance/end_session", handleEndSession);
 
 // alert
-router.post('/send', sendAlert);
-
-
 ///////////////////GET ROUTS////////////////////////
 router.get('/classes', handleGetClassByTeacher_id)
 router.get('/class/students/:class_id',handleGetStudentsByClass_id)
@@ -45,6 +50,10 @@ router.get("/analytics/class-statistics", handleGetTeacherClassStatistics);
 router.get("/analytics/class-feedback", handleGetTeacherClassFeedbackSummary);
 router.get("/analytics/class-feedback/:class_id", handleGetClassDetailedFeedback);
 router.get("/analytics/common-issues", handleGetTeacherCommonIssues);
+
+
+// This router is mounted behind auth in server.js; do not add middleware here
+// Full path becomes: /api/alerts/send
 
 
 module.exports = router

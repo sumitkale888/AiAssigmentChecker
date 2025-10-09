@@ -426,7 +426,6 @@ getTeacherCommonIssues = async (teacher_id) => {
 
 
 
-
 module.exports = {
   createTeacher,
   createAttendance,
@@ -446,5 +445,5 @@ module.exports = {
   getAttendanceOfClassByClassId,
 
   // alert
-  saveAlert
+
 }
