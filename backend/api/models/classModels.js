@@ -546,7 +546,8 @@ module.exports = {
   getSubmissionAndEvaluation,
   getJsonBuildObjectSubmission,
   getJsonBuildObjectStudentSubmission,
-  getJsonAssignmentCheckInfo
+  getJsonAssignmentCheckInfo,
+
 
 };
 
