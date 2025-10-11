@@ -9,7 +9,8 @@ import RobotImg from '../../../assets/Robot_2.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatesidebarStatus } from '../../slices/sharedSlice';
 import { useNavigate } from 'react-router-dom';
-
+import {Link} from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 // Define the shape of your Redux state
 interface RootState {
     shared: {
@@ -18,6 +19,18 @@ interface RootState {
             isOpen: boolean;
         };
     };
+}
+interface AuthStatus {
+    authenticated: boolean;
+    user:string
+    userData?: {
+        picture?: string; // Google profile image URL
+        name?: string;
+    };
+}
+
+interface RootState {
+    auth: { authStatus: AuthStatus };
 }
 
 interface PageListProps {
@@ -29,6 +42,10 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
     const activePage = useSelector((state: RootState) => state.shared.sidebarStatus.activePage);
     const isOpen = useSelector((state: RootState) => state.shared.sidebarStatus.isOpen);
     const navigate = useNavigate();
+
+    const location = useLocation();
+        const isTeacherRoute = location.pathname.includes('/teacher');
+
     const handleLogoClick = () => {
         console.log("to home")
         navigate("/")
@@ -83,7 +100,6 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
             <div className=' '>
  <div 
                 className={`
-
                           flex items-center gap-5 p-4 rounded-[70px] cursor-pointer mb-2
                            transition-colors duration-200 ease-in-out hover:bg-blue-100  `}
                         >
@@ -91,7 +107,9 @@ const PageList = ({ userType = 'teacher' }: PageListProps) => {
                             src={SettingImg}
                             className={`w-7 h-7`}
                         />
+                        <Link to={isTeacherRoute ? "/teacherprofile" : "/studentprofile"}>
                         <span className="text-sm md:text-base hover:text-blue-700">{isOpen ? 'Settings' : ''}</span>
+                        </Link>    
                     </div>
               
             

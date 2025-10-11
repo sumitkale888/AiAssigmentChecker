@@ -8,7 +8,7 @@ import feedbackIcon from "../../../../assets/Robot_2.svg";
 import correctionIcon from "../../../../assets/edit_24dp_2854C5_FILL0_wght400_GRAD0_opsz24.png";
 import suggestionIcon from "../../../../assets/Analytics.svg";
 import weaknessIcon from "../../../../assets/delete.png";
-import improvementIcon from "../../../../assets/add-svgrepo-com.svg";
+import improvementIcon from "../../../../assets/improvement.svg"
 import AnimatedLoader from "../../../../shared/components/loaders/DefaultLoader";
 
 const AssignmentCheck: React.FC<{
@@ -48,15 +48,15 @@ const AssignmentCheck: React.FC<{
   const fileIconSrc = getFileIcon(data.file_original_name);
   const fileTypeLabel = getFileTypeLabel(data.file_original_name);
 
-	return (
+	return ( 
+		    <div className="bg-gray-50 rounded-l-4xl w-full">
 			<div style={{
 				padding: "2rem",
-				maxWidth: "1500px",
+				maxWidth: "1200px",
 				margin: "2rem auto",
 				display: "flex",
 				flexDirection: "column",
 				gap: "1.5rem",
-				background: "#fff",
 				borderRadius: "16px",
         overflowY:"scroll",
         height: "79vh",
@@ -101,7 +101,7 @@ const AssignmentCheck: React.FC<{
 									gap: "1.2rem",
 									padding: "1.2rem",
 									borderRadius: "10px",
-									background: "#f6f8fa"
+									background: "#eaf1fb"
 								}}>
 						<img
 							src={fileIconSrc}
@@ -133,7 +133,7 @@ const AssignmentCheck: React.FC<{
 								<div style={{
 									padding: "1.2rem",
 									borderRadius: "10px",
-									background: "#f6f8fa",
+									background: "#eaf1fb",
 									minHeight: "150px",
 									display: "flex",
 									alignItems: "flex-start",
@@ -159,14 +159,14 @@ const AssignmentCheck: React.FC<{
 						<div style={{
 							padding: "1.2rem",
 							borderRadius: "10px",
-							background: "#fff7f7",
+							background: "#f4fcf7",
 							display: "flex",
 							alignItems: "flex-start",
 							gap: "1rem"
 						}}>
 					<img src={correctionIcon} alt="Corrections" style={{ width: "28px", height: "28px" }} />
 					<div>
-						<h4 style={{ margin: 0, marginBottom: "0.5rem", fontSize: "1.1rem", color: "#d9534f" }}>Corrections</h4>
+						<h4 style={{ margin: 0, marginBottom: "0.5rem", fontSize: "1.1rem", color: "#2854C5"}}>Corrections</h4>
 						<p style={{
 							whiteSpace: "pre-wrap",
 							margin: 0,
@@ -182,14 +182,14 @@ const AssignmentCheck: React.FC<{
 						<div style={{
 							padding: "1.2rem",
 							borderRadius: "10px",
-							background: "#fffbe7",
+							background: "#e6f9fa",
 							display: "flex",
 							alignItems: "flex-start",
 							gap: "1rem"
 						}}>
 					<img src={suggestionIcon} alt="Suggestions" style={{ width: "28px", height: "28px" }} />
 					<div>
-						<h4 style={{ margin: 0, marginBottom: "0.5rem", fontSize: "1.1rem", color: "#f0ad4e" }}>Suggestions</h4>
+						<h4 style={{ margin: 0, marginBottom: "0.5rem", fontSize: "1.1rem",color: "#2854C5"}}>Suggestions</h4>
 						<p style={{
 							whiteSpace: "pre-wrap",
 							margin: 0,
@@ -214,14 +214,14 @@ const AssignmentCheck: React.FC<{
 										flex: 1,
 										padding: "1.2rem",
 										borderRadius: "10px",
-										background: "#f6f8fa",
+										background: "#f3f8fe",
 										display: "flex",
 										alignItems: "flex-start",
 										gap: "1rem"
 									}}>
 							<img src={weaknessIcon} alt="Weaknesses" style={{ width: "28px", height: "28px" }} />
 							<div>
-								<h4 style={{ margin: 0, marginBottom: "0.5rem", fontSize: "1.1rem", color: "#d9534f" }}>Weaknesses</h4>
+								<h4 style={{ margin: 0, marginBottom: "0.5rem", fontSize: "1.1rem", color: "#ff0800" }}>Weaknesses</h4>
 								<p style={{
 									whiteSpace: "pre-wrap",
 									margin: 0,
@@ -238,14 +238,14 @@ const AssignmentCheck: React.FC<{
 										flex: 1,
 										padding: "1.2rem",
 										borderRadius: "10px",
-										background: "#f6f8fa",
+										background: "#f3f8fe",
 										display: "flex",
 										alignItems: "flex-start",
 										gap: "1rem"
 									}}>
-							<img src={improvementIcon} alt="Improvement Areas" style={{ width: "28px", height: "28px" }} />
+							<img src={improvementIcon} alt="Improvement Areas" style={{ width: "28px", height: "28px" , color: "rgb(40, 84, 197)" }} />
 							<div>
-								<h4 style={{ margin: 0, marginBottom: "0.5rem", fontSize: "1.1rem", color: "#5cb85c" }}>Improvement Areas</h4>
+								<h4 style={{ margin: 0, marginBottom: "0.5rem", fontSize: "1.1rem", color: "#1df914" }}>Improvement Areas</h4>
 								<p style={{
 									whiteSpace: "pre-wrap",
 									margin: 0,
@@ -259,8 +259,7 @@ const AssignmentCheck: React.FC<{
 					)}
 				</div>
 			)}
-
-
+		</div>
 		</div>
 	);
 
