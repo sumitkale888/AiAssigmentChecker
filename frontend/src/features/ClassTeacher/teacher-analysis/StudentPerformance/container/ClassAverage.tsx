@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,8 +10,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import type { ChartOptions} from "chart.js";
-import { Line} from "react-chartjs-2";
+import type { ChartOptions } from "chart.js";
+import { Line } from "react-chartjs-2";
 
 ChartJS.register(
   CategoryScale,
@@ -24,13 +24,26 @@ ChartJS.register(
   Legend
 );
 
-const ClassAverage : React.FC = () => {
+const ClassAverage: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+  const [averageScores, setAverageScores] = useState<number[]>([]);
+  const [maxScores, setMaxScores] = useState<number[]>([]);
+
   const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
   ];
 
-  const averageScores = [180, 320, 250, 80, 200, 210, 250, 280, 320, 290, 330, 300];
-  const maxScores = [90, 180, 120, 200, 180, 160, 170, 180, 210, 220, 230, 210];
+  useEffect(() => {
+    // Simulate API fetch
+    const timer = setTimeout(() => {
+      setAverageScores([180, 320, 250, 80, 200, 210, 250, 280, 320, 290, 330, 300]);
+      setMaxScores([90, 180, 120, 200, 180, 160, 170, 180, 210, 220, 230, 210]);
+      setLoading(false);
+    }, 1500); // 1.5s loading simulation
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const lineData = {
     labels: months,
@@ -55,10 +68,15 @@ const ClassAverage : React.FC = () => {
       },
     ],
   };
-  const lineOptions:ChartOptions<"line"> = {
+
+  const lineOptions: ChartOptions<"line"> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
-      legend: { position: "bottom" as const, labels: { font: { weight: "bold" } } },
+      legend: {
+        position: "bottom",
+        labels: { font: { weight: "bold" } },
+      },
       title: {
         display: true,
         text: "Average Class Performance Trend",
@@ -66,7 +84,7 @@ const ClassAverage : React.FC = () => {
         color: "#374151",
       },
       tooltip: {
-        mode: "index" as const,
+        mode: "index",
         intersect: false,
       },
     },
@@ -82,17 +100,26 @@ const ClassAverage : React.FC = () => {
       },
     },
     interaction: {
-      mode: "nearest" as const,
+      mode: "nearest",
       intersect: false,
     },
   };
-  return (
-      <>
-        <div className="flex-1 rounded-2xl bg-white p-6 shadow-md border border-gray-200">
-          <Line data={lineData} options={lineOptions} />
-        </div>
-      </>
+
+  // ================= Skeleton Loader =================
+  if (loading) {
+    return (
+      <div className="flex-1 rounded-2xl bg-white p-6 shadow-md border border-gray-200 h-[520px] animate-pulse">
+        <div className="h-6 bg-gray-300 rounded w-3/5 mb-4"></div>
+        <div className="h-80 bg-gray-200 rounded"></div>
+      </div>
     );
-}
+  }
+
+  return (
+    <div className="flex-1 rounded-2xl bg-white p-6 shadow-md border border-gray-200 h-[520px]">
+      <Line data={lineData} options={lineOptions} height={320} />
+    </div>
+  );
+};
 
 export default ClassAverage;

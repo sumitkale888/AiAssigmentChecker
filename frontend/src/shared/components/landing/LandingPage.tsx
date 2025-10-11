@@ -117,10 +117,6 @@ function LandingPage() {
           <div className="bg-gray-50 rounded-3xl shadow-md flex-1 flex flex-col items-center pb-8 overflow-hidden">
             {/* Framed image */}
             <div className="w-full bg-gradient-to-br from-blue-100 to-blue-200 p-6 pb-0 rounded-t-3xl flex justify-center relative overflow-hidden">
-              {/* "COMING SOON" Badge */}
-              <span className="absolute top-6 right-8 bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-bold shadow-md z-10">
-                COMING SOON
-              </span>
               <div className="rounded-t-2xl overflow-hidden border border-blue-100 w-[410px] h-[235px] bg-white shadow">
                 <img
                   src={TeacherClass}
