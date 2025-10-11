@@ -8,7 +8,7 @@ import feedbackIcon from "../../../../assets/Robot_2.svg";
 import correctionIcon from "../../../../assets/edit_24dp_2854C5_FILL0_wght400_GRAD0_opsz24.png";
 import suggestionIcon from "../../../../assets/Analytics.svg";
 import weaknessIcon from "../../../../assets/delete.png";
-import improvementIcon from "../../../../assets/add-svgrepo-com.svg";
+import improvementIcon from "../../../../assets/improvement.svg"
 import AnimatedLoader from "../../../../shared/components/loaders/DefaultLoader";
 
 const AssignmentCheck: React.FC<{
@@ -71,6 +71,7 @@ const AssignmentCheck: React.FC<{
   }
 
   return (
+    
     <div
       style={{
         padding: "2rem",
