@@ -63,9 +63,11 @@ function LandingPage() {
             Empower educators and students with engaging, personalized learning experiences. Easily manage classes, share resources, and track progress—all in one platform.
           </p>
           <div className="mt-6 flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+            <Link to="/contacts">
             <button className="px-7 py-3 bg-blue-600 text-white font-semibold rounded-full shadow hover:bg-blue-700 transition">
               Contact Us
             </button>
+            </Link>
             <Link to="/login">
             <button className="px-7 py-3 bg-white border border-blue-600 text-blue-600 font-semibold rounded-full shadow hover:bg-blue-100 transition">
               Sign In to Classroom
