@@ -91,7 +91,7 @@ async def teacherChatBotHelpertest(request: Request,user=Depends(auth_middleware
     body_as_dict = await request.json()
     print("student_id")
     print(str(user["student_id"]))
-
+    body_as_dict["message"] = f" meta info attached by backend [user_id, : {user['student_id']}] ,user_query: "+body_as_dict["message"]
     response = await StudentChatBot(str(user["student_id"]),body_as_dict["message"])
     
     return {"status": "success", "response": response,"user":user["student_id"]}

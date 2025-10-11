@@ -108,7 +108,9 @@ weaknesses TEXT DEFAULT NULL,
 improvementAreas TEXT DEFAULT NULL,
   submission_id INTEGER REFERENCES submissions(submission_id) ON DELETE CASCADE
 );  
-
+ALTER TABLE grades
+ADD COLUMN aiTextDetection TEXT DEFAULT NULL,
+ADD COLUMN plagiarism TEXT DEFAULT NULL;
 
 -- ================================
 -- Attendance table
