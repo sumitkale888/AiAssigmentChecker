@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 import userlogo from "../../../../assets/userlogo.svg"
 const navItems = [
   { name: 'Products', dropdown: ['Classroom', 'Docs', 'Slides'] },
-  { name: 'AI', dropdown: ['Gemini AI', 'Assistant', 'Vision'] },
+  { name: 'AI', dropdown: ['AI Chatbot', 'Assistant', 'Vision'] },
   { name: 'Resource', dropdown: ['Guides', 'Tutorials', 'Support'] },
 ];
 const Navbar = () => {
